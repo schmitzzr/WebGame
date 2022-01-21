@@ -15,6 +15,15 @@ class GameEngine {
         this.wheel = null;
         this.keys = {};
 
+        //control keys
+        this.left = false;
+        this.right = false;
+        this.up = false;
+        this.down = false;
+        this.actionOne = false;
+        this.actionTwo = false;
+        this.actionThree = false;
+
         // THE KILL SWITCH
         this.running = false;
 
@@ -46,47 +55,42 @@ class GameEngine {
     };
 
     startInput() {
-        const getXandY = e => ({
-            x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
-            y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
-        });
+        var that = this; //need access to game engine object
 
-        this.ctx.canvas.addEventListener("mousemove", e => {
-            if (this.options.debugging) {
-                console.log("MOUSE_MOVE", getXandY(e));
+        this.ctx.canvas.addEventListener("keydown", function (e) {
+            switch(e.code) {
+                case "KeyA":
+                    that.left = true;
+                    break;
+                case "KeyD":
+                    that.right = true;
+                    break;
+                case "KeyW":
+                    that.up = true;
+                    break;
+                case "KeyS":
+                    that.down = true;
+                    break;
             }
-            this.mouse = getXandY(e);
-        });
+        }, false);
 
-        this.ctx.canvas.addEventListener("click", e => {
-            if (this.options.debugging) {
-                console.log("CLICK", getXandY(e));
+        this.ctx.canvas.addEventListener("keyup", function (e) {
+            switch(e.code) {
+                case "KeyA":
+                    that.left = false;
+                    break;
+                case "KeyD":
+                    that.right = false;
+                    break;
+                case "KeyW":
+                    that.up = false;
+                    break;
+                case "KeyS":
+                    that.down = false;
+                    break;
             }
-            this.click = getXandY(e);
-        });
+        }, false);
 
-        this.ctx.canvas.addEventListener("wheel", e => {
-            if (this.options.debugging) {
-                console.log("WHEEL", getXandY(e), e.wheelDelta);
-            }
-            if (this.options.prevent.scrolling) {
-                e.preventDefault(); // Prevent Scrolling
-            }
-            this.wheel = e;
-        });
-
-        this.ctx.canvas.addEventListener("contextmenu", e => {
-            if (this.options.debugging) {
-                console.log("RIGHT_CLICK", getXandY(e));
-            }
-            if (this.options.prevent.contextMenu) {
-                e.preventDefault(); // Prevent Context Menu
-            }
-            this.rightclick = getXandY(e);
-        });
-
-        window.addEventListener("keydown", event => this.keys[event.key] = true);
-        window.addEventListener("keyup", event => this.keys[event.key] = false);
     };
 
     addEntity(entity) {
@@ -101,18 +105,20 @@ class GameEngine {
         for (let i = this.entities.length - 1; i >= 0; i--) {
             this.entities[i].draw(this.ctx, this);
         }
+        //this.camera.draw(this.ctx) in case I want scene manager to draw last. 
     };
 
     update() {
         let entitiesCount = this.entities.length;
 
-        for (let i = 0; i < entitiesCount; i++) {
+        for (let i = 0; i < entitiesCount; i++) {``
             let entity = this.entities[i];
 
             if (!entity.removeFromWorld) {
                 entity.update();
             }
         }
+        //this.camera.update();
 
         for (let i = this.entities.length - 1; i >= 0; --i) {
             if (this.entities[i].removeFromWorld) {
