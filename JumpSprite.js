@@ -187,9 +187,11 @@ class JumpSprite {
         var that = this; //that refers to JumpSprite object.
         this.game.entities.forEach(function (entity) {
             if(entity.BB && that.BB.collide(entity.BB)) {
-                if(that.velocity.y > 0) { //falling
+                if(that.velocity.y >= 0) { //falling
                     if((entity instanceof Platform) && (that.lastBB.bottom) <= entity.BB.top) {
                         that.y = entity.BB.top - 2*PARAMS.BLOCKWIDTH; // because JumpSprite is 2 blocks tall
+                        that.velocity.y = 0;
+
                         if(that.state === 3) that.state = 0; // set state to idle
                         that.updateBB();
 
@@ -205,7 +207,7 @@ class JumpSprite {
                         
                         that.velocity.x = 0;
                     }
-                } if (that.velocity.y <= 0) { // jumping or walking 
+                } if (that.velocity.y < 0) { // jumping or walking 
                     if (entity instanceof Platform) {                   
                         if ((that.lastBB.top) >= entity.BB.bottom) { // hit ceiling
                             that.velocity.y = 0;
