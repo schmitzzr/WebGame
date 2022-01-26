@@ -5,6 +5,7 @@ const ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload("./google.png");
 ASSET_MANAGER.queueDownload("./fire-dino.png");
+ASSET_MANAGER.queueDownload("./spritesheet.png");
 
 
 ASSET_MANAGER.queueDownload("./grass-platform.png");

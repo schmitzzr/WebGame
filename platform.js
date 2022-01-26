@@ -9,8 +9,9 @@ class Platform {
         this.width = width;
         this.height = 64;
 
-        this.lastBB = new BoundingBox(this.x, this.y, this.width, this.height);
-        this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+        // this.lastBB = new BoundingBox(this.x, this.y, this.width, this.height);
+         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+        //this.updateBB(); 
 
         this.animations = [];
         this.loadAnimations(); // new Animator(ASSET_MANAGER.getAsset("./google.png"), 0, 0, 64, 64, 1, .5, true);
@@ -43,6 +44,10 @@ class Platform {
 
         //accounting for scene manager
         this.animations[0].drawFrame(this.game.clockTick, ctx, this.x, this.y - this.game.camera.y) //just needed to account for other objects!
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+        }
     };
 
     loadAnimations() { //might need animations for movement...

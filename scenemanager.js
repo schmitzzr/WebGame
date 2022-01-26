@@ -20,9 +20,11 @@ class SceneManager {
     loadLevelOne() { //less important is loaded first, then mains. 
         this.x = 0
 
-        gameEngine.addEntity(new JumpSprite(gameEngine));
+        gameEngine.addEntity(new JumpSprite(gameEngine, 64, 500));
 
+        gameEngine.addEntity(new Platform(gameEngine, 0, 664, 64));
         gameEngine.addEntity(new Platform(gameEngine, 64, 664, 64));
+        gameEngine.addEntity(new Platform(gameEngine, 64, 600, 64));
         gameEngine.addEntity(new Platform(gameEngine, 250, 664, 64));
         gameEngine.addEntity(new Platform(gameEngine, 350, 624, 64));
         gameEngine.addEntity(new Platform(gameEngine, 64, 528, 64));
