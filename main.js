@@ -12,9 +12,16 @@ ASSET_MANAGER.queueDownload("./big-special.png");
 ASSET_MANAGER.queueDownload("./portal-sheet.png");
 
 ASSET_MANAGER.downloadAll(() => {
+	
+	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
+
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
+	ctx.imageSmoothingEnabled = false;
 
+	PARAMS.CANVAS_WIDTH = canvas.clientWidth;
+	PARAMS.CANVAS_HEIGHT = canvas.clientHeight;
+	
 	gameEngine.addEntity(new SceneManager(gameEngine));
 
 	// gameEngine.addEntity(new JumpSprite(gameEngine));
