@@ -109,6 +109,7 @@ class JumpSprite {
         const WALK_FALL = 1000;
 
         const MAX_FALL = 1000;
+        const MAX_JUMP = -2000;
 
         //I should also work on pixels / second for velocity.
         if(this.state != 3) {
@@ -146,7 +147,7 @@ class JumpSprite {
                     this.velocity.y = -800;
                 }
                 else {
-                    this.velocity.y = -1200; 
+                    this.velocity.y = -950; 
                 }
                 this.fallAcc = FALL_SPD;
                 this.doublejump = true;
@@ -168,7 +169,7 @@ class JumpSprite {
 
         //max speed calculation
         if (this.velocity.y >= MAX_FALL) this.velocity.y = MAX_FALL;
-        if (this.velocity.y <= -MAX_FALL) this.velocity.y = -MAX_FALL;
+        if (this.velocity.y <= MAX_JUMP) this.velocity.y = MAX_JUMP; //if velocity is negative -> probably a jump. Setting max jump constant. #MAX_JUMP variable
 
         if (this.velocity.x >= MAX_CRAWL && this.game.keys["s"]) this.velocity.x = MAX_CRAWL;
         if (this.velocity.x <= -MAX_CRAWL && this.game.keys["s"]) this.velocity.x = -MAX_CRAWL;
@@ -188,7 +189,7 @@ class JumpSprite {
         this.game.entities.forEach(function (entity) {
             if(entity.BB && that.BB.collide(entity.BB)) {
                 if(that.velocity.y >= 0) { //falling
-                    if((entity instanceof Platform) && (that.lastBB.bottom) <= entity.BB.top) {
+                    if((entity instanceof Platform) && (that.lastBB.bottom) <= entity.BB.top) { //might modify for different type of platforms.w
                         that.y = entity.BB.top - 2*PARAMS.BLOCKWIDTH; // because JumpSprite is 2 blocks tall
                         that.velocity.y = 0;
 
@@ -196,8 +197,9 @@ class JumpSprite {
                         that.updateBB();
 
                     } else if((entity instanceof Spblock) && (entity.type === 'bomb')){
-                        that.velocity.y = -1500;
-                        that.hitBomb = true;
+                        that.velocity.y = -1200;
+                        that.state = 3;
+                        that.hitBomb = true; //probably won't need this
                     } 
                     else if ((entity instanceof Platform) // hit side
                         && (((that.lastBB.left) >= entity.BB.right) || ((that.lastBB.right) >= entity.BB.left))) { // was below last tick                     

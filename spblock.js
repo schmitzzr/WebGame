@@ -9,8 +9,8 @@ class Spblock{
         this.x = x;
         this.y = y;
 
-        this.width = 64;
-        this.height = 64;
+        this.width = PARAMS.BITWIDTH*2;
+        this.height = PARAMS.BITWIDTH*2;
 
         this.sheetX = 0;
         this.sheetY = 0;

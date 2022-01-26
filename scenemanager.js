@@ -20,29 +20,29 @@ class SceneManager {
     loadLevelOne() { //less important is loaded first, then mains. 
         this.x = 0
 
-        gameEngine.addEntity(new JumpSprite(gameEngine, 64, 500));
+        gameEngine.addEntity(new JumpSprite(gameEngine, PARAMS.BITWIDTH, PARAMS.BITWIDTH*5));
 
-        gameEngine.addEntity(new Platform(gameEngine, 0, 664, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 64, 664, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 64, 600, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 250, 664, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 350, 624, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 64, 528, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 200, 500, 128));
+        gameEngine.addEntity(new Platform(gameEngine, 0, PARAMS.BITWIDTH*21, PARAMS.BITWIDTH*2));
+        gameEngine.addEntity(new Platform(gameEngine, PARAMS.BITWIDTH*2, PARAMS.BITWIDTH*21, PARAMS.BITWIDTH*2));
+        gameEngine.addEntity(new Platform(gameEngine, PARAMS.BITWIDTH*2, PARAMS.BITWIDTH*19, PARAMS.BITWIDTH*2));
+        gameEngine.addEntity(new Platform(gameEngine, PARAMS.BITWIDTH*8, PARAMS.BITWIDTH*21, PARAMS.BITWIDTH*2));
+        gameEngine.addEntity(new Platform(gameEngine, PARAMS.BITWIDTH*11, PARAMS.BITWIDTH*20, PARAMS.BITWIDTH*2));
+        gameEngine.addEntity(new Platform(gameEngine, PARAMS.BITWIDTH*2, PARAMS.BITWIDTH*17, PARAMS.BITWIDTH*2));
+        gameEngine.addEntity(new Platform(gameEngine, PARAMS.BITWIDTH*6, PARAMS.BITWIDTH*16, PARAMS.BITWIDTH*4));
 
-        gameEngine.addEntity(new Platform(gameEngine, 364, 164, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 550, 164, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 650, 124, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 364, 28, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 500, 0, 360));
+        gameEngine.addEntity(new Platform(gameEngine, PARAMS.BITWIDTH*11, PARAMS.BITWIDTH*5, PARAMS.BITWIDTH*2));
+        gameEngine.addEntity(new Platform(gameEngine, PARAMS.BITWIDTH*17, PARAMS.BITWIDTH*5, PARAMS.BITWIDTH*2));
+        gameEngine.addEntity(new Platform(gameEngine, PARAMS.BITWIDTH*20, PARAMS.BITWIDTH*4, PARAMS.BITWIDTH*2)); //seems a little off becuase blocks are 64 height but placed on 32x32 grid
+        gameEngine.addEntity(new Platform(gameEngine, PARAMS.BITWIDTH*11, PARAMS.BITWIDTH, PARAMS.BITWIDTH*2));
+        gameEngine.addEntity(new Platform(gameEngine, PARAMS.BITWIDTH*16, PARAMS.BITWIDTH*0, PARAMS.BITWIDTH*11));
     
-        gameEngine.addEntity(new Spblock(gameEngine, 350, 560, "spike"));
-        gameEngine.addEntity(new Spblock(gameEngine, 414, 560, "health"));
-        gameEngine.addEntity(new Spblock(gameEngine, 478, 560, "flower"));
-        gameEngine.addEntity(new Spblock(gameEngine, 542, 660, "bomb"));
+        gameEngine.addEntity(new Spblock(gameEngine, PARAMS.BITWIDTH*11, PARAMS.BITWIDTH*17, "spike"));
+        gameEngine.addEntity(new Spblock(gameEngine, PARAMS.BITWIDTH*13, PARAMS.BITWIDTH*18, "health"));
+        gameEngine.addEntity(new Spblock(gameEngine, PARAMS.BITWIDTH*15, PARAMS.BITWIDTH*18, "flower"));
+        gameEngine.addEntity(new Spblock(gameEngine, PARAMS.BITWIDTH*4, PARAMS.BITWIDTH*21, "bomb"));
 
-        var exitPortal1 = new Portal(gameEngine, 670, -250, "exit")
-        var startPortal1 = new Portal(gameEngine, 606, 560, "start", exitPortal1)
+        var exitPortal1 = new Portal(gameEngine, PARAMS.BITWIDTH*21, PARAMS.BITWIDTH*(-8), "exit")
+        var startPortal1 = new Portal(gameEngine, PARAMS.BITWIDTH*19, PARAMS.BITWIDTH*18, "start", exitPortal1)
         gameEngine.addEntity(exitPortal1);
         gameEngine.addEntity(startPortal1);
 
