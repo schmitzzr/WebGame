@@ -5,6 +5,9 @@ class SceneManager {
         this.x = 0;
         this.y = 0;
 
+        //Current level? I think that the scene manager should probably know this.
+        this.currLevel = "World 1"
+
         //might be better for main character... //main character properties. 
         this.score = 0;
         this.coins = 0;
@@ -45,14 +48,27 @@ class SceneManager {
         this.game.addEntity(new BasicPlatform(this.game, 19, 29, 1, 11, LEVEL_ONE_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 9, 34, 2, 1, LEVEL_ONE_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 19, 28, 12, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 4, 18, 1, 18, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 4, 18, 1, 18, LEVEL_ONE_HEIGHT)); //started out 18
         this.game.addEntity(new BasicPlatform(this.game, 1, 27, 1, 1, LEVEL_ONE_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 1, 18, 3, 1, LEVEL_ONE_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 1, 32, 1, 1, LEVEL_ONE_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 1, 32, 1, 1, LEVEL_ONE_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 0, 64, 32, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, LEVEL_ONE_HEIGHT, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, LEVEL_ONE_HEIGHT, LEVEL_ONE_HEIGHT));
+
+        //horizontal warp borders
+        this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, 35, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, 38, LEVEL_ONE_HEIGHT));
+        //offscreen platforms for horizontal wrap
+        this.game.addEntity(new BasicPlatform(this.game, -2, 50, 2, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 32, 50, 2, 1, LEVEL_ONE_HEIGHT));
+        //bottom
+        this.game.addEntity(new BasicPlatform(this.game, 0, 41, 1, 35, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 31, 50, 1, 43, LEVEL_ONE_HEIGHT));
+        //experimental bomb
+        this.game.addEntity(new Spblock(this.game, PARAMS.BITWIDTH*29, PARAMS.BITWIDTH*11, "bomb"))
+        //used for fully bordered level. Curr testing horizontal wrap
+        //this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, LEVEL_ONE_HEIGHT, LEVEL_ONE_HEIGHT));
+        //this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, LEVEL_ONE_HEIGHT, LEVEL_ONE_HEIGHT));
 
     
         gameEngine.addEntity(new Spblock(gameEngine, PARAMS.BITWIDTH*11, PARAMS.BITWIDTH*17, "spike"));
@@ -98,7 +114,24 @@ class SceneManager {
     //resets this.x = 0; 
     //scene manager is drawn last.
 
-    draw(ctx){
+    //The scene manager draw function is basically the HUD.
+    draw(ctx){ 
+        var currHealth = this.game.jumpsprite.health
+        //not sure I need ctx.translate(0, -10); hack to move elements up by 10 pixels
+        ctx.fillStyle = "Black";
+        ctx.font = "20px Georgia"
+        //ctx.lineWidth = ;
+        ctx.fillText("HEALTH", 1.5 * PARAMS.BITWIDTH, 1 * PARAMS.BITWIDTH);
+        ctx.fillText(currHealth + " / 100", 5 * PARAMS.BITWIDTH, 1* PARAMS.BITWIDTH);
+
+        ctx.fillText("LEVEL", 21.5 * PARAMS.BITWIDTH, 1 * PARAMS.BITWIDTH);
+        ctx.fillText(this.currLevel, 25 * PARAMS.BITWIDTH, 1* PARAMS.BITWIDTH);
+
+        if(currHealth <= 0){
+            ctx.fillText("GAME OVER", 15*PARAMS.BITWIDTH, 10*PARAMS.BITWIDTH);
+        }
+
+
 
     }; //should draw all of the stores, world numbers, text drawing stuff. 
 };

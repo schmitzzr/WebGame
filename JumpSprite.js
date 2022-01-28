@@ -4,6 +4,11 @@ class JumpSprite {
         this.game = game;
         this.game.jumpsprite = this;
 
+        //character status
+        this.dead = false; 
+        this.health = 100; 
+
+
         this.width = 64;
         this.height = 64;
 
@@ -15,8 +20,7 @@ class JumpSprite {
 
         this.state = 0; 
         this.facing = 0; //0==right 1==left
-        this.dead = false; 
-        this.health = 100; 
+
 
         this.left = false;
         this.right = false;
@@ -109,7 +113,7 @@ class JumpSprite {
         const WALK_FALL = 1000;
 
         const MAX_FALL = 1000;
-        var maxJump = -1000;  // this can change with a powerup
+        var maxJump = -2000;  // this can change with a powerup
 
         //I should also work on pixels / second for velocity.
         if(this.state != 3) {
@@ -147,7 +151,7 @@ class JumpSprite {
                     this.velocity.y = -800;
                 }
                 else {
-                    this.velocity.y = -1200; 
+                    this.velocity.y = -900; 
                 }
                 this.fallAcc = FALL_SPD;
                 this.doublejump = true;
@@ -169,7 +173,7 @@ class JumpSprite {
 
         //max speed calculation
         if (this.velocity.y >= MAX_FALL) this.velocity.y = MAX_FALL;
-        if (this.velocity.y <= -MAX_FALL) this.velocity.y = maxJump;
+        if (this.velocity.y <= maxJump) this.velocity.y = maxJump;
 
         if (this.velocity.x >= MAX_CRAWL && this.game.keys["s"]) this.velocity.x = MAX_CRAWL;
         if (this.velocity.x <= -MAX_CRAWL && this.game.keys["s"]) this.velocity.x = -MAX_CRAWL;
@@ -179,6 +183,9 @@ class JumpSprite {
         //update position 
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
+        //experimental wrap
+        if(this.x <= -PARAMS.BLOCKWIDTH) this.x = 1024;
+        if(this.x>= 1024+PARAMS.BLOCKWIDTH) this.x = -PARAMS.BLOCKWIDTH;
         this.updateBB();
 
 
@@ -199,6 +206,7 @@ class JumpSprite {
                     } else if((entity instanceof Spblock) && (entity.type === 'bomb')){
                         that.velocity.y = -1500;
                         that.hitBomb = true;
+                        that.health -= 10;
                     } 
                     else if ((entity instanceof Platform || entity instanceof BasicPlatform) // hit side
                         && (((that.lastBB.left) >= entity.BB.right) || ((that.lastBB.right) >= entity.BB.left))) { // was below last tick                     
