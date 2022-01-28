@@ -147,7 +147,7 @@ class GameEngine {
         for (let i = this.entities.length - 1; i >= 0; i--) {
             this.entities[i].draw(this.ctx, this);
         }
-        //this.camera.draw(this.ctx) in case I want scene manager to draw last. 
+        this.camera.draw(this.ctx) //in case I want scene manager to draw last. 
     };
 
     update() {
@@ -160,7 +160,7 @@ class GameEngine {
                 entity.update();
             }
         }
-        //this.camera.update();
+        this.camera.update();
 
         for (let i = this.entities.length - 1; i >= 0; --i) {
             if (this.entities[i].removeFromWorld) {
