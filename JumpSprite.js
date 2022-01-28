@@ -109,6 +109,7 @@ class JumpSprite {
         const WALK_FALL = 1000;
 
         const MAX_FALL = 1000;
+        var maxJump = -1000;  // this can change with a powerup
 
         //I should also work on pixels / second for velocity.
         if(this.state != 3) {
@@ -168,7 +169,7 @@ class JumpSprite {
 
         //max speed calculation
         if (this.velocity.y >= MAX_FALL) this.velocity.y = MAX_FALL;
-        if (this.velocity.y <= -MAX_FALL) this.velocity.y = -MAX_FALL;
+        if (this.velocity.y <= -MAX_FALL) this.velocity.y = maxJump;
 
         if (this.velocity.x >= MAX_CRAWL && this.game.keys["s"]) this.velocity.x = MAX_CRAWL;
         if (this.velocity.x <= -MAX_CRAWL && this.game.keys["s"]) this.velocity.x = -MAX_CRAWL;
