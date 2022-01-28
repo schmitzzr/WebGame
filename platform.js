@@ -60,9 +60,35 @@ class Platform {
         this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./grass-platform.png"), 0, 0, this.width, this.height, 1, .5, false);
     };
 
+};
 
+class BasicPlatform {
+    constructor(game, x, y, width, height, levelHeight) {
+        Object.assign(this, { game, x, width, height, levelHeight });
 
+        this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (this.levelHeight - y);
 
+        this.spritesheet = ASSET_MANAGER.getAsset("./grass-platform.png");
 
+        this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.width * PARAMS.BLOCKWIDTH, this.height * PARAMS.BLOCKWIDTH);
+    };
 
+    update() {
+    };
+
+    draw(ctx) {
+
+        let wBrickCount = this.width;
+        let hBrickCount = this.height;
+        for (var i = 0; i < wBrickCount; i++) {
+            for (var j = 0; j < hBrickCount; j++) {
+                ctx.drawImage(this.spritesheet, 0,0, 64, 64, (this.x + i) * PARAMS.BLOCKWIDTH, (this.y + j)*PARAMS.BLOCKWIDTH - this.game.camera.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+            }
+        }
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+        }
+
+    };
 };

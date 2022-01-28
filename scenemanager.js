@@ -20,29 +20,48 @@ class SceneManager {
     loadLevelOne() { //less important is loaded first, then mains. 
         this.x = 0
 
+        const LEVEL_ONE_HEIGHT = 64;
+
         gameEngine.addEntity(new JumpSprite(gameEngine, 64, 500));
 
-        gameEngine.addEntity(new Platform(gameEngine, 0, 664, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 64, 664, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 64, 600, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 250, 664, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 350, 624, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 64, 528, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 200, 500, 128));
+        // gameEngine.addEntity(new Platform(gameEngine, 0, 664, 64));
+        // gameEngine.addEntity(new Platform(gameEngine, 64, 664, 64));
+        // gameEngine.addEntity(new Platform(gameEngine, 64, 600, 64));
+        // gameEngine.addEntity(new Platform(gameEngine, 250, 664, 64));
+        // gameEngine.addEntity(new Platform(gameEngine, 350, 624, 64));
+        // gameEngine.addEntity(new Platform(gameEngine, 64, 528, 64));
+        // gameEngine.addEntity(new Platform(gameEngine, 200, 500, 128));
 
-        gameEngine.addEntity(new Platform(gameEngine, 364, 164, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 550, 164, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 650, 124, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 364, 28, 64));
-        gameEngine.addEntity(new Platform(gameEngine, 500, 0, 360));
+        // gameEngine.addEntity(new Platform(gameEngine, 364, 164, 64));
+        // gameEngine.addEntity(new Platform(gameEngine, 550, 164, 64));
+        // gameEngine.addEntity(new Platform(gameEngine, 650, 124, 64));
+        // gameEngine.addEntity(new Platform(gameEngine, 364, 28, 64));
+        // gameEngine.addEntity(new Platform(gameEngine, 500, 0, 360));
+
+        this.game.addEntity(new BasicPlatform(this.game, 13, 57, 5, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 21, 53, 10, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 24, 46, 2, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 41, 20, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 19, 29, 1, 11, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 9, 34, 2, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 19, 28, 12, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 4, 18, 1, 18, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 27, 1, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 18, 3, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 32, 1, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 32, 1, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 0, 64, 32, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, LEVEL_ONE_HEIGHT, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, LEVEL_ONE_HEIGHT, LEVEL_ONE_HEIGHT));
+
     
         gameEngine.addEntity(new Spblock(gameEngine, 350, 560, "spike"));
         gameEngine.addEntity(new Spblock(gameEngine, 414, 560, "health"));
         gameEngine.addEntity(new Spblock(gameEngine, 478, 560, "flower"));
         gameEngine.addEntity(new Spblock(gameEngine, 542, 660, "bomb"));
 
-        var exitPortal1 = new Portal(gameEngine, 670, -250, "exit")
-        var startPortal1 = new Portal(gameEngine, 606, 560, "start", exitPortal1)
+        var exitPortal1 = new Portal(gameEngine, 670, -850, "exit")
+        var startPortal1 = new Portal(gameEngine, PARAMS.BLOCKWIDTH * 24, 560, "start", exitPortal1)
         gameEngine.addEntity(exitPortal1);
         gameEngine.addEntity(startPortal1);
 
