@@ -183,9 +183,12 @@ class JumpSprite {
         //update position 
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
+        
         //experimental wrap
-        if(this.x <= -PARAMS.BLOCKWIDTH) this.x = 1024;
-        if(this.x>= 1024+PARAMS.BLOCKWIDTH) this.x = -PARAMS.BLOCKWIDTH;
+        if(this.x <= -PARAMS.BLOCKWIDTH) this.x = PARAMS.CANVAS_WIDTH;
+        if(this.x >= PARAMS.CANVAS_WIDTH + PARAMS.BLOCKWIDTH) this.x = -PARAMS.BLOCKWIDTH;
+        
+        
         this.updateBB();
 
 
@@ -195,7 +198,7 @@ class JumpSprite {
         var that = this; //that refers to JumpSprite object.
         this.game.entities.forEach(function (entity) {
             if(entity.BB && that.BB.collide(entity.BB)) {
-                if(that.velocity.y >= 0) { //falling
+                if(that.velocity.y >= 0) { //falling or walking
                     if((entity instanceof Platform || entity instanceof BasicPlatform) && (that.lastBB.bottom) <= entity.BB.top) {
                         that.y = entity.BB.top - 2*PARAMS.BLOCKWIDTH; // because JumpSprite is 2 blocks tall
                         that.velocity.y = 0;
@@ -204,15 +207,26 @@ class JumpSprite {
                         that.updateBB();
 
                     } else if((entity instanceof Spblock) && (entity.type === 'bomb')){
-                        that.velocity.y = -1500;
+                        
+                        if (that.velocity.x < 0) {
+                            that.velocity.x = 1000;
+                        } else if (that.velocity.x > 0) {
+                            that.velocity.x = -1000;
+                        }
+
+                        if (that.velocity.y < 0) {
+                            that.velocity.y = 1000;
+                        } else if (that.velocity.y > 0) {
+                            that.velocity.y = -1000;
+                        }
+                        //that.velocity.y = -1500;
                         that.hitBomb = true;
                         that.health -= 10;
                     } 
                     else if ((entity instanceof Platform || entity instanceof BasicPlatform) // hit side
                         && (((that.lastBB.left) >= entity.BB.right) || ((that.lastBB.right) >= entity.BB.left))) { // was below last tick                     
                         if (that.velocity.x < 0) that.x = entity.BB.right - H_OFFSET; // move out of collision
-                        
-                        else if (that.velocity.x >= 0) that.x = entity.BB.left - H_OFFSET - PARAMS.BLOCKWIDTH; // move out of collision
+                        else if (that.velocity.x > 0) that.x = entity.BB.left - H_OFFSET - PARAMS.BLOCKWIDTH; // move out of collision
                         
                         that.velocity.x = 0;
                     }
