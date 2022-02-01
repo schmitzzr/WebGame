@@ -1,11 +1,11 @@
 class Spblock{
 
-    constructor(game, x, y, type) { //I need to know the type of special block! All special blocks are 32 by 32
+    constructor(game, x, y, type, levelHeight) { //I need to know the type of special block! All special blocks are 32 by 32
         //acceptable types are 'health', 'spike', 'flower', 'bomb'.
-        Object.assign(this, { game, x, type });
+        Object.assign(this, { game, x, type, levelHeight });
         //maybe create a block that reacts to current velocity and maybe changes its direction randomly.
 
-        this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (PARAMS.LEVEL_ONE_HEIGHT - y);
+        this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (this.levelHeight - y);
         this.width = 64;
         this.height = 64;
 

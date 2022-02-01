@@ -63,10 +63,10 @@ class Platform {
 };
 
 class BasicPlatform {
-    constructor(game, x, y, width, height) {
-        Object.assign(this, { game, x, width, height});
+    constructor(game, x, y, width, height, levelHeight) {
+        Object.assign(this, { game, x, width, height, levelHeight});
 
-        this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (PARAMS.LEVEL_ONE_HEIGHT - y);
+        this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (this.levelHeight - y);
 
         this.spritesheet = ASSET_MANAGER.getAsset("./grass-platform.png");
 

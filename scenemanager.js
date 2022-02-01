@@ -24,7 +24,6 @@ class SceneManager {
         this.x = 0
 
         const LEVEL_ONE_HEIGHT = 64;
-        PARAMS.LEVEL_ONE_HEIGHT = 64;
 
         gameEngine.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 5));
 
@@ -42,37 +41,37 @@ class SceneManager {
         // gameEngine.addEntity(new Platform(gameEngine, 364, 28, 64));
         // gameEngine.addEntity(new Platform(gameEngine, 500, 0, 360));
 
-        this.game.addEntity(new BasicPlatform(this.game, 13, 57, 5, 1));
-        this.game.addEntity(new BasicPlatform(this.game, 21, 53, 10, 1));
-        this.game.addEntity(new BasicPlatform(this.game, 24, 46, 2, 1));
-        this.game.addEntity(new BasicPlatform(this.game, 1, 41, 20, 1));
-        this.game.addEntity(new BasicPlatform(this.game, 19, 29, 1, 11));
-        this.game.addEntity(new BasicPlatform(this.game, 9, 34, 2, 1));
-        this.game.addEntity(new BasicPlatform(this.game, 19, 28, 12, 1));
-        this.game.addEntity(new BasicPlatform(this.game, 4, 18, 1, 18)); //started out 18
-        this.game.addEntity(new BasicPlatform(this.game, 1, 27, 1, 1));
-        this.game.addEntity(new BasicPlatform(this.game, 1, 18, 3, 1));
-        this.game.addEntity(new BasicPlatform(this.game, 1, 32, 1, 1));
-        this.game.addEntity(new BasicPlatform(this.game, 1, 32, 1, 1));
-        this.game.addEntity(new BasicPlatform(this.game, 0, 64, 32, 1));
+        this.game.addEntity(new BasicPlatform(this.game, 13, 57, 5, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 21, 53, 10, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 24, 46, 2, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 41, 20, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 19, 29, 1, 11, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 9, 34, 2, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 19, 28, 12, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 4, 18, 1, 18, LEVEL_ONE_HEIGHT)); //started out 18
+        this.game.addEntity(new BasicPlatform(this.game, 1, 27, 1, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 18, 3, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 32, 1, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 32, 1, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 0, 64, 32, 1, LEVEL_ONE_HEIGHT));
 
         //horizontal warp borders
-        this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, 35));
-        this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, 38));
+        this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, 35, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, 38, LEVEL_ONE_HEIGHT));
         //offscreen platforms for horizontal wrap
-        this.game.addEntity(new BasicPlatform(this.game, -2, 50, 2, 1));
-        this.game.addEntity(new BasicPlatform(this.game, 32, 50, 2, 1));
+        this.game.addEntity(new BasicPlatform(this.game, -2, 50, 2, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 32, 50, 2, 1, LEVEL_ONE_HEIGHT));
         //bottom
-        this.game.addEntity(new BasicPlatform(this.game, 0, 41, 1, 35));
-        this.game.addEntity(new BasicPlatform(this.game, 31, 50, 1, 43));
+        this.game.addEntity(new BasicPlatform(this.game, 0, 41, 1, 35, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 31, 50, 1, 43, LEVEL_ONE_HEIGHT));
         //experimental bomb
         
-        this.game.addEntity(new Spblock(this.game, 29, 51, "bomb"));
+        this.game.addEntity(new Spblock(this.game, 29, 51, "bomb", LEVEL_ONE_HEIGHT));
 
-        gameEngine.addEntity(new Spblock(gameEngine, 11, 57, "spike"));
-        gameEngine.addEntity(new Spblock(gameEngine, 13, 58, "health"));
-        gameEngine.addEntity(new Spblock(gameEngine, 15, 58, "flower"));
-        gameEngine.addEntity(new Spblock(gameEngine, 4, 61, "bomb"));
+        gameEngine.addEntity(new Spblock(gameEngine, 11, 57, "spike", LEVEL_ONE_HEIGHT));
+        gameEngine.addEntity(new Spblock(gameEngine, 13, 58, "health", LEVEL_ONE_HEIGHT));
+        gameEngine.addEntity(new Spblock(gameEngine, 15, 58, "flower", LEVEL_ONE_HEIGHT));
+        gameEngine.addEntity(new Spblock(gameEngine, 4, 61, "bomb", LEVEL_ONE_HEIGHT));
         
         //used for fully bordered level. Curr testing horizontal wrap
         //this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, LEVEL_ONE_HEIGHT, LEVEL_ONE_HEIGHT));
