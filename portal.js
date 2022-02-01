@@ -1,13 +1,13 @@
 class Portal{
 
     //I need to know x, y, protal type, and if it's a starting protal, a pointer to the end portal. 
-    constructor(game, x, y, type, link = null) { //I need to know the type of special block! All special blocks are 32 by 32 //I can pass default values in.
+    constructor(game, x, y, levelHeight, type, link = null) { //I need to know the type of special block! All special blocks are 32 by 32 //I can pass default values in.
         //acceptable types are 'health', 'spike', 'flower', 'bomb'.
-        Object.assign(this, { game, x, type, link });
+        Object.assign(this, { game, x, type, link});
         this.linkX; //a start portal needs to know the x and y of exit portal.
         this.linkY;
 
-        this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (PARAMS.LEVEL_ONE_HEIGHT - y);
+        this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (levelHeight - y);
 
         //where in canvas context
         this.width = 64;

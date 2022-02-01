@@ -51,8 +51,7 @@ class SceneManager {
         this.game.addEntity(new BasicPlatform(this.game, 4, 18, 1, 18, LEVEL_ONE_HEIGHT)); //started out 18
         this.game.addEntity(new BasicPlatform(this.game, 1, 27, 1, 1, LEVEL_ONE_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 1, 18, 3, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 1, 32, 1, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 1, 32, 1, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 34, 1, 1, LEVEL_ONE_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 0, 64, 32, 10, LEVEL_ONE_HEIGHT));
 
         this.game.addEntity(new BasicPlatform(this.game, 28, 22, 1, 1, LEVEL_ONE_HEIGHT));
@@ -83,8 +82,8 @@ class SceneManager {
         //this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, LEVEL_ONE_HEIGHT, LEVEL_ONE_HEIGHT));
         //this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, LEVEL_ONE_HEIGHT, LEVEL_ONE_HEIGHT));
 
-        var exitPortal1 = new Portal(gameEngine, 21, 32, "exit");
-        var startPortal1 = new Portal(gameEngine, 19, 58, "start", exitPortal1);
+        var exitPortal1 = new Portal(gameEngine, 21, 32, LEVEL_ONE_HEIGHT, "exit");
+        var startPortal1 = new Portal(gameEngine, 19, 58, LEVEL_ONE_HEIGHT, "start", exitPortal1);
         gameEngine.addEntity(exitPortal1);
         gameEngine.addEntity(startPortal1);
 
