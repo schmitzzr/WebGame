@@ -206,18 +206,18 @@ class JumpSprite {
                         if(that.state === 3) that.state = 0; // set state to idle
                         that.updateBB();
 
-                    } else if((entity instanceof Spblock) && (entity.type === 'bomb')){
-                        
-                        if (that.velocity.x < 0) {
-                            that.velocity.x = 1000;
-                        } else if (that.velocity.x > 0) {
-                            that.velocity.x = -1000;
-                        }
+                    } else if((entity instanceof Spblock) && (entity.type === 'bomb')){                    
 
                         if (that.velocity.y < 0) {
                             that.velocity.y = 1000;
                         } else if (that.velocity.y > 0) {
-                            that.velocity.y = -1000;
+                            that.velocity.y = -1150;
+                        } else {
+                            if (that.velocity.x < 0) {
+                                that.velocity.x = 1000;
+                            } else if (that.velocity.x > 0) {
+                                that.velocity.x = -1000;
+                            }
                         }
                         //that.velocity.y = -1500;
                         that.hitBomb = true;
@@ -241,6 +241,13 @@ class JumpSprite {
                             else if (that.velocity.x > 0) that.x = entity.BB.left - H_OFFSET - PARAMS.BLOCKWIDTH; // move out of collision
                             that.velocity.x = 0;
                         }
+                    } else if(entity instanceof Spblock && entity.type ==='bomb') {
+                        if(that.lastBB.top <= entity.lastBB.bottom){
+                            that.velocity.y = 1000;
+                            that.velocity.x = that.velocity.x * -1; //switch x velocity away from block
+                            that.hitBomb = true;
+                            that.health -= 10;
+                        } 
                     }
                 }
                 if((entity instanceof Portal) && (entity.type === 'start')) {

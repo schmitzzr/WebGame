@@ -73,11 +73,6 @@ class SceneManager {
         //this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, LEVEL_ONE_HEIGHT, LEVEL_ONE_HEIGHT));
         //this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, LEVEL_ONE_HEIGHT, LEVEL_ONE_HEIGHT));
 
-        gameEngine.addEntity(new Spblock(gameEngine, 11, 57, "spike"));
-        gameEngine.addEntity(new Spblock(gameEngine, 13, 58, "health"));
-        gameEngine.addEntity(new Spblock(gameEngine, 15, 58, "flower"));
-        gameEngine.addEntity(new Spblock(gameEngine, 4, 61, "bomb"));
-
         var exitPortal1 = new Portal(gameEngine, 21, 32, "exit");
         var startPortal1 = new Portal(gameEngine, 19, 58, "start", exitPortal1);
         gameEngine.addEntity(exitPortal1);
