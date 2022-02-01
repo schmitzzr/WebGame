@@ -169,7 +169,7 @@ class JumpSprite {
             }
         }
         this.velocity.y += this.fallAcc * TICK;
-        console.log("y velocity", this.velocity.y)
+        //console.log("y velocity", this.velocity.y)
 
         //max speed calculation
         if (this.velocity.y >= MAX_FALL) this.velocity.y = MAX_FALL;
@@ -221,7 +221,7 @@ class JumpSprite {
                         }
                         //that.velocity.y = -1500;
                         that.hitBomb = true;
-                        that.health -= 10;
+                        that.health -= 25;
                     } 
                     else if ((entity instanceof Platform || entity instanceof BasicPlatform) // hit side
                         && (((that.lastBB.left) >= entity.BB.right) || ((that.lastBB.right) >= entity.BB.left))) { // was below last tick                     

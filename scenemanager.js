@@ -24,6 +24,7 @@ class SceneManager {
         this.x = 0
 
         const LEVEL_ONE_HEIGHT = 64;
+        PARAMS.LEVEL_ONE_HEIGHT = 64;
 
         gameEngine.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 5));
 
@@ -41,43 +42,44 @@ class SceneManager {
         // gameEngine.addEntity(new Platform(gameEngine, 364, 28, 64));
         // gameEngine.addEntity(new Platform(gameEngine, 500, 0, 360));
 
-        this.game.addEntity(new BasicPlatform(this.game, 13, 57, 5, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 21, 53, 10, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 24, 46, 2, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 1, 41, 20, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 19, 29, 1, 11, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 9, 34, 2, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 19, 28, 12, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 4, 18, 1, 18, LEVEL_ONE_HEIGHT)); //started out 18
-        this.game.addEntity(new BasicPlatform(this.game, 1, 27, 1, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 1, 18, 3, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 1, 32, 1, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 1, 32, 1, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 0, 64, 32, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 13, 57, 5, 1));
+        this.game.addEntity(new BasicPlatform(this.game, 21, 53, 10, 1));
+        this.game.addEntity(new BasicPlatform(this.game, 24, 46, 2, 1));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 41, 20, 1));
+        this.game.addEntity(new BasicPlatform(this.game, 19, 29, 1, 11));
+        this.game.addEntity(new BasicPlatform(this.game, 9, 34, 2, 1));
+        this.game.addEntity(new BasicPlatform(this.game, 19, 28, 12, 1));
+        this.game.addEntity(new BasicPlatform(this.game, 4, 18, 1, 18)); //started out 18
+        this.game.addEntity(new BasicPlatform(this.game, 1, 27, 1, 1));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 18, 3, 1));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 32, 1, 1));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 32, 1, 1));
+        this.game.addEntity(new BasicPlatform(this.game, 0, 64, 32, 1));
 
         //horizontal warp borders
-        this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, 35, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, 38, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, 35));
+        this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, 38));
         //offscreen platforms for horizontal wrap
-        this.game.addEntity(new BasicPlatform(this.game, -2, 50, 2, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 32, 50, 2, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, -2, 50, 2, 1));
+        this.game.addEntity(new BasicPlatform(this.game, 32, 50, 2, 1));
         //bottom
-        this.game.addEntity(new BasicPlatform(this.game, 0, 41, 1, 35, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 31, 50, 1, 43, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 0, 41, 1, 35));
+        this.game.addEntity(new BasicPlatform(this.game, 31, 50, 1, 43));
         //experimental bomb
-        this.game.addEntity(new Spblock(this.game, PARAMS.BITWIDTH*29, PARAMS.BITWIDTH*11, "bomb"))
+        
+        this.game.addEntity(new Spblock(this.game, 29, 51, "bomb"));
+        
         //used for fully bordered level. Curr testing horizontal wrap
         //this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, LEVEL_ONE_HEIGHT, LEVEL_ONE_HEIGHT));
         //this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, LEVEL_ONE_HEIGHT, LEVEL_ONE_HEIGHT));
 
-    
-        gameEngine.addEntity(new Spblock(gameEngine, PARAMS.BITWIDTH*11, PARAMS.BITWIDTH*17, "spike"));
-        gameEngine.addEntity(new Spblock(gameEngine, PARAMS.BITWIDTH*13, PARAMS.BITWIDTH*18, "health"));
-        gameEngine.addEntity(new Spblock(gameEngine, PARAMS.BITWIDTH*15, PARAMS.BITWIDTH*18, "flower"));
-        gameEngine.addEntity(new Spblock(gameEngine, PARAMS.BITWIDTH*4, PARAMS.BITWIDTH*21, "bomb"));
+        gameEngine.addEntity(new Spblock(gameEngine, 11, 57, "spike"));
+        gameEngine.addEntity(new Spblock(gameEngine, 13, 58, "health"));
+        gameEngine.addEntity(new Spblock(gameEngine, 15, 58, "flower"));
+        gameEngine.addEntity(new Spblock(gameEngine, 4, 61, "bomb"));
 
-        var exitPortal1 = new Portal(gameEngine, PARAMS.BITWIDTH*21, PARAMS.BITWIDTH*(-8), "exit");
-        var startPortal1 = new Portal(gameEngine, PARAMS.BITWIDTH*19, PARAMS.BITWIDTH*18, "start", exitPortal1);
+        var exitPortal1 = new Portal(gameEngine, 21, 32, "exit");
+        var startPortal1 = new Portal(gameEngine, 19, 58, "start", exitPortal1);
         gameEngine.addEntity(exitPortal1);
         gameEngine.addEntity(startPortal1);
 
@@ -90,7 +92,7 @@ class SceneManager {
 
         //let midpoint = PARAMS.CANVAS_WIDTH/2 - PARAMS> BLOCKWIDTH / 2;
         //let midpoint = canvas height/2
-        let VerticalMid = 768 / 2;//harcoded for canvas size //I should also account for character sprite.
+        let VerticalMid = PARAMS.CANVAS_HEIGHT / 2;//harcoded for canvas size //I should also account for character sprite.
 
         //if(this.x < this.mario.x - midpoint) this.x = this.mario.x - midpoint;
         //if(this.y < this.mario.y - midpoint) this.y = this.mario.y - midpoint;

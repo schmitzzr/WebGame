@@ -63,10 +63,42 @@ class Platform {
 };
 
 class BasicPlatform {
-    constructor(game, x, y, width, height, levelHeight) {
-        Object.assign(this, { game, x, width, height, levelHeight });
+    constructor(game, x, y, width, height) {
+        Object.assign(this, { game, x, width, height});
 
-        this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (this.levelHeight - y);
+        this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (PARAMS.LEVEL_ONE_HEIGHT - y);
+
+        this.spritesheet = ASSET_MANAGER.getAsset("./grass-platform.png");
+
+        this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.width * PARAMS.BLOCKWIDTH, this.height * PARAMS.BLOCKWIDTH);
+    };
+
+    update() {
+    };
+
+    draw(ctx) {
+
+        let wBrickCount = this.width;
+        let hBrickCount = this.height;
+        for (var i = 0; i < wBrickCount; i++) {
+            for (var j = 0; j < hBrickCount; j++) {
+                ctx.drawImage(this.spritesheet, 0,0, 64, 64, (this.x + i) * PARAMS.BLOCKWIDTH, (this.y + j)*PARAMS.BLOCKWIDTH - this.game.camera.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+            }
+        }
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+        }
+
+    };
+};
+
+class MovingPlatform {
+    constructor(game, x, y, endX, endY, width, height, inMotion, speed) {
+        Object.assign(this, { game, x, endX, width, height, inMotion, speed});
+
+        this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (PARAMS.LEVEL_ONE_HEIGHT - y);
+        this.endY = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (PARAMS.LEVEL_ONE_HEIGHT - endY);
 
         this.spritesheet = ASSET_MANAGER.getAsset("./grass-platform.png");
 

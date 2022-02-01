@@ -3,17 +3,11 @@ class Portal{
     //I need to know x, y, protal type, and if it's a starting protal, a pointer to the end portal. 
     constructor(game, x, y, type, link = null) { //I need to know the type of special block! All special blocks are 32 by 32 //I can pass default values in.
         //acceptable types are 'health', 'spike', 'flower', 'bomb'.
-        this.game = game;
-
-        this.type = type;
-        this.link = link;
-
+        Object.assign(this, { game, x, type, link });
         this.linkX; //a start portal needs to know the x and y of exit portal.
         this.linkY;
 
-        
-        this.x = x;
-        this.y = y;
+        this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (PARAMS.LEVEL_ONE_HEIGHT - y);
 
         //where in canvas context
         this.width = 64;
@@ -25,8 +19,7 @@ class Portal{
 
         this.determinePortal();
 
-        this.lastBB = new BoundingBox(this.x, this.y, this.width, this.height);
-        this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+        this.updateBB();
 
         this.animations = [];
         this.loadAnimations(); // new Animator(ASSET_MANAGER.getAsset("./google.png"), 0, 0, 64, 64, 1, .5, true);
@@ -38,8 +31,8 @@ class Portal{
         switch(this.type){
             case "start":
                 this.sheetX = 0;
-                this.linkX = this.link.x;
-                this.linkY = this.link.y;
+                this.linkX = this.link.x * PARAMS.BLOCKWIDTH;
+                this.linkY = this.link.y * PARAMS.BLOCKWIDTH;
                 break;
             case "exit":
                 this.sheetX = 192;
@@ -62,14 +55,14 @@ class Portal{
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+        this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.width, this.height);
     };
 
     draw(ctx) {
         ctx.strokeStyle = "Green";
         ctx.strokeRect(this.BB.left, this.BB.top - this.game.camera.y, this.BB.width, this.BB.height); //strokeRect(x, y, width, height);
 
-        this.animations[0].drawFrame(this.game.clockTick, ctx, this.x, this.y - this.game.camera.y);
+        this.animations[0].drawFrame(this.game.clockTick, ctx, this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH - this.game.camera.y);
     };
 
     loadAnimations() { //might need animations for movement... //not really

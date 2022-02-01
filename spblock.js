@@ -2,13 +2,10 @@ class Spblock{
 
     constructor(game, x, y, type) { //I need to know the type of special block! All special blocks are 32 by 32
         //acceptable types are 'health', 'spike', 'flower', 'bomb'.
-        this.game = game;
-        //maybe create a block that reacts to current velocity and maybe changes it's direction randomly.
+        Object.assign(this, { game, x, type });
+        //maybe create a block that reacts to current velocity and maybe changes its direction randomly.
 
-        this.type = type;
-        this.x = x;
-        this.y = y;
-
+        this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (PARAMS.LEVEL_ONE_HEIGHT - y);
         this.width = 64;
         this.height = 64;
 
@@ -16,8 +13,7 @@ class Spblock{
         this.sheetY = 0;
         this.determineBlock();
 
-        this.lastBB = new BoundingBox(this.x, this.y, this.width, this.height);
-        this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+        this.updateBB();
 
         this.animations = [];
         this.loadAnimations(); // new Animator(ASSET_MANAGER.getAsset("./google.png"), 0, 0, 64, 64, 1, .5, true);
@@ -58,14 +54,14 @@ class Spblock{
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+        this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.width, this.height);
     };
 
     draw(ctx) {
         ctx.strokeStyle = "Green";
         ctx.strokeRect(this.BB.left, this.BB.top - this.game.camera.y, this.BB.width, this.BB.height); //strokeRect(x, y, width, height);
 
-        this.animations[0].drawFrame(this.game.clockTick, ctx, this.x, this.y - this.game.camera.y);
+        this.animations[0].drawFrame(this.game.clockTick, ctx, this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH - this.game.camera.y);
     };
 
     loadAnimations() { //might need animations for movement...
@@ -77,10 +73,5 @@ class Spblock{
         this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./big-special.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
         this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./big-special.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
     };
-
-
-
-
-
 
 };
