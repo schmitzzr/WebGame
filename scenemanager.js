@@ -53,7 +53,13 @@ class SceneManager {
         this.game.addEntity(new BasicPlatform(this.game, 1, 18, 3, 1, LEVEL_ONE_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 1, 32, 1, 1, LEVEL_ONE_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 1, 32, 1, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 0, 64, 32, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 0, 64, 32, 10, LEVEL_ONE_HEIGHT));
+
+        this.game.addEntity(new BasicPlatform(this.game, 28, 22, 1, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 22, 17, 1, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 26, 12, 1, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 12, 9, 9, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 4, 3, 27, 1, LEVEL_ONE_HEIGHT));
 
         //horizontal warp borders
         this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, 35, LEVEL_ONE_HEIGHT));
@@ -62,8 +68,8 @@ class SceneManager {
         this.game.addEntity(new BasicPlatform(this.game, -2, 50, 2, 1, LEVEL_ONE_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 32, 50, 2, 1, LEVEL_ONE_HEIGHT));
         //bottom
-        this.game.addEntity(new BasicPlatform(this.game, 0, 41, 1, 35, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 31, 50, 1, 43, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 0, 41, 1, 23, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 31, 50, 1, 14, LEVEL_ONE_HEIGHT));
         //experimental bomb
         
         this.game.addEntity(new Spblock(this.game, 29, 51, "bomb", LEVEL_ONE_HEIGHT));
