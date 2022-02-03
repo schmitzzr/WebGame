@@ -12,6 +12,8 @@ ASSET_MANAGER.queueDownload("./grass-platform.png");
 ASSET_MANAGER.queueDownload("./big-special.png");
 ASSET_MANAGER.queueDownload("./portal-sheet.png");
 
+ASSET_MANAGER.queueDownload("./bat.png");
+
 ASSET_MANAGER.downloadAll(() => {
 	
 	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;

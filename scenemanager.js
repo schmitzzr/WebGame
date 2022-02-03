@@ -76,11 +76,13 @@ class SceneManager {
         //experimental bomb
         
         this.game.addEntity(new Spblock(this.game, 29, 51, "bomb", LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new Bat(this.game, 4, 54, .5, 10, LEVEL_ONE_HEIGHT)); 
+        this.game.addEntity(new Bat(this.game, 13, 53, .5, 10, LEVEL_ONE_HEIGHT));
 
         gameEngine.addEntity(new Spblock(gameEngine, 11, 57, "spike", LEVEL_ONE_HEIGHT));
         gameEngine.addEntity(new Spblock(gameEngine, 13, 58, "health", LEVEL_ONE_HEIGHT));
         gameEngine.addEntity(new Spblock(gameEngine, 15, 58, "flower", LEVEL_ONE_HEIGHT));
-        gameEngine.addEntity(new Spblock(gameEngine, 4, 61, "bomb", LEVEL_ONE_HEIGHT));
+        gameEngine.addEntity(new Spblock(gameEngine, 4, 56, "bomb", LEVEL_ONE_HEIGHT));
         
         //used for fully bordered level. Curr testing horizontal wrap
         //this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, LEVEL_ONE_HEIGHT, LEVEL_ONE_HEIGHT));

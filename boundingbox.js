@@ -13,4 +13,5 @@ class BoundingBox {
         if(this.right > other.left && this.left < other.right && this.top < other.bottom && this.bottom > other.top) return true;
         return false;
     };
+
 };
