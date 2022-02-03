@@ -94,29 +94,70 @@ class BasicPlatform {
 };
 
 class MovingPlatform {
-    constructor(game, x, y, endX, endY, width, height, inMotion, speed) {
-        Object.assign(this, { game, x, endX, width, height, inMotion, speed});
+    constructor(game, x, y, endX, endY, width, height, inMotion, vertical, levelHeight) {
+        Object.assign(this, { game, x, endX, width, height, inMotion, vertical});
 
-        this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (PARAMS.LEVEL_ONE_HEIGHT - y);
-        this.endY = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (PARAMS.LEVEL_ONE_HEIGHT - endY);
+        this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (levelHeight - y);
+        this.endY = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (levelHeight - endY);
+
+        this.startX = this.x;
+        this.startY = this.y;
+
+        this.velocity = {x: 0, y: 0};
+
+        if (this.vertical) {
+            this.velocity.y = 3;  // 3 blocks per second
+        } else {
+            this.velocity.x = 3;  // 3 blocks per second
+        }
 
         this.spritesheet = ASSET_MANAGER.getAsset("./grass-platform.png");
+        this.updateBB();
+        
+    };
 
+    updateBB() {
+        this.lastBB = this.BB;
         this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.width * PARAMS.BLOCKWIDTH, this.height * PARAMS.BLOCKWIDTH);
     };
 
     update() {
+        if (this.inMotion) {
+            if (this.vertical) {
+                if ((this.startY < this.endY) && 
+                ((this.y > this.endY) || (this.y < this.startY))) {
+                    this.velocity.y = -this.velocity.y;
+                } else if ((this.startY > this.endY) && 
+                ((this.y < this.endY) || (this.y > this.startY))) {
+                    this.velocity.y = -this.velocity.y;
+                } 
+            } else {
+                if ((this.startX <= this.endX) && 
+                ((this.x >= this.endX) || (this.x <= this.startX))) {
+                    this.velocity.x = -this.velocity.x;
+                } else if ((this.startX >= this.endX) && 
+                ((this.x <= this.endX) || (this.x >= this.startX))) {
+                    this.velocity.x = -this.velocity.x;
+                } 
+            }
+            this.x += this.game.clockTick * this.velocity.x * PARAMS.SCALE;
+            this.y += this.game.clockTick * this.velocity.y * PARAMS.SCALE;
+            this.updateBB();
+
+        }
     };
 
     draw(ctx) {
 
         let wBrickCount = this.width;
         let hBrickCount = this.height;
+
         for (var i = 0; i < wBrickCount; i++) {
             for (var j = 0; j < hBrickCount; j++) {
                 ctx.drawImage(this.spritesheet, 0,0, 64, 64, (this.x + i) * PARAMS.BLOCKWIDTH, (this.y + j)*PARAMS.BLOCKWIDTH - this.game.camera.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
             }
         }
+
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';
             ctx.strokeRect(this.BB.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);

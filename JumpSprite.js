@@ -199,13 +199,12 @@ class JumpSprite {
         this.game.entities.forEach(function (entity) {
             if(entity.BB && that.BB.collide(entity.BB)) {
                 if(that.velocity.y >= 0) { //falling or walking
-                    if((entity instanceof Platform || entity instanceof BasicPlatform) && (that.lastBB.bottom) <= entity.BB.top) {
+                    if((entity instanceof BasicPlatform) && (that.lastBB.bottom) <= entity.BB.top) {
                         that.y = entity.BB.top - 2*PARAMS.BLOCKWIDTH; // because JumpSprite is 2 blocks tall
                         that.velocity.y = 0;
 
                         if(that.state === 3) that.state = 0; // set state to idle
                         that.updateBB();
-
                     } else if((entity instanceof Spblock) && (entity.type === 'bomb')){                    
 
                         if (that.velocity.y < 0) {
@@ -223,7 +222,7 @@ class JumpSprite {
                         that.hitBomb = true;
                         that.health -= 25;
                     } 
-                    else if ((entity instanceof Platform || entity instanceof BasicPlatform) // hit side
+                    else if ((entity instanceof BasicPlatform) // hit side
                         && (((that.lastBB.left) >= entity.BB.right) || ((that.lastBB.right) >= entity.BB.left))) { // was below last tick                     
                         if (that.velocity.x < 0) that.x = entity.BB.right - H_OFFSET; // move out of collision
                         else if (that.velocity.x > 0) that.x = entity.BB.left - H_OFFSET - PARAMS.BLOCKWIDTH; // move out of collision
@@ -231,7 +230,7 @@ class JumpSprite {
                         that.velocity.x = 0;
                     }
                 } else if (that.velocity.y < 0) { // jumping or walking 
-                    if (entity instanceof Platform || entity instanceof BasicPlatform) {                   
+                    if (entity instanceof BasicPlatform) {                   
                         if ((that.lastBB.top) >= entity.BB.bottom) { // hit ceiling
                             that.velocity.y = 0;
                             that.y = entity.BB.bottom;
