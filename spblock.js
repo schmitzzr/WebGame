@@ -13,6 +13,7 @@ class Spblock{
         this.sheetY = 0;
         this.determineBlock();
 
+        this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.width, this.height);
         this.updateBB();
 
         this.animations = [];
