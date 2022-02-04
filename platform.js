@@ -132,11 +132,11 @@ class MovingPlatform {
                     this.velocity.y = -this.velocity.y;
                 } 
             } else {
-                if ((this.startX <= this.endX) && 
-                ((this.x >= this.endX) || (this.x <= this.startX))) {
+                if ((this.startX < this.endX) && 
+                ((this.x > this.endX) || (this.x < this.startX))) {
                     this.velocity.x = -this.velocity.x;
-                } else if ((this.startX >= this.endX) && 
-                ((this.x <= this.endX) || (this.x >= this.startX))) {
+                } else if ((this.startX > this.endX) && 
+                ((this.x < this.endX) || (this.x > this.startX))) {
                     this.velocity.x = -this.velocity.x;
                 } 
             }
@@ -145,6 +145,21 @@ class MovingPlatform {
             this.updateBB();
 
         }
+
+        //collisions
+
+        var that = this; //that refers to MovingPlatform object.
+        this.game.entities.forEach(function (entity) {
+            if (that.velocity.y <= 0) {
+                if(entity.BB && that.BB.collide(entity.BB)) {
+                    if((entity instanceof JumpSprite) && (that.lastBB.top) >= entity.BB.bottom) {
+                        entity.velocity.y = that.velocity.y;
+                        entity.y = that.BB.top - 2*PARAMS.BLOCKWIDTH;
+                        that.updateBB();
+                    }
+                }
+            }
+        });
     };
 
     draw(ctx) {

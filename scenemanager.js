@@ -42,7 +42,7 @@ class SceneManager {
         // gameEngine.addEntity(new Platform(gameEngine, 500, 0, 360));
 
         //test for a moving platform
-        this.game.addEntity(new MovingPlatform(this.game, 8, 58, 8, 61, 3, 1, true, true, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new MovingPlatform(this.game, 8, 56, 8, 62, 3, 1, true, true, LEVEL_ONE_HEIGHT));
         this.game.addEntity(new MovingPlatform(this.game, 1, 3, 1, 17, 3, 1, true, true, LEVEL_ONE_HEIGHT));
 
         this.game.addEntity(new BasicPlatform(this.game, 13, 57, 5, 1, LEVEL_ONE_HEIGHT));
