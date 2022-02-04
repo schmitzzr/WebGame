@@ -6,7 +6,7 @@ class SceneManager {
         this.y = 0;
 
         //Current level? I think that the scene manager should probably know this.
-        this.currLevel = "World 1"
+        this.currLevel = "World 1";
 
         //might be better for main character... //main character properties. 
         this.score = 0;
@@ -15,13 +15,33 @@ class SceneManager {
 
         //this.cointAnimation = new Animator(ASSET_MANAGER.getAsset("..."), 0, 160, 8, 8, 4, 0.2, 0, false);
 
-        this.loadLevelOne();
+        let debug = false; // set to true if you want to test entities in the debug level
+
+        if (debug)  {
+            this.loadDebugLevel(); 
+        } else { 
+            this.loadLevelOne(); 
+        }
     };
 
     //addCoin() {}
     //clearEntities();
+
+    loadDebugLevel() {
+        const DEBUG_HEIGHT = 64;
+        this.currLevel = "Debug Level";
+        this.game.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 5));
+        
+        // platform testing
+        this.game.addEntity(new BasicPlatform(this.game, -2, DEBUG_HEIGHT, 36, 1, DEBUG_HEIGHT));
+        this.game.addEntity(new MovingPlatform(this.game, 16, 56, 16, 62, 3, 1, true, true, DEBUG_HEIGHT));
+        this.game.addEntity(new MovingPlatform(this.game, 21, 60, 26, 50, 3, 1, true, false, DEBUG_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 20, 62, 3, 1, DEBUG_HEIGHT));
+    }
+
     loadLevelOne() { //less important is loaded first, then mains. 
         this.x = 0
+        this.currLevel = "World 1";
 
         const LEVEL_ONE_HEIGHT = 64;
 

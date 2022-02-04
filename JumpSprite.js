@@ -9,8 +9,8 @@ class JumpSprite {
         this.health = 100; 
 
 
-        this.width = 64;
-        this.height = 64;
+        this.width = 2 * PARAMS.BLOCKWIDTH;
+        this.height = 2 * PARAMS.BLOCKWIDTH;
 
         this.velocity = {x : 0, y : 0};
 
@@ -205,7 +205,7 @@ class JumpSprite {
                     
                     if(that.state === 3) that.state = 0; // set state to idle
                     that.updateBB();
-                    //entity.updateBB();
+                    
                 }
                 else if(that.velocity.y >= 0) { //falling or walking
                     if((entity instanceof BasicPlatform) && (that.lastBB.bottom) <= entity.BB.top) {
