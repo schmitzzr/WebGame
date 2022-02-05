@@ -76,8 +76,8 @@ class SceneManager {
         //experimental bomb
         
         this.game.addEntity(new Spblock(this.game, 29, 51, "bomb", LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new Bat(this.game, 4, 54, .5, 10, LEVEL_ONE_HEIGHT)); 
-        this.game.addEntity(new Bat(this.game, 13, 53, .5, 10, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new Bat(this.game, 4, 54, 10, LEVEL_ONE_HEIGHT)); 
+        this.game.addEntity(new Bat(this.game, 13, 53, 10, LEVEL_ONE_HEIGHT));
 
         gameEngine.addEntity(new Spblock(gameEngine, 11, 57, "spike", LEVEL_ONE_HEIGHT));
         gameEngine.addEntity(new Spblock(gameEngine, 13, 58, "health", LEVEL_ONE_HEIGHT));
