@@ -8,6 +8,10 @@ class JumpSprite {
         this.dead = false; 
         this.health = 100; 
 
+        //JumpSprite's .x and .y are different from all of the other entities?
+        this.blockX = this.x / PARAMS.BLOCKWIDTH; //.x with respect to blocks
+        this.blockY = this.y / PARAMS.BLOCKWIDTH; //.y with respect to blocks 
+
 
         this.width = 2 * PARAMS.BLOCKWIDTH;
         this.height = 2 * PARAMS.BLOCKWIDTH;
@@ -237,6 +241,15 @@ class JumpSprite {
                         else if (that.velocity.x > 0) that.x = entity.BB.left - H_OFFSET - PARAMS.BLOCKWIDTH; // move out of collision
                         
                         that.velocity.x = 0;
+                    } else if(entity instanceof Bat){
+                        // if(that.velocity.y > 0) {
+                        //     that.velocity.y = -600;
+                        // }
+
+                        // that.velocity.x += 100;
+                        // that.x += 10
+                        // that.health -= 5;
+
                     }
                 } else if (that.velocity.y < 0) { // jumping or walking 
                     if (entity instanceof BasicPlatform || (entity instanceof MovingPlatform)) {                   
@@ -256,6 +269,13 @@ class JumpSprite {
                             that.hitBomb = true;
                             that.health -= 10;
                         } 
+                    } else if(entity instanceof Bat){
+                        if(that.lastBB.top <= entity.lastBB.bottom){
+                            // that.velocity.y = 600;
+                            // that.velocity.x = that.velocity.x * -1.4 + 100;
+                            // that.x += 10
+                            // that.health -= 5;
+                        }
                     }
                 }
                 if((entity instanceof Portal) && (entity.type === 'start')) {

@@ -7,46 +7,34 @@ class Bat{
 
     //NOTE The bat class needs collision detection for platforms and such. The issue is that the bat can move in both a horizontal and vertical way.
     //How can collisions be done in this situation?
-    constructor(game, x, y, pathwidth, sightLength, levelHeight) {
-        Object.assign(this, { game, x, y, pathwidth, sightLength, levelHeight});
+    constructor(game, x, y, sightLength, levelHeight) {
+        Object.assign(this, { game, x, y, sightLength, levelHeight});
         //maybe create a block that reacts to current velocity and maybe changes its direction randomly.
 
         this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (this.levelHeight - y);
-        this.width = 64;
-        this.height = 52;
+
+        this.width = 52;
+        this.height = 35;
 
         this.sheetX = 0;
         this.sheetY = 0;
 
         this.moveSpeed = .015;
 
-        this.startPoint = x;
-        this.endPoint = x+sightLength;
+        //instead of a pathwidth I'm just going to have bats go horizontal until collision.
 
-        //I should always know which direction that the bat is going
+        //which direction that the bat is going
         this.movingLeft = false;
         this.movingRight = true;
-        this.movingUp = false;
-        this.movingDown = false; 
 
-        this.vertCollision = false; //if moving y position causes a collision
-        this.horiCollision = false; // if moving x causes a collision
+        this.followHPath = true; //state of bat, true == following default horizontal path.
 
-        this.offT = 14;
-        this.offL = 6;
-        this.offR = 12;
-        this.offB = 8; 
-        //top offset -> 14
-        //left offset -> 6
-        //right offset -> 12
-        //bottom offset -> 8
-        this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH+6, this.y * PARAMS.BLOCKWIDTH + 14, this.width-18, this.height-30);
+        //these BB are in respect to pixels
+        this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.widt, this.height);
         this.updateBB();
 
         this.animations = [];
         this.loadAnimations(); // new Animator(ASSET_MANAGER.getAsset("./google.png"), 0, 0, 64, 64, 1, .5, true);
-
-        this.animator = new Animator(ASSET_MANAGER.getAsset("./bat.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
     };
 
     checkForMain(){
@@ -69,98 +57,105 @@ class Bat{
     update() {
         var euclidean = this.checkForMain()
 
-        if(euclidean <= this.sightLength){ //if Bat has identified the main character in sight //should follow
-            this.clearDirections()
+        if(euclidean <= this.sightLength){ //when following character, bat should only move in a way that it doesn't collide with plaforms!
+            //check future, only move if future is viable. 
+            this.followHPath = false;
+            //check horizontal movement
             if(this.x <= (this.game.jumpsprite.x / PARAMS.BLOCKWIDTH)){
-                this.x += .015;
-                this.movingRight = true;
+                var futureBB = this.testBB(.016, 0);
+                if(!this.checkBB(futureBB)){ //test if I can actually go horizontal right, then move 
+                    this.x += .015;
+                } else {
+                    //this.x -= .005;
+                }   
             } else {
-                this.x -= .015;
-                this.movingLeft = true;
+                var futureBB = this.testBB(-.016, 0);
+                if(!this.checkBB(futureBB)){ //only move if it doesn't cause a collision.
+                    this.x -= .015;
+                } else {
+                    //this.x += .005;
+                }
             }
 
-            //if(this.checkBB()) this.horiCollision = true;
-
+            //check vertical movement
             if(this.y >= (this.game.jumpsprite.y / PARAMS.BLOCKWIDTH)){
-                this.y -= .015;
-                this.movingUp = true;
+                var futureBB = this.testBB(0, -.016);
+                if(!this.checkBB(futureBB)){                    //test if I can actually go vertical up, then move else don't move
+                    this.y -= .015;
+                } else {
+                    //this.y += .005;
+                }
+                
             } else {
-                this.y += .015;
-                this.movingDown = true;
+                var futureBB = this.testBB(0, .016);
+                if(!this.checkBB(futureBB)){ //test if I can actually go vertical down, then move else don't move
+                    this.y += .015;
+                } else {
+                    //this.y -= .005;
+                }
+                
             }
-
-            //if(this.checkBB() && this.horiCollision == false) this.vertCollision = true;
 
         } else { //bat's normal movement along horizontal path
+            this.followHPath = true;
             if(this.movingRight){
-                this.clearDirections();
-                if(this.x <= this.endPoint){
-                    this.x +=this.moveSpeed;
-                    this.movingRight = true;;
+                var futureBB = this.testBB(.016, 0);
+                if(!this.checkBB(futureBB)){ //test if I can still go right.
+                    this.x += this.moveSpeed;
+                    this.movingRight = true;
                 } else {
+                    this.movingRight= false;
                     this.movingLeft = true;
                 }
             } else if(this.movingLeft){
-                this.clearDirections();
-                if(this.x >= this.startPoint){
-                    this.x -=this.moveSpeed;
+                var futureBB = this.testBB(-.016, 0);
+                if(!this.checkBB(futureBB)){
+                    this.x -= this.moveSpeed;
                     this.movingLeft = true;
                 } else {
+                    this.movingLeft = false;
                     this.movingRight = true;
                 }
             }
-
-
-
         }
 
 
         this.updateBB();
-
-        // issue with collisions...
-        // collisions for bat.
-
-        // var that = this; //that refers to bat object.
-        // this.game.entities.forEach(function (entity) {
-        //     if(entity.BB && that.BB.collide(entity.BB)){
-        //         if(entity instanceof BasicPlatform){
-        //             if(that.lastBB.right > entity.BB.left){
-        //                 that.x = entity.BB.left - that.width;
-        //             }
-
-        //             if(that.lastBB.left < entity.BB.right){
-        //                 that.x = entity.BB.right + that.width;
-        //             }
-
-        //             if(that.lastBB.top < entity.BB.bottom){
-        //                 that.y = entity.BB.bottom + that.height;
-        //             }
-
-        //             if(that.lastBB.bottom > entity.BB.top){
-        //                 var currY = that.y;
-        //                 that.y = (entity.BB.top - that.height) / PARAMS.BLOCKWIDTH;
-        //             }
-        //         }
-        //     }
-               
-        // });
         
     };
 
     updateBB() {
         this.lastBB = this.BB;
         //Yeah this might need some standardization.
-        this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH+6, this.y * PARAMS.BLOCKWIDTH + 14, this.width-18, this.height-30);
+        this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.width, this.height);
+    };
+
+    testBB(modX, modY) {
+        var currBB = this.BB;
+        return new BoundingBox( (this.x+modX) * PARAMS.BLOCKWIDTH, (this.y+modY) * PARAMS.BLOCKWIDTH, this.width, this.height);
     };
 
     //checkBB has the ability to create a temporary bounding box to check if there is collision in the x or y direction.
-    checkBB(){
-        var tempBB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH+6, this.y * PARAMS.BLOCKWIDTH + 14, this.width-18, this.height-30);
+    checkBB(possibleBB){
+        var that = this;
+        var futureBB = possibleBB;
         var isCollision = false;
         this.game.entities.forEach(function (entity) {
-            if(tempBB && that.BB.collide(entity.BB)){
-                isCollision = true;
+            if(entity instanceof BasicPlatform){
+                var width = entity.BB.width;
+                var height = entity.BB.height;
+                var x = entity.BB.x;
+                var y = entity.BB.y;
+
+                var width2 = entity.BB.width;
+                var height2 = entity.BB.height;
+                var x2 = futureBB.x;
+                var y2 = futureBB.y;
+                if(futureBB.collide(entity.BB)){
+                    isCollision = true;
+                }
             }
+            
         });
         return isCollision;
     };
