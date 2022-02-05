@@ -134,7 +134,7 @@ class MovingPlatform {
             } else {
                 if ((this.startX < this.endX) && 
                 ((this.x > this.endX) || (this.x < this.startX))) {
-                    this.velocity.x = -this.velocity.x;
+                    this.velocity.x *= - 1;
                 } else if ((this.startX > this.endX) && 
                 ((this.x < this.endX) || (this.x > this.startX))) {
                     this.velocity.x = -this.velocity.x;

@@ -102,6 +102,8 @@ class JumpSprite {
 
         const TICK = this.game.clockTick;
 
+
+
         const MIN_WALK = 25;
         const MAX_WALK = 500;
         const MAX_CRAWL = 25;
@@ -198,10 +200,11 @@ class JumpSprite {
         var that = this; //that refers to JumpSprite object.
         this.game.entities.forEach(function (entity) {
             if(entity.BB && that.BB.collide(entity.BB)) {
-                if ((entity instanceof MovingPlatform) && (that.lastBB.bottom) <= entity.BB.top + 2) { // +2 because for some reason this works
+                if ((entity instanceof MovingPlatform) && (that.lastBB.bottom) <= entity.BB.top + 1) { // +2 because for some reason this works
                     that.y = entity.BB.top - 2*PARAMS.BLOCKWIDTH; // because JumpSprite is 2 blocks tall
                     
-                    that.velocity.y = entity.velocity.y;
+                    that.velocity.y = entity.velocity.y * PARAMS.BLOCKWIDTH;
+                    //that.velocity.x = entity.velocity.x * PARAMS.BLOCKWIDTH;d
                     
                     if(that.state === 3) that.state = 0; // set state to idle
                     that.updateBB();

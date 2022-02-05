@@ -15,7 +15,7 @@ class SceneManager {
 
         //this.cointAnimation = new Animator(ASSET_MANAGER.getAsset("..."), 0, 160, 8, 8, 4, 0.2, 0, false);
 
-        let debug = false; // set to true if you want to test entities in the debug level
+        let debug = true; // set to true if you want to test entities in the debug level
 
         if (debug)  {
             this.loadDebugLevel(); 
