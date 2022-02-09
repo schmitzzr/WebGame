@@ -11,12 +11,22 @@ ASSET_MANAGER.queueDownload("./spritesheet.png");
 ASSET_MANAGER.queueDownload("./grass-platform.png");
 ASSET_MANAGER.queueDownload("./big-special.png");
 ASSET_MANAGER.queueDownload("./portal-sheet.png");
-ASSET_MANAGER.queueDownload("./lever_sheet.png");
 
 ASSET_MANAGER.queueDownload("./bat.png");
+// music
+ASSET_MANAGER.queueDownload("./Audio.mp3");
+//ASSET_MANAGER.queueDownload("./music/underworld.mp3");
+//ASSET_MANAGER.queueDownload("./music/overworld-hurry.mp3");
+//ASSET_MANAGER.queueDownload("./music/underworld-hurry.mp3");
 
+// sound effects
+//ASSET_MANAGER.queueDownload("./audio/Delightful D.mp3");
+//ASSET_MANAGER.queueDownload("./audio/super-jump.mp3");
+//ASSET_MANAGER.queueDownload("./audio/stomp.mp3");
+//ASSET_MANAGER.queueDownload("./audio/throw.wav");
+ASSET_MANAGER.queueDownload("./Audio.mp3");
 ASSET_MANAGER.downloadAll(() => {
-	
+	ASSET_MANAGER.autoRepeat("./Audio.mp3");
 	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
 
 	const canvas = document.getElementById("gameWorld");
