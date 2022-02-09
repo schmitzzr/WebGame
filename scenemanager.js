@@ -34,9 +34,14 @@ class SceneManager {
         
         // platform testing
         this.game.addEntity(new BasicPlatform(this.game, -2, DEBUG_HEIGHT, 36, 1, DEBUG_HEIGHT));
-        this.game.addEntity(new MovingPlatform(this.game, 16, 56, 16, 62, 3, 1, true, true, DEBUG_HEIGHT));
+
+        var movePlatform = new MovingPlatform(this.game, 16, 56, 16, 62, 3, 1, true, true, DEBUG_HEIGHT);
+        this.game.addEntity(movePlatform);
         this.game.addEntity(new MovingPlatform(this.game, 21, 60, 26, 50, 3, 1, true, false, DEBUG_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 20, 62, 3, 1, DEBUG_HEIGHT));
+
+        //lever
+        this.game.addEntity(new Lever(this.game, 2, 62, DEBUG_HEIGHT, false, movePlatform));
     }
 
     loadLevelOne() { //less important is loaded first, then mains. 
@@ -62,8 +67,13 @@ class SceneManager {
         // gameEngine.addEntity(new Platform(gameEngine, 500, 0, 360));
 
         //test for a moving platform
+
         this.game.addEntity(new MovingPlatform(this.game, 8, 56, 8, 62, 3, 1, true, true, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new MovingPlatform(this.game, 1, 3, 1, 17, 3, 1, true, true, LEVEL_ONE_HEIGHT));
+        
+        var movePlatform = new MovingPlatform(this.game, 1, 3, 1, 17, 3, 1, true, true, LEVEL_ONE_HEIGHT)
+        this.game.addEntity(movePlatform);
+
+        this.game.addEntity(new Lever(this.game, 2, 21, LEVEL_ONE_HEIGHT, false, movePlatform));
 
         this.game.addEntity(new BasicPlatform(this.game, 13, 57, 5, 1, LEVEL_ONE_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 21, 53, 10, 1, LEVEL_ONE_HEIGHT));
