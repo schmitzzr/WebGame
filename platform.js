@@ -150,12 +150,20 @@ class MovingPlatform {
 
         var that = this; //that refers to MovingPlatform object.
         this.game.entities.forEach(function (entity) {
-            if (that.velocity.y <= 0) {
+            if (that.velocity.y > 0) {
                 if(entity.BB && that.BB.collide(entity.BB)) {
-                    if((entity instanceof JumpSprite) && (that.lastBB.top) >= entity.BB.bottom) {
+                    if((entity instanceof JumpSprite) && (that.lastBB.bottom) >= entity.BB.top) { // player hits ceiling
+                        that.velocity.y = -that.velocity.y;  //reverse direction
+                        //entity.y = that.BB.top - 2*PARAMS.BLOCKWIDTH;
+                        entity.velocity.y = 0;
+                        //entity.updateBB();
+                    } else if ((entity instanceof JumpSprite) && (that.lastBB.top) >= entity.BB.bottom - 5) {
+                        entity.y = that.BB.top - 2*PARAMS.BLOCKWIDTH; // because JumpSprite is 2 blocks tall
+                        
                         entity.velocity.y = that.velocity.y;
-                        entity.y = that.BB.top - 2*PARAMS.BLOCKWIDTH;
-                        that.updateBB();
+
+                        if(entity.state === 3) entity.state = 0; // set state to idle
+                        entity.updateBB();
                     }
                 }
             }

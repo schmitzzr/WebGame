@@ -30,6 +30,7 @@ class JumpSprite {
         this.right = false;
         this.jump = false;
         this.crawl = false;
+        this.interact = false;
 
         this.hitBomb = false;
 
@@ -99,21 +100,22 @@ class JumpSprite {
 
         const H_OFFSET = this.hOffset;
         //movement constants
-        this.left = (this.game.keys["a"] || this.game.keys["ArrowLeft"]);
-        this.right = (this.game.keys["d"] || this.game.keys["ArrowRight"]);
-        this.jump = this.game.keys["w"] ||  this.game.keys[" "] || this.game.keys["ArrowUp"];
-        this.crawl = this.game.keys["s"] ||  this.game.keys["ArrowDown"];
+        this.left = (this.game.keys["a"] || this.game.keys["A"] || this.game.keys["ArrowLeft"]);
+        this.right = (this.game.keys["d"] || this.game.keys["D"] || this.game.keys["ArrowRight"]);
+        this.jump = (this.game.keys["w"] ||  this.game.keys["W"] || this.game.keys[" "] || this.game.keys["ArrowUp"]);
+        this.crawl = (this.game.keys["s"] || this.game.keys["S"] || this.game.keys["ArrowDown"]);
+        this.interact = (this.game.keys["e"] || this.game.keys["E"]);
 
         const TICK = this.game.clockTick;
 
 
 
         const MIN_WALK = 25;
-        const MAX_WALK = 500;
-        const MAX_CRAWL = 25;
+        const MAX_WALK = 250;
+        const MAX_CRAWL = 50;
 
-        const ACC_WALK = 250;
-        const ACC_CRAWL = 37.5;
+        const ACC_WALK = 375;
+        const ACC_CRAWL = 75;
         const DEC_REL = 1000;
         const FALL_SPD = 1575;
         const WALK_FALL = 1000;
@@ -204,11 +206,11 @@ class JumpSprite {
         var that = this; //that refers to JumpSprite object.
         this.game.entities.forEach(function (entity) {
             if(entity.BB && that.BB.collide(entity.BB)) {
-                if ((entity instanceof MovingPlatform) && (that.lastBB.bottom) <= entity.BB.top + 1) { // +2 because for some reason this works
+                if ((entity instanceof MovingPlatform) && (that.lastBB.bottom) <= entity.BB.top + 5) { // +5 because for some reason this works
                     that.y = entity.BB.top - 2*PARAMS.BLOCKWIDTH; // because JumpSprite is 2 blocks tall
                     
                     that.velocity.y = entity.velocity.y * PARAMS.BLOCKWIDTH;
-                    //that.velocity.x = entity.velocity.x * PARAMS.BLOCKWIDTH;d
+                    //that.velocity.x = entity.velocity.x * PARAMS.BLOCKWIDTH;
                     
                     if(that.state === 3) that.state = 0; // set state to idle
                     that.updateBB();
@@ -311,54 +313,6 @@ class JumpSprite {
             ctx.strokeStyle = 'Red';
             ctx.strokeRect(this.BB.x, this.BB.y -this.game.camera.y, this.BB.width, this.BB.height);
         }
-
-        //this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-
-        //works for before scene manager capabilities. 
-        // if(this.facing === 0){ //if direction is right //must be a better way to trigger which animation I want to run// default animation?
-        //     if(this.hitBomb === true) { //must be a simple way to implement this.
-        //         this.animations[2].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        //         ctx.strokeRect(this.BB.left, this.BB.top, this.BB.width, this.BB.height); //strokeRect(x, y, width, height);
-        //         this.hitBomb = false;
-        //     } else {
-        //         this.animations[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        //         ctx.strokeRect(this.BB.left, this.BB.top, this.BB.width, this.BB.height); //strokeRect(x, y, width, height);
-        //     }
-        // } else {
-        //     if(this.hitBomb === true) { //must be a simple way to implement this.
-        //         this.animations[3].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        //         ctx.strokeRect(this.BB.left, this.BB.top, this.BB.width, this.BB.height); //strokeRect(x, y, width, height);
-        //         this.hitBomb = false;
-        //     } else {
-        //         this.animations[1].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        //         ctx.strokeRect(this.BB.left, this.BB.top, this.BB.width, this.BB.height);
-        //     };
-
-            
-        // };
-
-        // //accounting for scene manager.
-        // if(this.facing === 0){ //if direction is right //must be a better way to trigger which animation I want to run// default animation?
-        //     if(this.hitBomb === true) { //must be a simple way to implement this.
-        //         this.animations[2].drawFrame(this.game.clockTick, ctx, this.x, this.y - this.game.camera.y);
-        //         ctx.strokeRect(this.BB.left, this.BB.top - this.game.camera.y, this.BB.width, this.BB.height); //strokeRect(x, y, width, height);
-        //         this.hitBomb = false;
-        //     } else {
-        //         this.animations[0].drawFrame(this.game.clockTick, ctx, this.x, this.y - this.game.camera.y);
-        //         ctx.strokeRect(this.BB.left, this.BB.top - this.game.camera.y, this.BB.width, this.BB.height); //strokeRect(x, y, width, height);
-        //     }
-        // } else {
-        //     if(this.hitBomb === true) { //must be a simple way to implement this.
-        //         this.animations[3].drawFrame(this.game.clockTick, ctx, this.x, this.y - this.game.camera.y);
-        //         ctx.strokeRect(this.BB.left, this.BB.top - this.game.camera.y, this.BB.width, this.BB.height); //strokeRect(x, y, width, height);
-        //         this.hitBomb = false;
-        //     } else {
-        //         this.animations[1].drawFrame(this.game.clockTick, ctx, this.x, this.y - this.game.camera.y);
-        //         ctx.strokeRect(this.BB.left, this.BB.top - this.game.camera.y, this.BB.width, this.BB.height);
-        //     };
-
-            
-        // };
         
     };
 
