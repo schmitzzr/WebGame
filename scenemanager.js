@@ -106,8 +106,9 @@ class SceneManager {
         //experimental bomb
         
         this.game.addEntity(new Spblock(this.game, 29, 51, "bomb", LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new Bat(this.game, 4, 54, 10, LEVEL_ONE_HEIGHT)); 
-        this.game.addEntity(new Bat(this.game, 13, 53, 10, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new Bat(this.game, 4, 54, 10, LEVEL_ONE_HEIGHT, 2)); 
+        this.game.addEntity(new Bat(this.game, 13, 53, 10, LEVEL_ONE_HEIGHT, 3));
+        //this.game.addEntity(new Texteffect(this.game, 13, 53, "Waht"));
 
         gameEngine.addEntity(new Spblock(gameEngine, 11, 57, "spike", LEVEL_ONE_HEIGHT));
         gameEngine.addEntity(new Spblock(gameEngine, 13, 58, "health", LEVEL_ONE_HEIGHT));
@@ -164,7 +165,7 @@ class SceneManager {
         ctx.font = "20px Georgia"
         //ctx.lineWidth = ;
         ctx.fillText("HEALTH", 1.5 * PARAMS.BITWIDTH, 1 * PARAMS.BITWIDTH);
-        ctx.fillText(currHealth + " / 100", 5 * PARAMS.BITWIDTH, 1* PARAMS.BITWIDTH);
+        ctx.fillText(currHealth.toFixed(1) + " / 100", 5 * PARAMS.BITWIDTH, 1* PARAMS.BITWIDTH);
 
         ctx.fillText("LEVEL", 21.5 * PARAMS.BITWIDTH, 1 * PARAMS.BITWIDTH);
         ctx.fillText(this.currLevel, 25 * PARAMS.BITWIDTH, 1* PARAMS.BITWIDTH);

@@ -7,6 +7,9 @@ class Lever {
         this.height = 64;
         this.width = 32;
 
+        //entity status
+        this.removeFromWorld = false;
+
         this.timeout = false;
         this.countdown = 0;
 

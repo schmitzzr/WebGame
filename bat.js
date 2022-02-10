@@ -7,8 +7,8 @@ class Bat{
 
     //NOTE The bat class needs collision detection for platforms and such. The issue is that the bat can move in both a horizontal and vertical way.
     //How can collisions be done in this situation?
-    constructor(game, x, y, sightLength, levelHeight) {
-        Object.assign(this, { game, x, y, sightLength, levelHeight});
+    constructor(game, x, y, sightLength, levelHeight, uniqueId) {
+        Object.assign(this, { game, x, y, sightLength, levelHeight, uniqueId});
         //maybe create a block that reacts to current velocity and maybe changes its direction randomly.
 
         this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (this.levelHeight - y);
@@ -20,6 +20,9 @@ class Bat{
         this.sheetY = 0;
 
         this.moveSpeed = .015;
+
+        //entity status
+        this.removeFromWorld = false;
 
         //instead of a pathwidth I'm just going to have bats go horizontal until collision.
 
@@ -60,11 +63,13 @@ class Bat{
         if(euclidean <= this.sightLength){ //when following character, bat should only move in a way that it doesn't collide with plaforms!
             //check future, only move if future is viable. 
             this.followHPath = false;
+            this.clearDirections();
             //check horizontal movement
             if(this.x <= (this.game.jumpsprite.x / PARAMS.BLOCKWIDTH)){
                 var futureBB = this.testBB(.016, 0);
                 if(!this.checkBB(futureBB)){ //test if I can actually go horizontal right, then move 
                     this.x += .015;
+                    this.movingRight = true;
                 } else {
                     //this.x -= .005;
                 }   
@@ -72,6 +77,7 @@ class Bat{
                 var futureBB = this.testBB(-.016, 0);
                 if(!this.checkBB(futureBB)){ //only move if it doesn't cause a collision.
                     this.x -= .015;
+                    this.movingLeft = true;
                 } else {
                     //this.x += .005;
                 }
@@ -82,18 +88,18 @@ class Bat{
                 var futureBB = this.testBB(0, -.016);
                 if(!this.checkBB(futureBB)){                    //test if I can actually go vertical up, then move else don't move
                     this.y -= .015;
+                    this.movingUp = true;
                 } else {
                     //this.y += .005;
                 }
-                
             } else {
                 var futureBB = this.testBB(0, .016);
                 if(!this.checkBB(futureBB)){ //test if I can actually go vertical down, then move else don't move
                     this.y += .015;
+                    this.movingDown = true;
                 } else {
                     //this.y -= .005;
-                }
-                
+                }         
             }
 
         } else { //bat's normal movement along horizontal path
@@ -101,19 +107,21 @@ class Bat{
             if(this.movingRight){
                 var futureBB = this.testBB(.016, 0);
                 if(!this.checkBB(futureBB)){ //test if I can still go right.
+                    this.clearDirections()
                     this.x += this.moveSpeed;
                     this.movingRight = true;
                 } else {
-                    this.movingRight= false;
+                    this.clearDirections()
                     this.movingLeft = true;
                 }
             } else if(this.movingLeft){
                 var futureBB = this.testBB(-.016, 0);
                 if(!this.checkBB(futureBB)){
                     this.x -= this.moveSpeed;
+                    this.clearDirections()
                     this.movingLeft = true;
                 } else {
-                    this.movingLeft = false;
+                    this.clearDirections()
                     this.movingRight = true;
                 }
             }
@@ -121,6 +129,26 @@ class Bat{
 
 
         this.updateBB();
+
+        var that = this;
+        //collision detection
+        this.game.entities.forEach(function (entity) {
+            if(entity.BB && that.BB.collide(entity.BB)){
+                if(entity instanceof JumpSprite){
+                    var distance = Math.floor(that.lastBB.y - (entity.lastBB.y + entity.lastBB.height) ) ;
+                    if(entity.velocity.y > 0 && (Math.abs(that.lastBB.y - (entity.lastBB.y+entity.lastBB.height) ) <= 4) ){ //if jump sprite is falling and the feet are within 4 pixels of bat top
+                        //entity.x += 4;
+                        entity.velocity.y = -400;
+                        entity.y -= 4;
+
+                        that.removeFromWorld = true; //jumping on the head of a bat will trigger a small jump and kill the bat
+
+                        that.game.addEntity(new Texteffect(that.game, that.x, that.y, "POP!"));
+                    } //possibility for other collisions
+
+                }
+            }
+        });
         
     };
 
@@ -141,7 +169,7 @@ class Bat{
         var futureBB = possibleBB;
         var isCollision = false;
         this.game.entities.forEach(function (entity) {
-            if(entity instanceof BasicPlatform){
+            if(entity instanceof BasicPlatform || (entity instanceof Bat && entity.uniqueId != that.uniqueId) || entity instanceof JumpSprite){
                 var width = entity.BB.width;
                 var height = entity.BB.height;
                 var x = entity.BB.x;
@@ -151,6 +179,12 @@ class Bat{
                 var height2 = entity.BB.height;
                 var x2 = futureBB.x;
                 var y2 = futureBB.y;
+
+                if(futureBB.collide(entity.BB) && entity instanceof JumpSprite){
+                    entity.health -= .1;
+                }
+
+
                 if(futureBB.collide(entity.BB)){
                     isCollision = true;
                 }
