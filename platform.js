@@ -9,6 +9,9 @@ class Platform {
         this.width = width;
         this.height = 64;
 
+        //entity status
+        this.removeFromWorld = false;
+
         // this.lastBB = new BoundingBox(this.x, this.y, this.width, this.height);
          this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
         //this.updateBB(); 
@@ -66,6 +69,9 @@ class BasicPlatform {
     constructor(game, x, y, width, height, levelHeight) {
         Object.assign(this, { game, x, width, height, levelHeight});
 
+        //entity status
+        this.removeFromWorld = false;
+
         this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (this.levelHeight - y);
 
         this.spritesheet = ASSET_MANAGER.getAsset("./grass-platform.png");
@@ -96,6 +102,9 @@ class BasicPlatform {
 class MovingPlatform {
     constructor(game, x, y, endX, endY, width, height, inMotion, vertical, levelHeight) {
         Object.assign(this, { game, x, endX, width, height, inMotion, vertical});
+
+        //entity status
+        this.removeFromWorld = false;
 
         this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (levelHeight - y);
         this.endY = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (levelHeight - endY);

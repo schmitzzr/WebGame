@@ -17,6 +17,9 @@ class Portal{
         this.sheetX = 0;
         this.sheetY = 0;
 
+        //entity status
+        this.removeFromWorld = false;
+
         this.determinePortal();
 
         this.updateBB();

@@ -4,8 +4,10 @@ class JumpSprite {
         this.game = game;
         this.game.jumpsprite = this;
 
-        //character status
-        this.dead = false; 
+        this.removeFromWorld = false;
+
+        //entity status
+        this.removeFromWorld = false;
         this.health = 100; 
 
         //JumpSprite's .x and .y are different from all of the other entities?

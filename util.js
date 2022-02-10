@@ -63,3 +63,7 @@ const PARAMS = {
     SCALE: 1,
     BITWIDTH: 32
 };
+
+const LEVELPARAMS = {
+    ONE: 64
+};

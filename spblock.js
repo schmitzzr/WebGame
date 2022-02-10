@@ -12,6 +12,9 @@ class Spblock{
         this.sheetX = 0;
         this.sheetY = 0;
         this.determineBlock();
+        
+        //entity status
+        this.removeFromWorld = false;
 
         this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.width, this.height);
         this.updateBB();
