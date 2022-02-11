@@ -23,8 +23,10 @@ class Lever {
 
         if (this.up) {
             if (this.linkUp instanceof MovingPlatform) this.linkUp.inMotion = true;
+            if (this.linkDown instanceof MovingPlatform) this.linkDown.inMotion = false;
         } else {
             if (this.linkUp instanceof MovingPlatform) this.linkUp.inMotion = false;
+            if (this.linkDown instanceof MovingPlatform) this.linkDown.inMotion = true;
         }
 
         if (this.countdown == 0) {

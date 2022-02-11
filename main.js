@@ -9,6 +9,7 @@ ASSET_MANAGER.queueDownload("./spritesheet.png");
 
 
 ASSET_MANAGER.queueDownload("./grass-platform.png");
+ASSET_MANAGER.queueDownload("./move-platform.png");
 ASSET_MANAGER.queueDownload("./big-special.png");
 ASSET_MANAGER.queueDownload("./portal-sheet.png");
 ASSET_MANAGER.queueDownload("./lever_sheet.png");

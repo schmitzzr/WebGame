@@ -27,6 +27,7 @@ class JumpSprite {
         this.state = 0; 
         this.facing = 0; //0==right 1==left
 
+        this.idleCountdown = 200; // how long it takes to trigger idle animation
 
         this.left = false;
         this.right = false;
@@ -75,18 +76,7 @@ class JumpSprite {
         this.anims[3][0] = new Animator(ASSET_MANAGER.getAsset("./spritesheet.png"), 560, 328, 80, 64, 1, 0.1, false); // jump right
 
         this.anims[3][1] = new Animator(ASSET_MANAGER.getAsset("./spritesheet.png"), 560, 328, 80, 64, 1, 0.1, true); // jump left
-
-
         
-        
-        // for (var state = 0; state <4; state++) {
-        //     this.animations.push([]);
-        // }
-
-        // this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./spritesheet.png"), 80, 8, 80, 64, 8, 0.1, false); // move right
-        // this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./spritesheet.png"), 80, 0, 80, 80, 8, 0.1, true); // move left
-        // this.animations[2] = new Animator(ASSET_MANAGER.getAsset("./fire-dino.png"), 0, 0, 64, 64, 1, .5, false); 
-        // this.animations[3] = new Animator(ASSET_MANAGER.getAsset("./fire-dino.png"), 0, 0, 64, 64, 1, .5, true);
     };
 
     updateBB() {
@@ -113,10 +103,10 @@ class JumpSprite {
 
 
         const MIN_WALK = 25;
-        const MAX_WALK = 250;
+        const MAX_WALK = 300;
         const MAX_CRAWL = 50;
 
-        const ACC_WALK = 375;
+        const ACC_WALK = 350;
         const ACC_CRAWL = 75;
         const DEC_REL = 1000;
         const FALL_SPD = 1575;
@@ -239,11 +229,13 @@ class JumpSprite {
                             }
                         }
                         //that.velocity.y = -1500;
+                        entity.removeFromWorld = true;
                         that.hitBomb = true;
                         that.health -= 25;
                     } 
                     else if ((entity instanceof BasicPlatform || (entity instanceof MovingPlatform)) // hit side
                         && (((that.lastBB.left) >= entity.BB.right) || ((that.lastBB.right) >= entity.BB.left))) { // was below last tick                     
+                        
                         if (that.velocity.x < 0) that.x = entity.BB.right - H_OFFSET; // move out of collision
                         else if (that.velocity.x > 0) that.x = entity.BB.left - H_OFFSET - PARAMS.BLOCKWIDTH; // move out of collision
                         
@@ -259,12 +251,16 @@ class JumpSprite {
 
                     }
                 } else if (that.velocity.y < 0) { // jumping or walking 
-                    if (entity instanceof BasicPlatform || (entity instanceof MovingPlatform)) {                   
+                    if (entity instanceof BasicPlatform || entity instanceof MovingPlatform) {                   
                         if ((that.lastBB.top) >= entity.BB.bottom) { // hit ceiling
                             that.velocity.y = 0;
                             that.y = entity.BB.bottom;
+                            if (entity instanceof MovingPlatform) {
+                                entity.updateBB();
+                            }
                         } 
                         else if (((that.lastBB.left) >= entity.BB.right) || ((that.lastBB.right) >= entity.BB.left)) { // hit side                   
+                            
                             if (that.velocity.x < 0) that.x = entity.BB.right - H_OFFSET; // move out of collision
                             else if (that.velocity.x > 0) that.x = entity.BB.left - H_OFFSET - PARAMS.BLOCKWIDTH; // move out of collision
                             that.velocity.x = 0;

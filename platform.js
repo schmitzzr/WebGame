@@ -109,8 +109,20 @@ class MovingPlatform {
         this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (levelHeight - y);
         this.endY = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (levelHeight - endY);
 
-        this.startX = this.x;
-        this.startY = this.y;
+        // initialize lower and upper bounds of movement -- startX should always be lower than endX, etc.
+        if (this.x < this.endX) {
+            this.startX = this.x;
+        } else {
+            this.startX = this.endX;
+            this.endX = this.x;
+        }
+
+        if (this.y < this.endY) {
+            this.startY = this.y;
+        } else {
+            this.startY = this.endY;
+            this.endY = this.y;
+        }
 
         this.velocity = {x: 0, y: 0};
 
@@ -120,7 +132,7 @@ class MovingPlatform {
             this.velocity.x = 3;  // 3 blocks per second
         }
 
-        this.spritesheet = ASSET_MANAGER.getAsset("./grass-platform.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./move-platform.png");
         this.updateBB();
         
     };
@@ -131,22 +143,19 @@ class MovingPlatform {
     };
 
     update() {
-        if (this.inMotion) {
+        // moves back and forth between starting and ending locations
+        if (this.inMotion) {  
             if (this.vertical) {
-                if ((this.startY < this.endY) && 
-                ((this.y > this.endY) || (this.y < this.startY))) {
-                    this.velocity.y = -this.velocity.y;
-                } else if ((this.startY > this.endY) && 
-                ((this.y < this.endY) || (this.y > this.startY))) {
-                    this.velocity.y = -this.velocity.y;
+                if (this.y > this.endY) {
+                    this.velocity.y = -3;
+                } else if (this.y < this.startY) {
+                    this.velocity.y = 3;
                 } 
             } else {
-                if ((this.startX < this.endX) && 
-                ((this.x > this.endX) || (this.x < this.startX))) {
-                    this.velocity.x *= - 1;
-                } else if ((this.startX > this.endX) && 
-                ((this.x < this.endX) || (this.x > this.startX))) {
-                    this.velocity.x = -this.velocity.x;
+                if (this.x > this.endX) {
+                    this.velocity.x = -3;
+                } else if (this.x < this.startX) {
+                    this.velocity.x = 3;
                 } 
             }
             this.x += this.game.clockTick * this.velocity.x * PARAMS.SCALE;
@@ -159,21 +168,30 @@ class MovingPlatform {
 
         var that = this; //that refers to MovingPlatform object.
         this.game.entities.forEach(function (entity) {
-            if (that.velocity.y > 0) {
-                if(entity.BB && that.BB.collide(entity.BB)) {
+            if(entity.BB && that.BB.collide(entity.BB)) {
+                if (that.vertical && that.velocity.y > 0) {
                     if((entity instanceof JumpSprite) && (that.lastBB.bottom) >= entity.BB.top) { // player hits ceiling
+                        that.y -= 5 / PARAMS.BLOCKWIDTH; // bumps it up a slight bit to prevent collisions
                         that.velocity.y = -that.velocity.y;  //reverse direction
-                        //entity.y = that.BB.top - 2*PARAMS.BLOCKWIDTH;
                         entity.velocity.y = 0;
-                        //entity.updateBB();
-                    } else if ((entity instanceof JumpSprite) && (that.lastBB.top) >= entity.BB.bottom - 5) {
-                        entity.y = that.BB.top - 2*PARAMS.BLOCKWIDTH; // because JumpSprite is 2 blocks tall
-                        
-                        entity.velocity.y = that.velocity.y;
+                        that.updateBB();
+                    } 
+                } else if (that.vertical) {
+                    if((entity instanceof JumpSprite) && (that.lastBB.bottom) >= entity.BB.top) { // player hits ceiling
+                        entity.velocity.y = 0;
+                        that.updateBB();
+                    } 
+                }
 
-                        if(entity.state === 3) entity.state = 0; // set state to idle
-                        entity.updateBB();
+                if (!that.vertical && that.inMotion) {               
+                    if (entity instanceof JumpSprite && (that.lastBB.left) <= entity.BB.right) { // hits left side
+                        that.x += 2 / PARAMS.BLOCKWIDTH; 
+                        that.velocity.x = 3;
+                    } else if (entity instanceof JumpSprite && (that.lastBB.right) >= entity.BB.left) { // player hits right side
+                        that.x -= 2 / PARAMS.BLOCKWIDTH;
+                        that.velocity.x = -3;
                     }
+                    that.updateBB();
                 }
             }
         });
