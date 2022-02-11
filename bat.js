@@ -144,6 +144,8 @@ class Bat{
                         that.removeFromWorld = true; //jumping on the head of a bat will trigger a small jump and kill the bat
 
                         that.game.addEntity(new Texteffect(that.game, that.x, that.y, "POP!"));
+                        //that.game.addEntity(new RPG(that.game, that.x, that.y, "left"));
+                        //that.game.addEntity(new Pig(that.game, that.x, that.y ));
                     } //possibility for other collisions
 
                 }
