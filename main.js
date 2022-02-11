@@ -7,10 +7,17 @@ ASSET_MANAGER.queueDownload("./google.png");
 ASSET_MANAGER.queueDownload("./fire-dino.png");
 ASSET_MANAGER.queueDownload("./spritesheet.png");
 
+//decoration
+ASSET_MANAGER.queueDownload("./cherry-blossom.png");
+ASSET_MANAGER.queueDownload("./cherry-blossom-two.png");
 
 ASSET_MANAGER.queueDownload("./grass-platform.png");
 ASSET_MANAGER.queueDownload("./move-platform.png");
 ASSET_MANAGER.queueDownload("./big-special.png");
+
+ASSET_MANAGER.queueDownload("./spike-death.png");
+ASSET_MANAGER.queueDownload("./spikes.png");
+
 ASSET_MANAGER.queueDownload("./portal-sheet.png");
 ASSET_MANAGER.queueDownload("./lever_sheet.png");
 

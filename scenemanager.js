@@ -7,6 +7,7 @@ class SceneManager {
 
         //Current level? I think that the scene manager should probably know this.
         this.currLevel = "World 1";
+        this.gameOver = false;
 
         //might be better for main character... //main character properties. 
         this.score = 0;
@@ -111,7 +112,29 @@ class SceneManager {
         this.game.addEntity(new Bat(this.game, 13, 53, 10, LEVEL_ONE_HEIGHT, 3));
         //this.game.addEntity(new Texteffect(this.game, 13, 53, "Waht"));
 
-        gameEngine.addEntity(new Spblock(gameEngine, 11, 57, "spike", LEVEL_ONE_HEIGHT));
+        // gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 51, "left", LEVEL_ONE_HEIGHT));
+        // gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 53, "right", LEVEL_ONE_HEIGHT));
+        // gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 57, "up", LEVEL_ONE_HEIGHT));
+        //gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 55, "down", LEVEL_ONE_HEIGHT));
+
+        gameEngine.addEntity(new Spikes(gameEngine, 29, 62, "left", LEVEL_ONE_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 29, 60, "left", LEVEL_ONE_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 29, 58, "left", LEVEL_ONE_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 29, 56, "left", LEVEL_ONE_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 29, 54, "left", LEVEL_ONE_HEIGHT, true));
+
+        gameEngine.addEntity(new Spikes(gameEngine, 27, 54, "down", LEVEL_ONE_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 25, 54, "down", LEVEL_ONE_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 23, 54, "down", LEVEL_ONE_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 21, 54, "down", LEVEL_ONE_HEIGHT, true));
+
+        //gameEngine.addEntity(new Spikes(gameEngine, 11, 62, "right", LEVEL_ONE_HEIGHT, true));
+        //gameEngine.addEntity(new Spikes(gameEngine, 13, 54, "up", LEVEL_ONE_HEIGHT, true));
+        gameEngine.addEntity(new CherryBlossom(gameEngine, 4, 40, LEVEL_ONE_HEIGHT));
+        // gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 57, "up", LEVEL_ONE_HEIGHT));
+        // gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 55, "down", LEVEL_ONE_HEIGHT));
+
+        //gameEngine.addEntity(new Spblock(gameEngine, 11, 57, "spike", LEVEL_ONE_HEIGHT));
         gameEngine.addEntity(new Spblock(gameEngine, 13, 58, "health", LEVEL_ONE_HEIGHT));
         gameEngine.addEntity(new Spblock(gameEngine, 15, 58, "flower", LEVEL_ONE_HEIGHT));
         gameEngine.addEntity(new Spblock(gameEngine, 4, 56, "bomb", LEVEL_ONE_HEIGHT));
@@ -171,7 +194,7 @@ class SceneManager {
         ctx.fillText("LEVEL", 21.5 * PARAMS.BITWIDTH, 1 * PARAMS.BITWIDTH);
         ctx.fillText(this.currLevel, 25 * PARAMS.BITWIDTH, 1* PARAMS.BITWIDTH);
 
-        if(currHealth <= 0){
+        if(this.gameOver == true){
             ctx.fillText("GAME OVER", 15*PARAMS.BITWIDTH, 10*PARAMS.BITWIDTH);
         }
 

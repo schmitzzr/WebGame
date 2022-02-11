@@ -9,6 +9,7 @@ class JumpSprite {
         //entity status
         this.removeFromWorld = false;
         this.health = 100; 
+        this.dead = false;
 
         //JumpSprite's .x and .y are different from all of the other entities?
         this.blockX = this.x / PARAMS.BLOCKWIDTH; //.x with respect to blocks
@@ -229,7 +230,8 @@ class JumpSprite {
                             }
                         }
                         //that.velocity.y = -1500;
-                        entity.removeFromWorld = true;
+                        that.game.addEntity(new TextBomb(entity.game, entity.x, entity.y, "BOOOM!"));
+                        entity.removeFromWorld = true; //I also want to add a text explosion!
                         that.hitBomb = true;
                         that.health -= 25;
                     } 
@@ -287,6 +289,59 @@ class JumpSprite {
                     that.x = entity.linkX;
                     //that.onGround = false;
                 }
+                if((entity instanceof Spikes)){ //insta death spikes
+                    if(entity.facing === "right"){
+                        if(that.velocity.x < 0 && (Math.abs((entity.lastBB.x+entity.lastBB.width) - that.lastBB.x ) <= 4 && !that.dead) ){ //if jump sprite is falling and the feet are within 4 pixels of bat top
+                            //in case spikes shouldn't be deadly? 
+                            //that.x += 6;
+                            //that.velocity.x += 500;
+                            that.dead = true;
+                            that.health = 0;
+                            that.game.camera.gameOver = true;
+                            entity.removeFromWorld = true;
+                            that.removeFromWorld = true;
+                            that.game.addEntity(new SpikesCorpse(entity.game, entity.x, entity.y, "right", LEVELPARAMS.ONE));
+                            that.game.addEntity(new Spikes(entity.game, entity.x, entity.y, "right", LEVELPARAMS.ONE), false);
+                            //this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (this.levelHeight - y);
+                        }
+                    } else if(entity.facing === 'left'){
+                        if(that.velocity.x > 0 && (Math.abs((entity.lastBB.x) - (that.lastBB.x + that.lastBB.width) <= 4)) && !that.dead){
+                            that.dead = true;
+                            that.health = 0;
+                            that.game.camera.gameOver = true;
+                            entity.removeFromWorld = true;
+                            that.removeFromWorld = true;
+                            that.game.addEntity(new SpikesCorpse(entity.game, entity.x, entity.y, "left", LEVELPARAMS.ONE));
+                            that.game.addEntity(new Spikes(entity.game, entity.x, entity.y, "left", LEVELPARAMS.ONE), false);
+                        }
+                    } else if(entity.facing === 'up') {
+                        if(that.velocity.y > 0 && (Math.abs((entity.lastBB.y) - (that.lastBB.y + that.lastBB.height) <= 4)) && !that.dead){
+                            that.dead = true;
+                            that.health = 0;
+                            that.game.camera.gameOver = true;
+                            entity.removeFromWorld = true;
+                            that.removeFromWorld = true;
+                            that.game.addEntity(new SpikesCorpse(entity.game, entity.x, entity.y, "up", LEVELPARAMS.ONE));
+                            that.game.addEntity(new Spikes(entity.game, entity.x, entity.y, "up", LEVELPARAMS.ONE), false);
+                        }
+                    } else if(entity.facing === 'down'){
+                        if(that.velocity.y < 0 && (Math.abs((entity.lastBB.y + entity.lastBB.height) - (that.lastBB.y) <= 4)) && !that.dead){
+                            that.dead = true;
+                            that.health = 0;
+                            that.game.camera.gameOver = true;
+                            entity.removeFromWorld = true;
+                            that.removeFromWorld = true;
+                            that.game.addEntity(new SpikesCorpse(entity.game, entity.x, entity.y, "down", LEVELPARAMS.ONE));
+                            that.game.addEntity(new Spikes(entity.game, entity.x, entity.y, "down", LEVELPARAMS.ONE), false);
+                        }
+
+                    }
+                    
+                    
+                }
+                if(entity instanceof CherryBlossom){
+                    that.health += .1;
+                }
             }
         });
 
@@ -298,6 +353,9 @@ class JumpSprite {
         } else {
 
         }
+
+        if(this.health > 100) this.health = 100;
+        if(this.health < 0) this.health = 0;
         
         if (this.velocity.x < 0) this.facing = 1;
         if (this.velocity.x > 0) this.facing = 0;
