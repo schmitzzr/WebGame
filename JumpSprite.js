@@ -99,6 +99,8 @@ class JumpSprite {
         this.crawl = (this.game.keys["s"] || this.game.keys["S"] || this.game.keys["ArrowDown"]);
         this.interact = (this.game.keys["e"] || this.game.keys["E"]);
 
+        //this.power1 = (this.game.keys["c"] || this.game.keys["C"]); //companion power up
+
         const TICK = this.game.clockTick;
 
 
@@ -352,6 +354,31 @@ class JumpSprite {
             else this.state = 0;
         } else {
 
+        }
+
+        if(this.state !== 3) {
+            if(this.game.actionOne){
+                //JumpSprite is in pixels and not with respect to BLOCKWIDTH
+                var trueX = this.x / PARAMS.BLOCKWIDTH;
+                var trueY = this.y / PARAMS.BLOCKWIDTH;
+
+                // Placement of Pig Entity
+                if(trueX < 15){ //(I should also check if immediate next blocks are not empty)
+                    if(this.facing == 0){
+                        this.game.addEntity(new Pig(this.game, trueX+ 1, trueY, "right")); //put pig either one block to the left or right
+                    } else {
+                        this.game.addEntity(new Pig(this.game, trueX+ 1, trueY, "left")); //put pig either one block to the left or right
+                    } 
+                } else { //(I should also check if immediate next blocks are not empty)
+                    if(this.facing == 0){
+                        this.game.addEntity(new Pig(this.game, trueX - 1, trueY, "right"));
+                    } else {
+                        this.game.addEntity(new Pig(this.game, trueX - 1, trueY, "left"));
+                    }
+                    
+                }
+                this.game.actionOne = false;
+            }
         }
 
         if(this.health > 100) this.health = 100;

@@ -11,6 +11,10 @@ ASSET_MANAGER.queueDownload("./spritesheet.png");
 ASSET_MANAGER.queueDownload("./cherry-blossom.png");
 ASSET_MANAGER.queueDownload("./cherry-blossom-two.png");
 
+//bazooka
+ASSET_MANAGER.queueDownload("./bazooka-pig.png");
+ASSET_MANAGER.queueDownload("./bazooka-rpg.png");
+
 ASSET_MANAGER.queueDownload("./grass-platform.png");
 ASSET_MANAGER.queueDownload("./move-platform.png");
 ASSET_MANAGER.queueDownload("./big-special.png");
