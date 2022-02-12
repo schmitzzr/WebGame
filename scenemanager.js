@@ -14,6 +14,13 @@ class SceneManager {
         this.coins = 0;
         this.lives = 3;
 
+        this.level = null;
+
+        this.menuSelectIndex = -10;
+        this.creditsLineIndex = 0;
+        this.menuButtonTimer = 0.15;
+        this.menuButtonCooldown = 0.15;
+
         //this.cointAnimation = new Animator(ASSET_MANAGER.getAsset("..."), 0, 160, 8, 8, 4, 0.2, 0, false);
 
         let debug = false; // set to true if you want to test entities in the debug level
@@ -49,30 +56,21 @@ class SceneManager {
     loadLevelOne() { //less important is loaded first, then mains. 
         this.x = 0
         this.currLevel = "World 1";
+        //this.level = level;
 
         const LEVEL_ONE_HEIGHT = 64;
 
+        //ASSET_MANAGER.pauseBackgroundMusic();
+        ASSET_MANAGER.playAsset("./Audio.mp3");
+
         gameEngine.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 5));
 
-        // gameEngine.addEntity(new Platform(gameEngine, 0, 664, 64));
-        // gameEngine.addEntity(new Platform(gameEngine, 64, 664, 64));
-        // gameEngine.addEntity(new Platform(gameEngine, 64, 600, 64));
-        // gameEngine.addEntity(new Platform(gameEngine, 250, 664, 64));
-        // gameEngine.addEntity(new Platform(gameEngine, 350, 624, 64));
-        // gameEngine.addEntity(new Platform(gameEngine, 64, 528, 64));
-        // gameEngine.addEntity(new Platform(gameEngine, 200, 500, 128));
-
-        // gameEngine.addEntity(new Platform(gameEngine, 364, 164, 64));
-        // gameEngine.addEntity(new Platform(gameEngine, 550, 164, 64));
-        // gameEngine.addEntity(new Platform(gameEngine, 650, 124, 64));
-        // gameEngine.addEntity(new Platform(gameEngine, 364, 28, 64));
-        // gameEngine.addEntity(new Platform(gameEngine, 500, 0, 360));
 
         //test for a moving platform
 
         this.game.addEntity(new MovingPlatform(this.game, 8, 56, 8, 62, 3, 1, true, true, LEVEL_ONE_HEIGHT));
         
-        var movePlatform = new MovingPlatform(this.game, 1, 3, 1, 17, 3, 1, true, true, LEVEL_ONE_HEIGHT)
+        var movePlatform = new MovingPlatform(this.game, 1, 3, 1, 17, 3, 1, true, true, LEVEL_ONE_HEIGHT);
         this.game.addEntity(movePlatform);
 
         this.game.addEntity(new Lever(this.game, 2, 21, LEVEL_ONE_HEIGHT, false, movePlatform));
@@ -152,6 +150,15 @@ class SceneManager {
         //I also want to implement basketballs and hoop....
     };
 
+    updateAudio() {
+        var mute = document.getElementById("mute").checked;
+        var volume = document.getElementById("volume").value;
+
+        ASSET_MANAGER.muteAudio(mute);
+        ASSET_MANAGER.adjustVolume(volume);
+
+    };
+
     update() { //I want the screen to follow the dino both top and bottom. 
         //PARAMS.DEBUG = document.getElementById("debug").checked;
 
@@ -165,7 +172,39 @@ class SceneManager {
         //standard scrolling
         this.y = this.game.jumpsprite.y - VerticalMid;
 
+         // Gamepad control of debug
+         if (this.game.gamepad != null && this.game.gamepad.buttons[8].pressed && this.menuButtonTimer > this.menuButtonCooldown) {
+            if (document.getElementById("debug").checked) {
+                document.getElementById("debug").checked = false;
+            } else {
+                document.getElementById("debug").checked = true;
+            }
+            this.menuButtonTimer = 0;
+        }
 
+        // Gamepad control of debug
+        if (this.game.gamepad != null && this.game.gamepad.buttons[9].pressed && this.menuButtonTimer > this.menuButtonCooldown) {
+            if (document.getElementById("mute").checked) {
+                document.getElementById("mute").checked = false;
+            } else {
+                document.getElementById("mute").checked = true;
+            }
+            this.menuButtonTimer = 0;
+        }
+
+        // Gamepad control of volume slider
+        if (this.game.gamepad != null && Math.abs(this.game.gamepad.axes[2]) > 0.3 && this.menuButtonTimer > this.menuButtonCooldown) {
+            if (this.game.gamepad.axes[2] > 0.3) {
+                document.getElementById("volume").value = parseFloat(document.getElementById("volume").value, 10) + 0.05;
+            } 
+            if (this.game.gamepad.axes[2] < -0.3) {
+                document.getElementById("volume").value -= 0.05;
+            }
+            this.menuButtonTimer = 0;
+        } 
+
+        this.updateAudio();
+        PARAMS.DEBUG = document.getElementById("debug").checked;
 
         // if(this.mario.dead && this.mario.y > PARAMS > BLOCKWIDTH * 16) {
         //     //this.clearEntites();

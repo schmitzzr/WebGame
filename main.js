@@ -27,8 +27,13 @@ ASSET_MANAGER.queueDownload("./lever_sheet.png");
 
 ASSET_MANAGER.queueDownload("./bat.png");
 
+//music
+ASSET_MANAGER.queueDownload("./Audio.mp3");
+
 ASSET_MANAGER.downloadAll(() => {
 	
+	ASSET_MANAGER.autoRepeat("./Audio.mp3");
+
 	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
 
 	const canvas = document.getElementById("gameWorld");
