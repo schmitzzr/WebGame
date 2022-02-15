@@ -15,7 +15,7 @@ class Lever {
 
         this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.width, this.height);
 
-        this.spritesheet = ASSET_MANAGER.getAsset("./lever_sheet.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./image/lever_sheet.png");
     };
 
 

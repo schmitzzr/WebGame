@@ -25,9 +25,9 @@ class Portal{
         this.updateBB();
 
         this.animations = [];
-        this.loadAnimations(); // new Animator(ASSET_MANAGER.getAsset("./google.png"), 0, 0, 64, 64, 1, .5, true);
+        this.loadAnimations(); // new Animator(ASSET_MANAGER.getAsset("./image/google.png"), 0, 0, 64, 64, 1, .5, true);
 
-        this.animator = new Animator(ASSET_MANAGER.getAsset("./portal-sheet.png"), this.sheetX, this.sheetY, this.width, this.height, 3, .5, false);
+        this.animator = new Animator(ASSET_MANAGER.getAsset("./image/portal-sheet.png"), this.sheetX, this.sheetY, this.width, this.height, 3, .5, false);
     };
 
     determinePortal() {
@@ -75,8 +75,8 @@ class Portal{
         }
 
         //one animation for both types of portals.
-        this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./portal-sheet.png"), this.sheetX, this.sheetY, this.width, this.height, 3, .2, false);
-        this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./portal-sheet.png"), this.sheetX, this.sheetY, this.width, this.height, 3, .2, false);
+        this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./image/portal-sheet.png"), this.sheetX, this.sheetY, this.width, this.height, 3, .2, false);
+        this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./image/portal-sheet.png"), this.sheetX, this.sheetY, this.width, this.height, 3, .2, false);
     };
 
 

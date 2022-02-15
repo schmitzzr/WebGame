@@ -27,7 +27,7 @@ class Spikes{
         this.updateBB();
 
         this.animations = [];
-        this.loadAnimations(); // new Animator(ASSET_MANAGER.getAsset("./google.png"), 0, 0, 64, 64, 1, .5, true);
+        this.loadAnimations(); // new Animator(ASSET_MANAGER.getAsset("./image/google.png"), 0, 0, 64, 64, 1, .5, true);
 
     };
 
@@ -93,8 +93,8 @@ class Spikes{
             this.animations.push([]);
         }
 
-        this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./spikes.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
-        this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./spikes.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
+        this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./image/spikes.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
+        this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./image/spikes.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
     };
 
 };
@@ -120,9 +120,8 @@ class SpikesCorpse{
         this.updateBB();
 
         this.animations = [];
-        this.loadAnimations(); // new Animator(ASSET_MANAGER.getAsset("./google.png"), 0, 0, 64, 64, 1, .5, true);
+        this.loadAnimations(); // new Animator(ASSET_MANAGER.getAsset("./image/google.png"), 0, 0, 64, 64, 1, .5, true);
 
-        this.animator = new Animator(ASSET_MANAGER.getAsset("./big-special.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
     };
 
         //I should create a specific bomb animation.
@@ -174,8 +173,8 @@ class SpikesCorpse{
             this.animations.push([]);
         }
 
-        this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./spike-death.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
-        this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./spike-death.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
+        this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./image/spike-death.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
+        this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./image/spike-death.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
     };
 
 };

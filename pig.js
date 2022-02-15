@@ -127,8 +127,8 @@ class Pig{
             this.animations.push([]);
         }
 
-        this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./bazooka-pig.png"), this.sheetX, this.sheetY, this.width, this.height, 6, .3, false); //shooting animation
-        this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./bazooka-pig.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .3, false); //idle
+        this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./image/bazooka-pig.png"), this.sheetX, this.sheetY, this.width, this.height, 6, .3, false); //shooting animation
+        this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./image/bazooka-pig.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .3, false); //idle
     };
 
 };
@@ -158,32 +158,42 @@ constructor(game, x, y, facing) {
 
     this.rpgSpeed = 0.03;
 
+    // What direction is the rpg moving 
+    this.moveRight = false;
+    this.moveLeft = false;
+    this.moveUp = false;
+    this.moveDown = false;
+
+    this.determineD();
+
     this.currTime =  0;
     this.possibleTime = 30; //should be able to last until the end of the screen.
+
+    this.padding = 15;
 
     this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.widt, this.height);
 
 
 };
 
-updateBB() {
+updateBB() { //minimize the size of rpg bouding box
     this.lastBB = this.BB;
     //Yeah this might need some standardization.
-    this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.width, this.height);
-
-    this.currTime += this.game.clockTick;
-    if(this.currTime > this.possibleTime){
-        this.removeFromWorld = true;
-    }
+    this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH + this.padding, this.y * PARAMS.BLOCKWIDTH + this.padding, this.width - (2 * this.padding), this.height - (2 * this.padding));
 };
 
 determineD() {
     if(this.facing === 'right'){
         this.sheetX = 64;
+        this.moveRight = true;
+        this.moveUp = true;
     } else if(this.facing === 'left'){
         this.sheetX = 128;
+        this.moveLeft = true;
+        this.moveUp = true;
     } else {
         this.sheetX = 0;
+        console.log("Error on rpg facing!")
     }
 };
 
@@ -197,17 +207,41 @@ update() {
         this.x -= this.rpgSpeed;
         this.y -= this.rpgSpeed;
     }
+
+    this.currTime += this.game.clockTick;
+    if(this.currTime > this.possibleTime){
+        this.removeFromWorld = true;
+    }
     
 
     this.updateBB();
 
     //collisions for rpg //not yet implemented.
-    // this.game.entities.forEach(function (entity) {
-    //     if(entity.BB && that.BB.collide(entity.BB) && entity instanceof BasicPlatform ){
-    //         that.velocityY = 0;
-    //     }
+    var that = this;
+    this.game.entities.forEach(function (entity) {
+        if(entity.BB && that.BB.collide(entity.BB) && entity instanceof BasicPlatform ){
+            that.rpgSpeed = 0;
+            that.game.addEntity(new TextBomb(that.game, that.x, that.y, "WOW!"));
+            that.removeFromWorld = true;
+        } else if(entity.BB && that.BB.collide(entity.BB) && entity instanceof JumpSprite){
+            that.rpgSpeed = 0;
+            that.game.addEntity(new TextBomb(that.game, that.x, that.y, "WOW!"));
+            that.removeFromWorld = true;
+            entity.health -= 75;
+            if(that.moveRight){
+                entity.velocity.x = 800;
+            } else {
+                entity.velocity.x = -800;
+            }
+            if(that.moveUp){
+                entity.velocity.y = -800;
+            } else {
+                entity.velocity.y = 800;
+            }
+        }
+
         
-    // });
+    });
 
     //if(this.onScreenTime <= 0) this.removeFromWorld = true;
 
@@ -229,8 +263,8 @@ loadAnimations() { //might need animations for movement...
         this.animations.push([]);
     }
 
-    this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./bazooka-rpg.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .3, false);
-    this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./bazooka-rpg.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .3, false);
+    this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./image/bazooka-rpg.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .3, false);
+    this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./image/bazooka-rpg.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .3, false);
 };
 
 };
