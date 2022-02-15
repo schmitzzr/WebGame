@@ -212,9 +212,11 @@ class JumpSprite {
                     
                 }
                 else if(that.velocity.y >= 0) { //falling or walking
-                    if((entity instanceof BasicPlatform) && (that.lastBB.bottom) <= entity.BB.top) {
+                    if((entity instanceof BasicPlatform || entity instanceof WeakPlatform) && (that.lastBB.bottom) <= entity.BB.top) {
                         that.y = entity.BB.top - 2*PARAMS.BLOCKWIDTH; // because JumpSprite is 2 blocks tall
                         that.velocity.y = 0;
+
+                        if (entity instanceof WeakPlatform) entity.state = 1;
 
                         if(that.state === 3) that.state = 0; // set state to idle
                         that.updateBB();
@@ -237,7 +239,7 @@ class JumpSprite {
                         that.hitBomb = true;
                         that.health -= 25;
                     } 
-                    else if ((entity instanceof BasicPlatform || (entity instanceof MovingPlatform)) // hit side
+                    else if ((entity instanceof BasicPlatform || (entity instanceof MovingPlatform) || entity instanceof WeakPlatform) // hit side
                         && (((that.lastBB.left) >= entity.BB.right) || ((that.lastBB.right) >= entity.BB.left))) { // was below last tick                     
                         
                         if (that.velocity.x < 0) that.x = entity.BB.right - H_OFFSET; // move out of collision
@@ -255,7 +257,7 @@ class JumpSprite {
 
                     }
                 } else if (that.velocity.y < 0) { // jumping or walking 
-                    if (entity instanceof BasicPlatform || entity instanceof MovingPlatform) {                   
+                    if (entity instanceof BasicPlatform || entity instanceof MovingPlatform || entity instanceof WeakPlatform) {                   
                         if ((that.lastBB.top) >= entity.BB.bottom) { // hit ceiling
                             that.velocity.y = 0;
                             that.y = entity.BB.bottom;
@@ -345,7 +347,7 @@ class JumpSprite {
                     that.health += .1;
                 }
                 if(entity instanceof Door){
-                    if(that.game.actionTwo){
+                    if(that.interact){
                         entity.openDoor = true;
                         that.game.actionTwo = false;
                     }

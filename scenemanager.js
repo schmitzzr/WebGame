@@ -47,7 +47,7 @@ class SceneManager {
         var horzPlatform = new MovingPlatform(this.game, 21, 60, 26, 50, 3, 1, true, false, DEBUG_HEIGHT);
         this.game.addEntity(vertPlatform);
         this.game.addEntity(horzPlatform);
-        this.game.addEntity(new BasicPlatform(this.game, 20, 62, 3, 1, DEBUG_HEIGHT));
+        this.game.addEntity(new WeakPlatform(this.game, 3, 62, 3, 1, DEBUG_HEIGHT));
 
         //lever
         this.game.addEntity(new Lever(this.game, 2, 62, DEBUG_HEIGHT, false, vertPlatform, horzPlatform));
@@ -130,7 +130,7 @@ class SceneManager {
         //gameEngine.addEntity(new Spikes(gameEngine, 13, 54, "up", LEVEL_ONE_HEIGHT, true));
 
         //gameEngine.addEntity(new CherryBlossom(gameEngine, 8, 40, LEVEL_ONE_HEIGHT));
-        gameEngine.addEntity(new Door(gameEngine, 8, 40, LEVEL_ONE_HEIGHT));
+        gameEngine.addEntity(new Door(gameEngine, 25, 2, LEVEL_ONE_HEIGHT));
 
         // gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 57, "up", LEVEL_ONE_HEIGHT));
         // gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 55, "down", LEVEL_ONE_HEIGHT));

@@ -20,6 +20,7 @@ ASSET_MANAGER.queueDownload("./image/door.png");
 
 ASSET_MANAGER.queueDownload("./image/grass-platform.png");
 ASSET_MANAGER.queueDownload("./image/move-platform.png");
+ASSET_MANAGER.queueDownload("./image/weak-platform.png");
 ASSET_MANAGER.queueDownload("./image/big-special.png");
 
 ASSET_MANAGER.queueDownload("./image/spike-death.png");

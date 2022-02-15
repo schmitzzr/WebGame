@@ -35,15 +35,15 @@ class Texteffect {
 };
 
 class TextBomb {
-    constructor(game, x, y, message) {
-        Object.assign(this, {game, x, y, message});
+    constructor(game, x, y, message, onScreenTime = 100) {
+        Object.assign(this, {game, x, y, message, onScreenTime});
 
         //this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (LEVELPARAMS.ONE - y);
-        this.alpha = 1.0
+        this.alpha = this.onScreenTime / 100;
         //entity status
         this.removeFromWorld = false;
 
-        this.onScreenTime = 100;
+        //this.onScreenTime = 100;
 
         this.tickAmount = 1;
 

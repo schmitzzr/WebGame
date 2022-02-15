@@ -215,3 +215,61 @@ class MovingPlatform {
 
     };
 };
+
+class WeakPlatform {
+    constructor(game, x, y, width, height, levelHeight, duration = 250) {
+        Object.assign(this, { game, x, width, height, duration, levelHeight});
+
+        //entity status
+        this.removeFromWorld = false;
+
+        this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (levelHeight - y);
+
+        this.state = 0; //0 for intact, 1 for cracking, 2 for breaking
+
+        this.countdown = this.duration;
+
+        // initialize lower and upper bounds of movement -- startX should always be lower than endX, etc.
+
+        this.spritesheet = ASSET_MANAGER.getAsset("./image/weak-platform.png");
+        this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.width * PARAMS.BLOCKWIDTH, this.height * PARAMS.BLOCKWIDTH);
+        
+    };
+
+    update() {
+        if (this.state > 0) {
+            this.countdown -= 1;
+            if (this.countdown <= this.duration / 2) this.state = 2;
+        }
+
+        if (this.countdown <= 0) {
+            this.game.addEntity(new TextBomb(this.game, this.x, this.y, "BREAK!", 10)); // possibly removed
+            this.removeFromWorld = true;
+        }
+
+        //collisions
+    };
+
+    draw(ctx) {
+
+        let wBrickCount = this.width;
+        let hBrickCount = this.height;
+
+        for (var i = 0; i < wBrickCount; i++) {
+            for (var j = 0; j < hBrickCount; j++) {
+                if (this.state == 0)
+                    ctx.drawImage(this.spritesheet, 0,0, 32, 32, (this.x + i) * PARAMS.BLOCKWIDTH, (this.y + j)*PARAMS.BLOCKWIDTH - this.game.camera.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+                else if (this.state == 1)
+                    ctx.drawImage(this.spritesheet, 32,0, 32, 32, (this.x + i) * PARAMS.BLOCKWIDTH, (this.y + j)*PARAMS.BLOCKWIDTH - this.game.camera.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+                else if (this.state == 2)    
+                    ctx.drawImage(this.spritesheet, 64,0, 32, 32, (this.x + i) * PARAMS.BLOCKWIDTH, (this.y + j)*PARAMS.BLOCKWIDTH - this.game.camera.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+            }
+        }
+
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+        }
+
+    };
+};
