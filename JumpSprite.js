@@ -47,7 +47,7 @@ class JumpSprite {
         this.anims = [];
         this.loadAnimations();
 
-        this.animator = new Animator(ASSET_MANAGER.getAsset("./google.png"), 0, 0, 64, 64, 1, .5, false);
+        this.animator = new Animator(ASSET_MANAGER.getAsset("./image/google.png"), 0, 0, 64, 64, 1, .5, false);
     };
 
     loadAnimations() {
@@ -59,24 +59,24 @@ class JumpSprite {
         }
 
         // idle look up -> state = 0
-        this.anims[0][0] = new Animator(ASSET_MANAGER.getAsset("./spritesheet.png"), 0, 648, 80, 64, 7, 0.2, false); // facing right
+        this.anims[0][0] = new Animator(ASSET_MANAGER.getAsset("./image/spritesheet.png"), 0, 648, 80, 64, 7, 0.2, false); // facing right
 
-        this.anims[0][1] = new Animator(ASSET_MANAGER.getAsset("./spritesheet.png"), 0, 648, 80, 64, 7, 0.2, true); // facing left
+        this.anims[0][1] = new Animator(ASSET_MANAGER.getAsset("./image/spritesheet.png"), 0, 648, 80, 64, 7, 0.2, true); // facing left
 
         // walking -> state = 1
-        this.anims[1][0] = new Animator(ASSET_MANAGER.getAsset("./spritesheet.png"), 80, 8, 80, 64, 8, 0.1, false); // move right
+        this.anims[1][0] = new Animator(ASSET_MANAGER.getAsset("./image/spritesheet.png"), 80, 8, 80, 64, 8, 0.1, false); // move right
         
-        this.anims[1][1] = new Animator(ASSET_MANAGER.getAsset("./spritesheet.png"), 80, 8, 80, 64, 8, 0.1, true); // move leftddd
+        this.anims[1][1] = new Animator(ASSET_MANAGER.getAsset("./image/spritesheet.png"), 80, 8, 80, 64, 8, 0.1, true); // move leftddd
         
         // crawling -> state = 2
-        this.anims[2][0] = new Animator(ASSET_MANAGER.getAsset("./spritesheet.png"), 400, 88, 80, 64, 7, 0.1, false); // crawl right
+        this.anims[2][0] = new Animator(ASSET_MANAGER.getAsset("./image/spritesheet.png"), 400, 88, 80, 64, 7, 0.1, false); // crawl right
         
-        this.anims[2][1] = new Animator(ASSET_MANAGER.getAsset("./spritesheet.png"), 400, 88, 80, 64, 7, 0.1, true); // crawl left
+        this.anims[2][1] = new Animator(ASSET_MANAGER.getAsset("./image/spritesheet.png"), 400, 88, 80, 64, 7, 0.1, true); // crawl left
 
         // jumping -> state = 3
-        this.anims[3][0] = new Animator(ASSET_MANAGER.getAsset("./spritesheet.png"), 560, 328, 80, 64, 1, 0.1, false); // jump right
+        this.anims[3][0] = new Animator(ASSET_MANAGER.getAsset("./image/spritesheet.png"), 560, 328, 80, 64, 1, 0.1, false); // jump right
 
-        this.anims[3][1] = new Animator(ASSET_MANAGER.getAsset("./spritesheet.png"), 560, 328, 80, 64, 1, 0.1, true); // jump left
+        this.anims[3][1] = new Animator(ASSET_MANAGER.getAsset("./image/spritesheet.png"), 560, 328, 80, 64, 1, 0.1, true); // jump left
         
     };
 
@@ -344,6 +344,12 @@ class JumpSprite {
                 if(entity instanceof CherryBlossom){
                     that.health += .1;
                 }
+                if(entity instanceof Door){
+                    if(that.game.actionTwo){
+                        entity.openDoor = true;
+                        that.game.actionTwo = false;
+                    }
+                }
             }
         });
 
@@ -381,8 +387,12 @@ class JumpSprite {
             }
         }
 
+
         if(this.health > 100) this.health = 100;
         if(this.health < 0) this.health = 0;
+        if(this.health == 0){
+            this.game.camera.gameOver = true;
+        }
         
         if (this.velocity.x < 0) this.facing = 1;
         if (this.velocity.x > 0) this.facing = 0;

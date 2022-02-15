@@ -3,29 +3,32 @@ const gameEngine = new GameEngine();
 const ASSET_MANAGER = new AssetManager();
 
 
-ASSET_MANAGER.queueDownload("./google.png");
+ASSET_MANAGER.queueDownload("./image/google.png");
 ASSET_MANAGER.queueDownload("./fire-dino.png");
-ASSET_MANAGER.queueDownload("./spritesheet.png");
+ASSET_MANAGER.queueDownload("./image/spritesheet.png");
 
 //decoration
-ASSET_MANAGER.queueDownload("./cherry-blossom.png");
+ASSET_MANAGER.queueDownload("./image/cherry-blossom-three.png");
 ASSET_MANAGER.queueDownload("./cherry-blossom-two.png");
 
 //bazooka
-ASSET_MANAGER.queueDownload("./bazooka-pig.png");
-ASSET_MANAGER.queueDownload("./bazooka-rpg.png");
+ASSET_MANAGER.queueDownload("./image/bazooka-pig.png");
+ASSET_MANAGER.queueDownload("./image/bazooka-rpg.png");
 
-ASSET_MANAGER.queueDownload("./grass-platform.png");
-ASSET_MANAGER.queueDownload("./move-platform.png");
-ASSET_MANAGER.queueDownload("./big-special.png");
+//door
+ASSET_MANAGER.queueDownload("./image/door.png");
 
-ASSET_MANAGER.queueDownload("./spike-death.png");
-ASSET_MANAGER.queueDownload("./spikes.png");
+ASSET_MANAGER.queueDownload("./image/grass-platform.png");
+ASSET_MANAGER.queueDownload("./image/move-platform.png");
+ASSET_MANAGER.queueDownload("./image/big-special.png");
 
-ASSET_MANAGER.queueDownload("./portal-sheet.png");
-ASSET_MANAGER.queueDownload("./lever_sheet.png");
+ASSET_MANAGER.queueDownload("./image/spike-death.png");
+ASSET_MANAGER.queueDownload("./image/spikes.png");
 
-ASSET_MANAGER.queueDownload("./bat.png");
+ASSET_MANAGER.queueDownload("./image/portal-sheet.png");
+ASSET_MANAGER.queueDownload("./image/lever_sheet.png");
+
+ASSET_MANAGER.queueDownload("./image/bat.png");
 
 //music
 ASSET_MANAGER.queueDownload("./Audio.mp3");

@@ -128,7 +128,10 @@ class SceneManager {
 
         //gameEngine.addEntity(new Spikes(gameEngine, 11, 62, "right", LEVEL_ONE_HEIGHT, true));
         //gameEngine.addEntity(new Spikes(gameEngine, 13, 54, "up", LEVEL_ONE_HEIGHT, true));
-        gameEngine.addEntity(new CherryBlossom(gameEngine, 4, 40, LEVEL_ONE_HEIGHT));
+
+        //gameEngine.addEntity(new CherryBlossom(gameEngine, 8, 40, LEVEL_ONE_HEIGHT));
+        gameEngine.addEntity(new Door(gameEngine, 8, 40, LEVEL_ONE_HEIGHT));
+
         // gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 57, "up", LEVEL_ONE_HEIGHT));
         // gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 55, "down", LEVEL_ONE_HEIGHT));
 

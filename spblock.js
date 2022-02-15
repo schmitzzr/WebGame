@@ -20,9 +20,9 @@ class Spblock{
         this.updateBB();
 
         this.animations = [];
-        this.loadAnimations(); // new Animator(ASSET_MANAGER.getAsset("./google.png"), 0, 0, 64, 64, 1, .5, true);
+        this.loadAnimations(); // new Animator(ASSET_MANAGER.getAsset("./image/google.png"), 0, 0, 64, 64, 1, .5, true);
 
-        this.animator = new Animator(ASSET_MANAGER.getAsset("./big-special.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
+        this.animator = new Animator(ASSET_MANAGER.getAsset("./image/big-special.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
     };
 
         //I should create a specific bomb animation.
@@ -74,8 +74,8 @@ class Spblock{
             this.animations.push([]);
         }
 
-        this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./big-special.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
-        this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./big-special.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
+        this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./image/big-special.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
+        this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./image/big-special.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
     };
 
 };

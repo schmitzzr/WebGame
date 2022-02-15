@@ -37,7 +37,7 @@ class Bat{
         this.updateBB();
 
         this.animations = [];
-        this.loadAnimations(); // new Animator(ASSET_MANAGER.getAsset("./google.png"), 0, 0, 64, 64, 1, .5, true);
+        this.loadAnimations(); // new Animator(ASSET_MANAGER.getAsset("./image/google.png"), 0, 0, 64, 64, 1, .5, true);
     };
 
     checkForMain(){
@@ -209,8 +209,8 @@ class Bat{
             this.animations.push([]);
         }
 
-        this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./bat.png"), this.sheetX, this.sheetY, this.width, this.height, 2, .3, false);
-        this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./bat.png"), this.sheetX, this.sheetY, this.width, this.height, 2, .3, false);
+        this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./image/bat.png"), this.sheetX, this.sheetY, this.width, this.height, 2, .3, false);
+        this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./image/bat.png"), this.sheetX, this.sheetY, this.width, this.height, 2, .3, false);
     };
 
 };

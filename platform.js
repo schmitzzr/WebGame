@@ -17,9 +17,9 @@ class Platform {
         //this.updateBB(); 
 
         this.animations = [];
-        this.loadAnimations(); // new Animator(ASSET_MANAGER.getAsset("./google.png"), 0, 0, 64, 64, 1, .5, true);
+        this.loadAnimations(); // new Animator(ASSET_MANAGER.getAsset("./image/google.png"), 0, 0, 64, 64, 1, .5, true);
 
-        this.animator = new Animator(ASSET_MANAGER.getAsset("./google.png"), 0, 0, 64, 64, 1, .5, false);
+        this.animator = new Animator(ASSET_MANAGER.getAsset("./image/google.png"), 0, 0, 64, 64, 1, .5, false);
     };
 
 
@@ -59,8 +59,8 @@ class Platform {
             this.animations.push([]);
         }
 
-        this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./grass-platform.png"), 0, 0, this.width, this.height, 1, .5, false);
-        this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./grass-platform.png"), 0, 0, this.width, this.height, 1, .5, false);
+        this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./image/grass-platform.png"), 0, 0, this.width, this.height, 1, .5, false);
+        this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./image/grass-platform.png"), 0, 0, this.width, this.height, 1, .5, false);
     };
 
 };
@@ -74,7 +74,7 @@ class BasicPlatform {
 
         this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (this.levelHeight - y);
 
-        this.spritesheet = ASSET_MANAGER.getAsset("./grass-platform.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./image/grass-platform.png");
 
         this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.width * PARAMS.BLOCKWIDTH, this.height * PARAMS.BLOCKWIDTH);
     };
@@ -132,7 +132,7 @@ class MovingPlatform {
             this.velocity.x = 3;  // 3 blocks per second
         }
 
-        this.spritesheet = ASSET_MANAGER.getAsset("./move-platform.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./image/move-platform.png");
         this.updateBB();
         
     };

@@ -116,6 +116,9 @@ class GameEngine {
                 case "KeyC":
                     that.actionOne = true;
                     break;
+                case "KeyE":
+                    that.actionTwo = true;
+                    break;
             }
         }, false);
 
@@ -135,6 +138,9 @@ class GameEngine {
                     break;
                 case "KeyC":
                     that.actionOne = false;
+                    break;
+                case "KeyE":
+                    that.actionTwo = false;
                     break;
             }
         }, false);

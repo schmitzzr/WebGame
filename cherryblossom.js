@@ -3,15 +3,15 @@ class CherryBlossom{
     //cherry blossom trees can be placed like any platform/spikes in the scene manager, placement in respect to bottom left corner.
     //while JumpSprite is within the cherry blossoms base bounding box he will be healed. 
     //This bounding box will be represented by a falling cherry blossom animation.
-    constructor(game, x, y, levelHeight) { //I need to know the type of special block! All special blocks are 32 by 32
-        //acceptable types are 'health', 'spike', 'flower', 'bomb'.
+    constructor(game, x, y, levelHeight) {
+
         Object.assign(this, { game, x, y, levelHeight});
         //maybe create a block that reacts to current velocity and maybe changes its direction randomly.
-        this.vertPad = 314
+        this.vertPad = 226
         this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (LEVELPARAMS.ONE - y + (this.vertPad /  PARAMS.BLOCKWIDTH));
 
-        this.width = 362;
-        this.height = 376;
+        this.width = 289;
+        this.height = 290;
 
         this.sheetX = 0;
         this.sheetY = 0;
@@ -23,9 +23,9 @@ class CherryBlossom{
         this.updateBB();
 
         this.animations = [];
-        this.loadAnimations(); // new Animator(ASSET_MANAGER.getAsset("./google.png"), 0, 0, 64, 64, 1, .5, true);
+        this.loadAnimations(); // new Animator(ASSET_MANAGER.getAsset("./image/google.png"), 0, 0, 64, 64, 1, .5, true);
 
-        //this.animator = new Animator(ASSET_MANAGER.getAsset("./big-special.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
+        //this.animator = new Animator(ASSET_MANAGER.getAsset("./image/big-special.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .5, false);
     };
 
 
@@ -58,8 +58,8 @@ class CherryBlossom{
             this.animations.push([]);
         }
 
-        this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./cherry-blossom-two.png"), this.sheetX, this.sheetY, this.width, this.height, 5, .5, false);
-        this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./cherry-blossom-two.png"), this.sheetX, this.sheetY, this.width, this.height, 5, .5, false);
+        this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./image/cherry-blossom-three.png"), this.sheetX, this.sheetY, this.width, this.height, 5, .5, false);
+        this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./image/cherry-blossom-three.png"), this.sheetX, this.sheetY, this.width, this.height, 5, .5, false);
     };
 
 };
