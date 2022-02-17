@@ -220,7 +220,7 @@ class SceneManager {
 
         // Moving Platforms
         var vertPlatform = new MovingPlatform(this.game, 1, 4, 1, 39, 2, 1, false, true, LEVEL_THREE_HEIGHT);
-        //this.game.addEntity(vertPlatform);
+        this.game.addEntity(vertPlatform);
 
         var horizPlatform = new MovingPlatform(this.game, 25, 19, 17, 19, 2, 1, false, false, LEVEL_THREE_HEIGHT);
         this.game.addEntity(horizPlatform);
