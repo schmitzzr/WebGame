@@ -262,7 +262,7 @@ class WeakPlatform {
                 else if (this.state == 1)
                     ctx.drawImage(this.spritesheet, 32,0, 32, 32, (this.x + i) * PARAMS.BLOCKWIDTH, (this.y + j)*PARAMS.BLOCKWIDTH - this.game.camera.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
                 else if (this.state == 2)    
-                    ctx.drawImage(this.spritesheet, 64,0, 32, 32, (this.x + i) * PARAMS.BLOCKWIDTH, (this.y + j)*PARAMS.BLOCKWIDTH - this.game.camera.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+                    ctx.drawImage(this.spritesheet, 64, 0, 32, 32, (this.x + i) * PARAMS.BLOCKWIDTH, (this.y + j)*PARAMS.BLOCKWIDTH - this.game.camera.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
             }
         }
 

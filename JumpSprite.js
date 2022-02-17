@@ -84,11 +84,14 @@ class JumpSprite {
 
     updateBB() {
         this.lastBB = this.BB;
-        if (this.state == 2) {
+        if (this.state === 2) {
             this.BB = new BoundingBox(this.x + this.hOffset, this.y + this.vOffset + PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH) //32x32 hitbox
         } else { 
             this.BB = new BoundingBox(this.x + this.hOffset, this.y + this.vOffset, PARAMS.BLOCKWIDTH, 2*PARAMS.BLOCKWIDTH); //32x64 hitbox
-        }
+        } 
+
+        this.standingBB = new BoundingBox(this.x + this.hOffset, this.y + this.vOffset, PARAMS.BLOCKWIDTH, 2*PARAMS.BLOCKWIDTH);
+
     };
 
     update() {
@@ -102,9 +105,6 @@ class JumpSprite {
         this.interact = (this.game.keys["e"] || this.game.keys["E"]);
 
         //this.power1 = (this.game.keys["c"] || this.game.keys["C"]); //companion power up
-
-
-        var standingBB = new BoundingBox(this.x + this.hOffset, this.y + this.vOffset, PARAMS.BLOCKWIDTH, 2*PARAMS.BLOCKWIDTH);
 
         const TICK = this.game.clockTick;
 
@@ -124,7 +124,7 @@ class JumpSprite {
         var maxJump = -2000;  // this can change with a powerup
 
         //I should also work on pixels / second for velocity.
-        if(this.state != 3) {
+        if(this.state !== 3) {
             
             if (Math.abs(this.velocity.x) < MIN_WALK) {
                 this.velocity.x = 0;
@@ -183,8 +183,8 @@ class JumpSprite {
         if (this.velocity.y >= MAX_FALL) this.velocity.y = MAX_FALL;
         if (this.velocity.y <= maxJump) this.velocity.y = maxJump;
 
-        if (this.velocity.x >= MAX_CRAWL && this.game.keys["s"]) this.velocity.x = MAX_CRAWL;
-        if (this.velocity.x <= -MAX_CRAWL && this.game.keys["s"]) this.velocity.x = -MAX_CRAWL;
+        if (this.velocity.x >= MAX_CRAWL && (this.crawl || this.stayCrawling)) this.velocity.x = MAX_CRAWL;
+        if (this.velocity.x <= -MAX_CRAWL && (this.crawl || this.stayCrawling)) this.velocity.x = -MAX_CRAWL;
         if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
         if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
 
@@ -203,19 +203,12 @@ class JumpSprite {
 
         //updateBB then check for a collision
         var onPlatform = false;
+
+
+
         //collision detection
         var that = this; //that refers to JumpSprite object.
         this.game.entities.forEach(function (entity) {
-            if (that.state == 2) {
-                if (!that.crawl) {
-                    if ((entity instanceof MovingPlatform || entity instanceof BasicPlatform) && (entity.BB.bottom >= standingBB.top)) {
-                        that.state = 0;
-                        that.stayCrawling = false;
-                    } else {
-                        that.stayCrawling = true;
-                    }
-                }
-            }
             if(entity.BB && that.BB.collide(entity.BB)) {
                 if ((entity instanceof MovingPlatform) && (that.lastBB.bottom) <= entity.BB.top + 5) { // +5 because for some reason this works
                     that.y = entity.BB.top - 2*PARAMS.BLOCKWIDTH; // because JumpSprite is 2 blocks tall
@@ -223,7 +216,7 @@ class JumpSprite {
                     that.velocity.y = entity.velocity.y * PARAMS.BLOCKWIDTH;
                     //if (!entity.vertical && that.state == 0) that.velocity.x = entity.velocity.x * PARAMS.BLOCKWIDTH;
                     
-                    if(that.state == 3) that.state = 0; // set state to idle
+                    if(that.state === 3) that.state = 0; // set state to idle
                     that.updateBB();
                     
                 }
@@ -371,9 +364,25 @@ class JumpSprite {
             }
         });
 
+        if (!this.crawl && this.state === 2) {
+            this.state = 1;
+            this.updateBB();
+            this.stayCrawling = false;
+
+            this.game.entities.forEach(function (entity) {
+                if ((entity instanceof MovingPlatform || entity instanceof BasicPlatform)
+                    && (entity.BB && that.BB.collide(entity.BB))) {
+                    that.state = 2;
+                    that.stayCrawling = true;
+                } 
+            });
+        } 
+
+        
+
         // update state
         if (this.state !== 3) {
-            if (this.crawl || that.stayCrawling) this.state = 2;
+            if (this.crawl || this.stayCrawling) this.state = 2;
             else if (Math.abs(this.velocity.x) >= MIN_WALK) this.state = 1;
             else this.state = 0;
         } else {
@@ -410,6 +419,7 @@ class JumpSprite {
         if(this.health < 0) this.health = 0;
         if(this.health == 0){
             this.game.camera.gameOver = true;
+            this.removeFromWorld = true;
         }
         
         if (this.velocity.x < 0) this.facing = 1;
