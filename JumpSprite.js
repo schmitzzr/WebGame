@@ -101,6 +101,9 @@ class JumpSprite {
 
         //this.power1 = (this.game.keys["c"] || this.game.keys["C"]); //companion power up
 
+
+        var standingBB = new BoundingBox(this.x + this.hOffset, this.y + this.vOffset, PARAMS.BLOCKWIDTH, 2*PARAMS.BLOCKWIDTH);
+
         const TICK = this.game.clockTick;
 
 
@@ -200,6 +203,15 @@ class JumpSprite {
         //collision detection
         var that = this; //that refers to JumpSprite object.
         this.game.entities.forEach(function (entity) {
+            if (that.state == 2) {
+                if (!that.crawl) {
+                    if ((entity instanceof MovingPlatform || entity instanceof BasicPlatform) && (entity.BB.bottom >= standingBB.top)) {
+                        that.state = 0;
+                    } else {
+                        // do nothing
+                    }
+                }
+            }
             if(entity.BB && that.BB.collide(entity.BB)) {
                 if ((entity instanceof MovingPlatform) && (that.lastBB.bottom) <= entity.BB.top + 5) { // +5 because for some reason this works
                     that.y = entity.BB.top - 2*PARAMS.BLOCKWIDTH; // because JumpSprite is 2 blocks tall

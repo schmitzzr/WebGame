@@ -23,9 +23,9 @@ class SceneManager {
 
         //this.cointAnimation = new Animator(ASSET_MANAGER.getAsset("..."), 0, 160, 8, 8, 4, 0.2, 0, false);
 
-        let debug = false; // set to true if you want to test entities in the debug level
-        let lvlOne = true;
-        let lvlTwo = false;
+        let debug = true; // set to true if you want to test entities in the debug level
+        let lvlOne = false;
+        let lvlTwo =  false;
 
         if (debug)  {
             this.loadDebugLevel(); 
@@ -36,6 +36,9 @@ class SceneManager {
         } else {
             this.loadDebugLevel();
         }
+
+        this.loadBackground();
+
     };
 
     //addCoin() {}
@@ -44,8 +47,7 @@ class SceneManager {
     loadDebugLevel() {
         const DEBUG_HEIGHT = 64;
         this.currLevel = "Debug Level";
-        this.game.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 5));
-        
+              
         // platform testing
         this.game.addEntity(new BasicPlatform(this.game, -2, DEBUG_HEIGHT, 36, 1, DEBUG_HEIGHT));
 
@@ -56,7 +58,11 @@ class SceneManager {
         this.game.addEntity(new WeakPlatform(this.game, 3, 62, 3, 1, DEBUG_HEIGHT));
 
         //lever
+
+        this.game.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 5));
+
         this.game.addEntity(new Lever(this.game, 2, 62, DEBUG_HEIGHT, false, vertPlatform, horzPlatform));
+
     }
 
     loadLevelTwo() {
@@ -87,33 +93,33 @@ class SceneManager {
 
         this.game.addEntity(new BasicPlatform(this.game, 18, 40, 14, 2, LEVEL_TWO_HEIGHT));
 
-        var exitPortal1 = new Portal(gameEngine, 25, 20, LEVEL_TWO_HEIGHT, "exit");
-        var startPortal1 = new Portal(gameEngine, 25, 32, LEVEL_TWO_HEIGHT, "start", exitPortal1);
-        gameEngine.addEntity(exitPortal1);
-        gameEngine.addEntity(startPortal1);
+        var exitPortal2 = new Portal(gameEngine, 25, 20, LEVEL_TWO_HEIGHT, "exit");
+        var startPortal2 = new Portal(gameEngine, 25, 32, LEVEL_TWO_HEIGHT, "start", exitPortal2);
+        gameEngine.addEntity(exitPortal2);
+        gameEngine.addEntity(startPortal2);
 
         this.game.addEntity(new BasicPlatform(this.game, 0, 30, 32, 2, LEVEL_TWO_HEIGHT));
 
-        var exitPortal1 = new Portal(gameEngine, 15, 20, LEVEL_TWO_HEIGHT, "exit");
-        var startPortal1 = new Portal(gameEngine, 17, 26, LEVEL_TWO_HEIGHT, "start", exitPortal1);
-        gameEngine.addEntity(exitPortal1);
-        gameEngine.addEntity(startPortal1);
+        var exitPortal3 = new Portal(gameEngine, 15, 20, LEVEL_TWO_HEIGHT, "exit");
+        var startPortal3 = new Portal(gameEngine, 17, 26, LEVEL_TWO_HEIGHT, "start", exitPortal3);
+        gameEngine.addEntity(exitPortal3);
+        gameEngine.addEntity(startPortal3);
 
-        var exitPortal1 = new Portal(gameEngine, 10, 20, LEVEL_TWO_HEIGHT, "exit");
-        var startPortal1 = new Portal(gameEngine, 13, 26, LEVEL_TWO_HEIGHT, "start", exitPortal1);
-        gameEngine.addEntity(exitPortal1);
-        gameEngine.addEntity(startPortal1);
+        var exitPortal4 = new Portal(gameEngine, 10, 20, LEVEL_TWO_HEIGHT, "exit");
+        var startPortal4 = new Portal(gameEngine, 13, 26, LEVEL_TWO_HEIGHT, "start", exitPortal4);
+        gameEngine.addEntity(exitPortal4);
+        gameEngine.addEntity(startPortal4);
 
-        var exitPortal1 = new Portal(gameEngine, 4, 20, LEVEL_TWO_HEIGHT, "exit");
-        var startPortal1 = new Portal(gameEngine, 7, 26, LEVEL_TWO_HEIGHT, "start", exitPortal1);
-        gameEngine.addEntity(exitPortal1);
-        gameEngine.addEntity(startPortal1);
+        var exitPortal5 = new Portal(gameEngine, 4, 20, LEVEL_TWO_HEIGHT, "exit");
+        var startPortal5 = new Portal(gameEngine, 7, 26, LEVEL_TWO_HEIGHT, "start", exitPortal5);
+        gameEngine.addEntity(exitPortal5);
+        gameEngine.addEntity(startPortal5);
 
         //exit the portal tunnel
-        var exitPortal1 = new Portal(gameEngine, 5, 9, LEVEL_TWO_HEIGHT, "exit");
-        var startPortal1 = new Portal(gameEngine, 1, 26, LEVEL_TWO_HEIGHT, "start", exitPortal1);
-        gameEngine.addEntity(exitPortal1);
-        gameEngine.addEntity(startPortal1);
+        var exitPortal6 = new Portal(gameEngine, 1, 26, LEVEL_TWO_HEIGHT, "exit");
+        var startPortal6 = new Portal(gameEngine, 5, 9, LEVEL_TWO_HEIGHT, "start", exitPortal6);
+        gameEngine.addEntity(exitPortal6);
+        gameEngine.addEntity(startPortal6);
 
         //spikes for tunnel
         gameEngine.addEntity(new Spikes(gameEngine, 0, 28, "up", LEVEL_TWO_HEIGHT, true));
@@ -191,8 +197,6 @@ class SceneManager {
         //ASSET_MANAGER.pauseBackgroundMusic();
         ASSET_MANAGER.playAsset("./Audio.mp3");
 
-        gameEngine.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 5));
-
 
         //test for a moving platform
 
@@ -200,8 +204,6 @@ class SceneManager {
         
         var movePlatform = new MovingPlatform(this.game, 1, 3, 1, 17, 3, 1, true, true, LEVEL_ONE_HEIGHT);
         this.game.addEntity(movePlatform);
-
-        this.game.addEntity(new Lever(this.game, 2, 21, LEVEL_ONE_HEIGHT, false, movePlatform));
 
         this.game.addEntity(new BasicPlatform(this.game, 13, 57, 5, 1, LEVEL_ONE_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 21, 53, 10, 1, LEVEL_ONE_HEIGHT));
@@ -258,7 +260,6 @@ class SceneManager {
         //gameEngine.addEntity(new Spikes(gameEngine, 13, 54, "up", LEVEL_ONE_HEIGHT, true));
 
         //gameEngine.addEntity(new CherryBlossom(gameEngine, 8, 40, LEVEL_ONE_HEIGHT));
-        gameEngine.addEntity(new Door(gameEngine, 25, 2, LEVEL_ONE_HEIGHT));
 
         // gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 57, "up", LEVEL_ONE_HEIGHT));
         // gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 55, "down", LEVEL_ONE_HEIGHT));
@@ -272,14 +273,25 @@ class SceneManager {
         //this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, LEVEL_ONE_HEIGHT, LEVEL_ONE_HEIGHT));
         //this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, LEVEL_ONE_HEIGHT, LEVEL_ONE_HEIGHT));
 
+        gameEngine.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 5)); // platforms and 
+
+        //Levers, Doors, Portals, and Power-ups should be loaded after the JumpSprite
+
         var exitPortal1 = new Portal(gameEngine, 21, 32, LEVEL_ONE_HEIGHT, "exit");
         var startPortal1 = new Portal(gameEngine, 19, 58, LEVEL_ONE_HEIGHT, "start", exitPortal1);
         gameEngine.addEntity(exitPortal1);
         gameEngine.addEntity(startPortal1);
 
+        this.game.addEntity(new Lever(this.game, 2, 21, LEVEL_ONE_HEIGHT, false, movePlatform));
+        this.game.addEntity(new Door(gameEngine, 25, 2, LEVEL_ONE_HEIGHT));
+
         //I'm also contemplating creating a grapple hook ...
         //I also want to implement basketballs and hoop....
     };
+
+    loadBackground() {
+
+    }
 
     updateAudio() {
         var mute = document.getElementById("mute").checked;
