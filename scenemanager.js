@@ -24,7 +24,7 @@ class SceneManager {
         //this.cointAnimation = new Animator(ASSET_MANAGER.getAsset("..."), 0, 160, 8, 8, 4, 0.2, 0, false);
 
         let debug = true; // set to true if you want to test entities in the debug level
-        let lvlOne = false;
+        let lvlOne = true;
         let lvlTwo =  false;
 
         if (debug)  {
@@ -55,7 +55,8 @@ class SceneManager {
         var horzPlatform = new MovingPlatform(this.game, 21, 60, 26, 50, 3, 1, true, false, DEBUG_HEIGHT);
         this.game.addEntity(vertPlatform);
         this.game.addEntity(horzPlatform);
-        this.game.addEntity(new WeakPlatform(this.game, 3, 62, 3, 1, DEBUG_HEIGHT));
+        this.game.addEntity(new WeakPlatform(this.game, 7, 62, 3, 1, DEBUG_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 4, 62, 3, 1, DEBUG_HEIGHT));
 
         //lever
 
@@ -261,10 +262,6 @@ class SceneManager {
 
         //gameEngine.addEntity(new CherryBlossom(gameEngine, 8, 40, LEVEL_ONE_HEIGHT));
 
-        // gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 57, "up", LEVEL_ONE_HEIGHT));
-        // gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 55, "down", LEVEL_ONE_HEIGHT));
-
-        //gameEngine.addEntity(new Spblock(gameEngine, 11, 57, "spike", LEVEL_ONE_HEIGHT));
         gameEngine.addEntity(new Spblock(gameEngine, 13, 58, "health", LEVEL_ONE_HEIGHT));
         gameEngine.addEntity(new Spblock(gameEngine, 15, 58, "flower", LEVEL_ONE_HEIGHT));
         gameEngine.addEntity(new Spblock(gameEngine, 4, 56, "bomb", LEVEL_ONE_HEIGHT));

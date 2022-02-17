@@ -28,6 +28,8 @@ class JumpSprite {
         this.state = 0; 
         this.facing = 0; //0==right 1==left
 
+        this.stayCrawling = false;
+
         this.idleCountdown = 200; // how long it takes to trigger idle animation
 
         this.left = false;
@@ -197,6 +199,7 @@ class JumpSprite {
         
         this.updateBB();
 
+        console.log(this.stayCrawling);
 
         //updateBB then check for a collision
         var onPlatform = false;
@@ -207,8 +210,9 @@ class JumpSprite {
                 if (!that.crawl) {
                     if ((entity instanceof MovingPlatform || entity instanceof BasicPlatform) && (entity.BB.bottom >= standingBB.top)) {
                         that.state = 0;
+                        that.stayCrawling = false;
                     } else {
-                        // do nothing
+                        that.stayCrawling = true;
                     }
                 }
             }
@@ -217,9 +221,9 @@ class JumpSprite {
                     that.y = entity.BB.top - 2*PARAMS.BLOCKWIDTH; // because JumpSprite is 2 blocks tall
                     
                     that.velocity.y = entity.velocity.y * PARAMS.BLOCKWIDTH;
-                    //that.velocity.x = entity.velocity.x * PARAMS.BLOCKWIDTH;
+                    //if (!entity.vertical && that.state == 0) that.velocity.x = entity.velocity.x * PARAMS.BLOCKWIDTH;
                     
-                    if(that.state === 3) that.state = 0; // set state to idle
+                    if(that.state == 3) that.state = 0; // set state to idle
                     that.updateBB();
                     
                 }
@@ -369,7 +373,7 @@ class JumpSprite {
 
         // update state
         if (this.state !== 3) {
-            if (this.game.keys["s"]) this.state = 2;
+            if (this.crawl || that.stayCrawling) this.state = 2;
             else if (Math.abs(this.velocity.x) >= MIN_WALK) this.state = 1;
             else this.state = 0;
         } else {
