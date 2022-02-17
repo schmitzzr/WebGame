@@ -4,8 +4,6 @@ class JumpSprite {
         this.game = game;
         this.game.jumpsprite = this;
 
-        this.removeFromWorld = false;
-
         //entity status
         this.removeFromWorld = false;
         this.health = 100; 
@@ -29,8 +27,6 @@ class JumpSprite {
         this.facing = 0; //0==right 1==left
 
         this.stayCrawling = false;
-
-        this.idleCountdown = 200; // how long it takes to trigger idle animation
 
         this.left = false;
         this.right = false;
@@ -79,6 +75,7 @@ class JumpSprite {
         this.anims[3][0] = new Animator(ASSET_MANAGER.getAsset("./image/spritesheet.png"), 560, 328, 80, 64, 1, 0.1, false); // jump right
 
         this.anims[3][1] = new Animator(ASSET_MANAGER.getAsset("./image/spritesheet.png"), 560, 328, 80, 64, 1, 0.1, true); // jump left
+
         
     };
 
@@ -90,7 +87,7 @@ class JumpSprite {
             this.BB = new BoundingBox(this.x + this.hOffset, this.y + this.vOffset, PARAMS.BLOCKWIDTH, 2*PARAMS.BLOCKWIDTH); //32x64 hitbox
         } 
 
-        this.standingBB = new BoundingBox(this.x + this.hOffset, this.y + this.vOffset, PARAMS.BLOCKWIDTH, 2*PARAMS.BLOCKWIDTH);
+        //this.standingBB = new BoundingBox(this.x + this.hOffset, this.y + this.vOffset, PARAMS.BLOCKWIDTH, 2*PARAMS.BLOCKWIDTH);
 
     };
 
@@ -107,8 +104,6 @@ class JumpSprite {
         //this.power1 = (this.game.keys["c"] || this.game.keys["C"]); //companion power up
 
         const TICK = this.game.clockTick;
-
-
 
         const MIN_WALK = 25;
         const MAX_WALK = 300;
@@ -140,21 +135,21 @@ class JumpSprite {
             else if (Math.abs(this.velocity.x) >= MIN_WALK) {
                 if (this.facing == 0) {
                     if (this.right && !this.left) { // walking right
-                        if (this.game.keys["s"]) {
+                        if (this.crawl) {
                             this.velocity.x += ACC_CRAWL * TICK;
                         } else this.velocity.x += ACC_WALK * TICK; 
                     } else this.velocity.x -= DEC_REL * TICK;
                 }
                 if (this.facing == 1) {
                     if (this.left && !this.right) { // walking right
-                        if (this.game.keys["s"]) {
+                        if (this.crawl) {
                             this.velocity.x -= ACC_CRAWL * TICK;
                         } else this.velocity.x -= ACC_WALK * TICK;
                     } else this.velocity.x += DEC_REL * TICK;
                 }
             }
 
-            if (this.jump) {
+            if (this.jump && !this.stayCrawling) {
                 if (Math.abs(this.velocity.x) < 16) {  // shorter jump if standing still
                     this.velocity.y = -800;
                 }
@@ -196,15 +191,8 @@ class JumpSprite {
         if(this.x <= -PARAMS.BLOCKWIDTH) this.x = PARAMS.CANVAS_WIDTH;
         if(this.x >= PARAMS.CANVAS_WIDTH + PARAMS.BLOCKWIDTH) this.x = -PARAMS.BLOCKWIDTH;
         
-        
-        this.updateBB();
-
-        console.log(this.stayCrawling);
-
         //updateBB then check for a collision
-        var onPlatform = false;
-
-
+        this.updateBB();
 
         //collision detection
         var that = this; //that refers to JumpSprite object.
@@ -370,7 +358,7 @@ class JumpSprite {
             this.stayCrawling = false;
 
             this.game.entities.forEach(function (entity) {
-                if ((entity instanceof MovingPlatform || entity instanceof BasicPlatform)
+                if ((entity instanceof MovingPlatform || entity instanceof BasicPlatform || entity instanceof WeakPlatform)
                     && (entity.BB && that.BB.collide(entity.BB))) {
                     that.state = 2;
                     that.stayCrawling = true;

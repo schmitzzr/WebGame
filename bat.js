@@ -197,10 +197,13 @@ class Bat{
     };
 
     draw(ctx) {
-        ctx.strokeStyle = "Green";
-        ctx.strokeRect(this.BB.left, this.BB.top - this.game.camera.y, this.BB.width, this.BB.height); //strokeRect(x, y, width, height);
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = "Green";
+            ctx.strokeRect(this.BB.left, this.BB.top - this.game.camera.y, this.BB.width, this.BB.height); //strokeRect(x, y, width, height);
+        }
 
         this.animations[0].drawFrame(this.game.clockTick, ctx, this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH - this.game.camera.y);
+        
     };
 
     loadAnimations() { //might need animations for movement...

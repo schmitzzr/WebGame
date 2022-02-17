@@ -23,7 +23,7 @@ class SceneManager {
 
         //this.cointAnimation = new Animator(ASSET_MANAGER.getAsset("..."), 0, 160, 8, 8, 4, 0.2, 0, false);
 
-        let debug = true; // set to true if you want to test entities in the debug level
+        let debug = false; // set to true if you want to test entities in the debug level
         let lvlOne = true;
         let lvlTwo =  false;
 
@@ -237,9 +237,11 @@ class SceneManager {
         //experimental bomb
         
         this.game.addEntity(new Spblock(this.game, 29, 51, "bomb", LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new Bat(this.game, 4, 54, 10, LEVEL_ONE_HEIGHT, 2)); 
-        this.game.addEntity(new Bat(this.game, 13, 53, 10, LEVEL_ONE_HEIGHT, 3));
-        //this.game.addEntity(new Texteffect(this.game, 13, 53, "Waht"));
+        
+        // save the bats for level 2
+
+        // this.game.addEntity(new Bat(this.game, 4, 54, 10, LEVEL_ONE_HEIGHT, 2)); 
+        // this.game.addEntity(new Bat(this.game, 13, 53, 10, LEVEL_ONE_HEIGHT, 3));
 
         // gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 51, "left", LEVEL_ONE_HEIGHT));
         // gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 53, "right", LEVEL_ONE_HEIGHT));
@@ -257,13 +259,11 @@ class SceneManager {
         gameEngine.addEntity(new Spikes(gameEngine, 23, 54, "down", LEVEL_ONE_HEIGHT, true));
         gameEngine.addEntity(new Spikes(gameEngine, 21, 54, "down", LEVEL_ONE_HEIGHT, true));
 
-        //gameEngine.addEntity(new Spikes(gameEngine, 11, 62, "right", LEVEL_ONE_HEIGHT, true));
-        //gameEngine.addEntity(new Spikes(gameEngine, 13, 54, "up", LEVEL_ONE_HEIGHT, true));
 
         //gameEngine.addEntity(new CherryBlossom(gameEngine, 8, 40, LEVEL_ONE_HEIGHT));
 
-        gameEngine.addEntity(new Spblock(gameEngine, 13, 58, "health", LEVEL_ONE_HEIGHT));
-        gameEngine.addEntity(new Spblock(gameEngine, 15, 58, "flower", LEVEL_ONE_HEIGHT));
+        // gameEngine.addEntity(new Spblock(gameEngine, 13, 58, "health", LEVEL_ONE_HEIGHT));
+        // gameEngine.addEntity(new Spblock(gameEngine, 15, 58, "flower", LEVEL_ONE_HEIGHT));
         gameEngine.addEntity(new Spblock(gameEngine, 4, 56, "bomb", LEVEL_ONE_HEIGHT));
         
         //used for fully bordered level. Curr testing horizontal wrap

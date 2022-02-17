@@ -4,12 +4,11 @@ const ASSET_MANAGER = new AssetManager();
 
 
 ASSET_MANAGER.queueDownload("./image/google.png");
-ASSET_MANAGER.queueDownload("./fire-dino.png");
 ASSET_MANAGER.queueDownload("./image/spritesheet.png");
 
 //decoration
 ASSET_MANAGER.queueDownload("./image/cherry-blossom-three.png");
-ASSET_MANAGER.queueDownload("./cherry-blossom-two.png");
+ASSET_MANAGER.queueDownload("./image/cherry-blossom-two.png");
 
 //bazooka
 ASSET_MANAGER.queueDownload("./image/bazooka-pig.png");
