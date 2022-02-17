@@ -213,7 +213,7 @@ class JumpSprite {
                         that.y = entity.BB.top - 2*PARAMS.BLOCKWIDTH; // because JumpSprite is 2 blocks tall
                         that.velocity.y = 0;
 
-                        if (entity instanceof WeakPlatform) entity.state = 1;
+                        if (entity instanceof WeakPlatform) entity.breaking = true;
 
                         if(that.state === 3) that.state = 0; // set state to idle
                         that.updateBB();
