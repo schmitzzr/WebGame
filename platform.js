@@ -217,8 +217,8 @@ class MovingPlatform {
 };
 
 class WeakPlatform {
-    constructor(game, x, y, width, height, levelHeight, duration = 250) {
-        Object.assign(this, { game, x, width, height, duration, levelHeight});
+    constructor(game, x, y, width, height, levelHeight, duration) {
+        Object.assign(this, { game, x, width, height, levelHeight});
 
         //entity status
         this.removeFromWorld = false;
@@ -227,7 +227,10 @@ class WeakPlatform {
 
         this.state = 0; //0 for intact, 1 for cracking, 2 for breaking
 
-        this.countdown = this.duration;
+        this.breaking = false;
+
+        this.countdown = duration;
+        this.breakpoint = duration / 2;
 
         // initialize lower and upper bounds of movement -- startX should always be lower than endX, etc.
 
@@ -237,17 +240,16 @@ class WeakPlatform {
     };
 
     update() {
-        if (this.state > 0) {
+        if (this.breaking) {
             this.countdown -= 1;
-            if (this.countdown <= this.duration / 2) this.state = 2;
+            if (this.countdown <= this.breakpoint) this.state = 2;
+            else this.state = 1;
         }
 
         if (this.countdown <= 0) {
             this.game.addEntity(new TextBomb(this.game, this.x, this.y, "BREAK!", 10)); // possibly removed
             this.removeFromWorld = true;
         }
-
-        //collisions
     };
 
     draw(ctx) {
@@ -257,12 +259,12 @@ class WeakPlatform {
 
         for (var i = 0; i < wBrickCount; i++) {
             for (var j = 0; j < hBrickCount; j++) {
-                if (this.state == 0)
-                    ctx.drawImage(this.spritesheet, 0,0, 32, 32, (this.x + i) * PARAMS.BLOCKWIDTH, (this.y + j)*PARAMS.BLOCKWIDTH - this.game.camera.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
-                else if (this.state == 1)
-                    ctx.drawImage(this.spritesheet, 32,0, 32, 32, (this.x + i) * PARAMS.BLOCKWIDTH, (this.y + j)*PARAMS.BLOCKWIDTH - this.game.camera.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
-                else if (this.state == 2)    
+                if (this.state === 2)    
                     ctx.drawImage(this.spritesheet, 64, 0, 32, 32, (this.x + i) * PARAMS.BLOCKWIDTH, (this.y + j)*PARAMS.BLOCKWIDTH - this.game.camera.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+                else if (this.state === 1)
+                    ctx.drawImage(this.spritesheet, 32, 0, 32, 32, (this.x + i) * PARAMS.BLOCKWIDTH, (this.y + j)*PARAMS.BLOCKWIDTH - this.game.camera.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+                else if (this.state === 0)
+                    ctx.drawImage(this.spritesheet, 0, 0, 32, 32, (this.x + i) * PARAMS.BLOCKWIDTH, (this.y + j)*PARAMS.BLOCKWIDTH - this.game.camera.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
             }
         }
 
