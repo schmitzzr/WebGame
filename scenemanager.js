@@ -14,6 +14,9 @@ class SceneManager {
         this.coins = 0;
         this.lives = 3;
 
+        this.timer = 0;
+        this.game.timer = this.timer;
+
         this.level = null;
 
         this.menuSelectIndex = -10;
@@ -23,14 +26,20 @@ class SceneManager {
 
         //this.cointAnimation = new Animator(ASSET_MANAGER.getAsset("..."), 0, 160, 8, 8, 4, 0.2, 0, false);
 
-        this.loadLevel(3); // level number, 0 for debug
+        this.loadLevel(1); // level number, 0 for debug
 
         this.loadBackground();
 
     };
 
+
     //addCoin() {}
-    //clearEntities();
+    clearEntities() {
+        this.game.entities.forEach(function (entity) {
+            entity.removeFromWorld = true;
+        });
+    }
+    
     loadLevel(level) {
 
         switch(level) {
@@ -208,9 +217,9 @@ class SceneManager {
         this.game.addEntity(new BasicPlatform(this.game, 3, 22, 28, 1, LEVEL_THREE_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 3, 31, 28, 1, LEVEL_THREE_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 3, 4, 1, 27, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 1, 40, 4, 4, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 25, 40, 4, 4, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 5, 43, 20, 1, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 40, 4, 3, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 25, 40, 4, 3, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 43, 28, 1, LEVEL_THREE_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 8, 14, 1, 5, LEVEL_THREE_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 9, 18, 4, 1, LEVEL_THREE_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 1, 50, 4, 1, LEVEL_THREE_HEIGHT));
@@ -293,6 +302,9 @@ class SceneManager {
         // Door
         this.game.addEntity(new Door(this.game, 1, 49, LEVEL_THREE_HEIGHT));
 
+        // Background
+        this.game.addEntity(new Background(this.game, "./backgrounds/sunset.png", 1920, 1080, LEVEL_THREE_HEIGHT));
+
     }
 
     // Order of priority:  Platforms/Obstacles > Sprite > Pickups/Levers/Portals/Doors
@@ -309,7 +321,7 @@ class SceneManager {
 
         //test for a moving platform
 
-        this.game.addEntity(new MovingPlatform(this.game, 8, 56, 8, 62, 3, 1, true, true, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new MovingPlatform(this.game, 1, 56, 8, 62, 3, 1, true, true, LEVEL_ONE_HEIGHT));
         
         var movePlatform = new MovingPlatform(this.game, 1, 3, 1, 17, 3, 1, true, true, LEVEL_ONE_HEIGHT);
         this.game.addEntity(movePlatform);
@@ -351,11 +363,6 @@ class SceneManager {
         // this.game.addEntity(new Bat(this.game, 4, 54, 10, LEVEL_ONE_HEIGHT, 2)); 
         // this.game.addEntity(new Bat(this.game, 13, 53, 10, LEVEL_ONE_HEIGHT, 3));
 
-        // gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 51, "left", LEVEL_ONE_HEIGHT));
-        // gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 53, "right", LEVEL_ONE_HEIGHT));
-        // gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 57, "up", LEVEL_ONE_HEIGHT));
-        //gameEngine.addEntity(new SpikesCorpse(gameEngine, 11, 55, "down", LEVEL_ONE_HEIGHT));
-
         this.game.addEntity(new Spikes(this.game, 29, 62, "left", LEVEL_ONE_HEIGHT, true));
         this.game.addEntity(new Spikes(this.game, 29, 60, "left", LEVEL_ONE_HEIGHT, true));
         this.game.addEntity(new Spikes(this.game, 29, 58, "left", LEVEL_ONE_HEIGHT, true));
@@ -391,7 +398,9 @@ class SceneManager {
         this.game.addEntity(new Door(this.game, 25, 2, LEVEL_ONE_HEIGHT));
 
 
-        this.game.addEntity(new ControlsSheet(this.game, 1, 42, 0.5, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new ControlsSheet(this.game, 1, 42, 0.5, LEVEL_ONE_HEIGHT, true));
+
+        this.game.addEntity(new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_ONE_HEIGHT));
 
         //I'm also contemplating creating a grapple hook ...
         //I also want to implement basketballs and hoop....
@@ -476,7 +485,8 @@ class SceneManager {
         var currHealth = this.game.jumpsprite.health
         //not sure I need ctx.translate(0, -10); hack to move elements up by 10 pixels
         ctx.fillStyle = "Black";
-        ctx.font = "20px Georgia"
+        ctx.font = "20px Georgia";
+
         //ctx.lineWidth = ;
         ctx.fillText("HEALTH", 1.5 * PARAMS.BITWIDTH, 1 * PARAMS.BITWIDTH);
         ctx.fillText(currHealth.toFixed(1) + " / 100", 5 * PARAMS.BITWIDTH, 1* PARAMS.BITWIDTH);

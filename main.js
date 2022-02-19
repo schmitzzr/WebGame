@@ -28,8 +28,12 @@ ASSET_MANAGER.queueDownload("./image/spikes.png");
 ASSET_MANAGER.queueDownload("./image/portal-sheet.png");
 ASSET_MANAGER.queueDownload("./image/lever_sheet.png");
 ASSET_MANAGER.queueDownload("./image/control-sheet.png");
+ASSET_MANAGER.queueDownload("./image/control-sheet-muted.png");
 
 ASSET_MANAGER.queueDownload("./image/bat.png");
+
+// backgrounds
+ASSET_MANAGER.queueDownload("./backgrounds/level1background.png");
 
 //music
 ASSET_MANAGER.queueDownload("./Audio.mp3");
