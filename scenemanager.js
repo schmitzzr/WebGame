@@ -26,7 +26,12 @@ class SceneManager {
 
         //this.cointAnimation = new Animator(ASSET_MANAGER.getAsset("..."), 0, 160, 8, 8, 4, 0.2, 0, false);
 
-        this.loadLevel(1); // level number, 0 for debug
+        this.game.jumpsprite = new JumpSprite(game, 0, 0);
+
+        this.title = true;
+        this.levelLoaded = false;
+
+        //this.loadLevel(3); // level number, 0 for debug
 
         this.loadBackground();
 
@@ -303,7 +308,8 @@ class SceneManager {
         this.game.addEntity(new Door(this.game, 1, 49, LEVEL_THREE_HEIGHT));
 
         // Background
-        this.game.addEntity(new Background(this.game, "./backgrounds/sunset.png", 1920, 1080, LEVEL_THREE_HEIGHT));
+        //this.game.addEntity(new Background(this.game, "./backgrounds/sunset.png", 1920, 1080, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_THREE_HEIGHT));
 
     }
 
@@ -402,8 +408,6 @@ class SceneManager {
 
         this.game.addEntity(new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_ONE_HEIGHT));
 
-        //I'm also contemplating creating a grapple hook ...
-        //I also want to implement basketballs and hoop....
     };
 
     loadBackground() {
@@ -466,6 +470,14 @@ class SceneManager {
         this.updateAudio();
         PARAMS.DEBUG = document.getElementById("debug").checked;
 
+        if (this.game.click && this.game.click.y > 14 * PARAMS.BLOCKWIDTH && this.game.click.y < 14.5 * PARAMS.BLOCKWIDTH) {
+            this.title = false;
+            if (!this.levelLoaded) {
+                this.levelLoaded = true;
+                this.loadLevel(1);
+            }
+        }
+
         // if(this.mario.dead && this.mario.y > PARAMS > BLOCKWIDTH * 16) {
         //     //this.clearEntites();
         //     //this.loadLevelOne();
@@ -482,23 +494,32 @@ class SceneManager {
 
     //The scene manager draw function is basically the HUD.
     draw(ctx){ 
-        var currHealth = this.game.jumpsprite.health
+        var currHealth = this.game.jumpsprite.health;
         //not sure I need ctx.translate(0, -10); hack to move elements up by 10 pixels
         ctx.fillStyle = "Black";
-        ctx.font = "20px Georgia";
+        ctx.font = '20px "Press Start 2P"';
+        //ctx.font = "20px Georgia";
 
         //ctx.lineWidth = ;
-        ctx.fillText("HEALTH", 1.5 * PARAMS.BITWIDTH, 1 * PARAMS.BITWIDTH);
-        ctx.fillText(currHealth.toFixed(1) + " / 100", 5 * PARAMS.BITWIDTH, 1* PARAMS.BITWIDTH);
+        if(this.title) {
+            ctx.font = PARAMS.BLOCKWIDTH + 'px "Press Start 2P"';
+            ctx.drawImage(ASSET_MANAGER.getAsset("./backgrounds/title_screen.png"), 0, 0, 1024, 768);
+            if ((this.game.mouse && this.game.mouse.y > 14 * PARAMS.BLOCKWIDTH && this.game.mouse.y < 14.5 * PARAMS.BLOCKWIDTH)) {
+                ctx.fillStyle = "red";
+                ctx.fillText("START", 14 * PARAMS.BLOCKWIDTH, 14.5*PARAMS.BLOCKWIDTH);
+            }
+            ctx.fillText("START", 14 * PARAMS.BLOCKWIDTH, 14.5*PARAMS.BLOCKWIDTH);
+        } else {
+            ctx.fillText("HEALTH", 1.5 * PARAMS.BITWIDTH, 1 * PARAMS.BITWIDTH);
+            ctx.fillText(currHealth.toFixed(1) + " / 100", 6 * PARAMS.BITWIDTH, 1* PARAMS.BITWIDTH);
 
-        ctx.fillText("LEVEL", 21.5 * PARAMS.BITWIDTH, 1 * PARAMS.BITWIDTH);
-        ctx.fillText(this.currLevel, 25 * PARAMS.BITWIDTH, 1* PARAMS.BITWIDTH);
+            ctx.fillText("LEVEL", 21.5 * PARAMS.BITWIDTH, 1 * PARAMS.BITWIDTH);
+            ctx.fillText(this.currLevel, 25 * PARAMS.BITWIDTH, 1* PARAMS.BITWIDTH);
+        }
 
         if(this.gameOver == true){
             ctx.fillText("GAME OVER", 15*PARAMS.BITWIDTH, 10*PARAMS.BITWIDTH);
         }
-
-
 
     }; //should draw all of the stores, world numbers, text drawing stuff. 
 };

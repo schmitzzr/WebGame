@@ -33,6 +33,7 @@ ASSET_MANAGER.queueDownload("./image/control-sheet-muted.png");
 ASSET_MANAGER.queueDownload("./image/bat.png");
 
 // backgrounds
+ASSET_MANAGER.queueDownload("./backgrounds/title_screen.png");
 ASSET_MANAGER.queueDownload("./backgrounds/level1background.png");
 
 //music
