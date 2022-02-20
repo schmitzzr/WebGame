@@ -26,7 +26,7 @@ class SceneManager {
 
         //this.cointAnimation = new Animator(ASSET_MANAGER.getAsset("..."), 0, 160, 8, 8, 4, 0.2, 0, false);
 
-        this.loadLevel(1); // level number, 0 for debug
+        this.loadLevel(3); // level number, 0 for debug
 
         this.loadBackground();
 
@@ -62,6 +62,7 @@ class SceneManager {
     loadDebugLevel() {
         const DEBUG_HEIGHT = 64;
         this.currLevel = "Debug Level";
+        this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, DEBUG_HEIGHT);
               
         // platform testing
         this.game.addEntity(new BasicPlatform(this.game, -2, DEBUG_HEIGHT, 36, 1, DEBUG_HEIGHT));
@@ -86,6 +87,9 @@ class SceneManager {
         this.currLevel = "World 2";
 
         const LEVEL_TWO_HEIGHT = 64;
+        //mod game engine
+        this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_TWO_HEIGHT);
+
 
         gameEngine.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH * 2, PARAMS.BLOCKWIDTH * -36)); //essentially (5, )
 
@@ -132,8 +136,8 @@ class SceneManager {
         gameEngine.addEntity(startPortal5);
 
         //exit the portal tunnel
-        var exitPortal6 = new Portal(gameEngine, 1, 26, LEVEL_TWO_HEIGHT, "exit");
-        var startPortal6 = new Portal(gameEngine, 5, 9, LEVEL_TWO_HEIGHT, "start", exitPortal6);
+        var exitPortal6 = new Portal(gameEngine, 5, 9, LEVEL_TWO_HEIGHT, "exit"); //5 9
+        var startPortal6 = new Portal(gameEngine, 1, 26, LEVEL_TWO_HEIGHT, "start", exitPortal6); //1 26
         gameEngine.addEntity(exitPortal6);
         gameEngine.addEntity(startPortal6);
 
@@ -203,6 +207,8 @@ class SceneManager {
 
         this.currLevel = "World 3";
         const LEVEL_THREE_HEIGHT = 64;
+
+        this.game.background = new Background(this.game, "./backgrounds/sunset.png", 1920, 1080, LEVEL_THREE_HEIGHT);
         
         // borders
         this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, LEVEL_THREE_HEIGHT, LEVEL_THREE_HEIGHT));
@@ -303,7 +309,7 @@ class SceneManager {
         this.game.addEntity(new Door(this.game, 1, 49, LEVEL_THREE_HEIGHT));
 
         // Background
-        this.game.addEntity(new Background(this.game, "./backgrounds/sunset.png", 1920, 1080, LEVEL_THREE_HEIGHT));
+        //this.game.addEntity(new Background(this.game, "./backgrounds/sunset.png", 1920, 1080, LEVEL_THREE_HEIGHT));
 
     }
 
@@ -312,8 +318,12 @@ class SceneManager {
         this.x = 0;
         this.currLevel = "World 1";
         //this.level = level;
-
         const LEVEL_ONE_HEIGHT = 64;
+        //mod game engine
+        this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_ONE_HEIGHT);
+
+
+
 
         //ASSET_MANAGER.pauseBackgroundMusic();
         ASSET_MANAGER.playAsset("./Audio.mp3");
@@ -400,7 +410,7 @@ class SceneManager {
 
         this.game.addEntity(new ControlsSheet(this.game, 1, 42, 0.5, LEVEL_ONE_HEIGHT, true));
 
-        this.game.addEntity(new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_ONE_HEIGHT));
+        //this.game.addEntity(new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_ONE_HEIGHT));
 
         //I'm also contemplating creating a grapple hook ...
         //I also want to implement basketballs and hoop....

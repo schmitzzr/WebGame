@@ -6,8 +6,8 @@ class Pig{
     text bomb. The pig companion should be only used a limited amount of times becuase they are powerful. I'm also
     thinking of implementing some dialouge into the game. All dialouge will be in an array and anyone can modify it.  */
 
-    constructor(game, x, y, facing) {
-        Object.assign(this, { game, x, y, facing});
+    constructor(game, x, y, facing, status) {
+        Object.assign(this, { game, x, y, facing, status}); //status is either good or evil
         
         //voice ideas -> communism my dear brother, some animals are more equal than others, Do not become a cog in the machine! 
 
@@ -54,6 +54,17 @@ class Pig{
 
         this.currTime += this.game.clockTick;
 
+        if(this.status === "good"){
+            this.goodupdate();
+        } else {
+            this.badupdate();
+        }
+
+        
+        
+    };
+
+    goodupdate() {
         //Fire rocket on the fifth frame.
         if(Math.floor(this.currTime / this.frameDur) == 5 && !this.rocketSent && !this.startIdle && !this.endIdle) {
             this.game.addEntity(new RPG(this.game, this.x, this.y, this.facing));
@@ -83,8 +94,32 @@ class Pig{
         });
         this.y += this.velocityY;
 
-        
-        
+    };
+
+    badupdate() {
+        this.startIdle = false;
+
+        if(Math.floor(this.currTime / this.frameDur) == 5 && !this.rocketSent) {
+            this.game.addEntity(new RPG(this.game, this.x, this.y, this.facing));
+            this.rocketSent = true;
+            this.startIdle = true;
+        }
+
+        if(Math.floor(this.currTime / this.frameDur) == 8){
+            this.currTime = 0;
+            this.rocketSent = false;
+            this.startIdle = false;
+        }
+
+        // falling physics for pig entity.
+        var that = this;
+        this.game.entities.forEach(function (entity) {
+            if(entity.BB && that.BB.collide(entity.BB) && entity instanceof BasicPlatform ){
+                that.velocityY = 0;
+            }
+            
+        });
+        this.y += this.velocityY;
     };
 
     updateBB() {
@@ -227,7 +262,7 @@ update() {
             that.rpgSpeed = 0;
             that.game.addEntity(new TextBomb(that.game, that.x, that.y, "WOW!"));
             that.removeFromWorld = true;
-            entity.health -= 75;
+            entity.health -= 2; //the rpg essentially does nothing to the player //might change for bad pigs?
             if(that.moveRight){
                 entity.velocity.x = 800;
             } else {
