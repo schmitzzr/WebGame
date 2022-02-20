@@ -386,15 +386,15 @@ class JumpSprite {
                 // Placement of Pig Entity
                 if(trueX < 15){ //(I should also check if immediate next blocks are not empty)
                     if(this.facing == 0){
-                        this.game.addEntity(new Pig(this.game, trueX+ 1, trueY, "right")); //put pig either one block to the left or right
+                        this.game.addEntity(new Pig(this.game, trueX+ 1, trueY, "right", "good")); //put pig either one block to the left or right
                     } else {
-                        this.game.addEntity(new Pig(this.game, trueX+ 1, trueY, "left")); //put pig either one block to the left or right
+                        this.game.addEntity(new Pig(this.game, trueX+ 1, trueY, "left", "good")); //put pig either one block to the left or right
                     } 
                 } else { //(I should also check if immediate next blocks are not empty)
                     if(this.facing == 0){
-                        this.game.addEntity(new Pig(this.game, trueX - 1, trueY, "right"));
+                        this.game.addEntity(new Pig(this.game, trueX - 1, trueY, "right", "good"));
                     } else {
-                        this.game.addEntity(new Pig(this.game, trueX - 1, trueY, "left"));
+                        this.game.addEntity(new Pig(this.game, trueX - 1, trueY, "left", "good"));
                     }
                     
                 }
