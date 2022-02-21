@@ -24,6 +24,8 @@ class GameEngine {
         this.actionTwo = false;
         this.actionThree = false;
 
+        //scene manager should supply game engine with a field this.background which it uses to paint backgrounds.
+
         // THE KILL SWITCH
         this.running = false;
 
@@ -41,6 +43,20 @@ class GameEngine {
         this.ctx = ctx;
         this.startInput();
         this.timer = new Timer();
+    };
+
+    determineBackground() {
+        if(this.currLevel == 1){
+            return this.oneBackground;
+        } else if(this.currLevel == 2){
+            return this.twoBackground;
+        } else if(this.currLevel == 3){
+            return this.threeBackground;
+        } else {
+            return this.oneBackground;
+        }
+
+
     };
 
     start() {
@@ -155,6 +171,7 @@ class GameEngine {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
+        //this.background.draw(this.ctx) //draw background elements first!
         // Draw latest things first
         for (let i = this.entities.length - 1; i >= 0; i--) {
             this.entities[i].draw(this.ctx, this);
@@ -186,6 +203,9 @@ class GameEngine {
         this.update();
         this.draw();
     };
+
+
+    
 
 };
 
