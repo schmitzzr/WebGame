@@ -26,7 +26,12 @@ class SceneManager {
 
         //this.cointAnimation = new Animator(ASSET_MANAGER.getAsset("..."), 0, 160, 8, 8, 4, 0.2, 0, false);
 
-        this.loadLevel(3); // level number, 0 for debug
+        this.game.jumpsprite = new JumpSprite(game, 0, 0);
+
+        this.title = true;
+        this.levelLoaded = false;
+
+        //this.loadLevel(3); // level number, 0 for debug
 
         this.loadBackground();
 
@@ -62,7 +67,6 @@ class SceneManager {
     loadDebugLevel() {
         const DEBUG_HEIGHT = 64;
         this.currLevel = "Debug Level";
-        this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, DEBUG_HEIGHT);
               
         // platform testing
         this.game.addEntity(new BasicPlatform(this.game, -2, DEBUG_HEIGHT, 36, 1, DEBUG_HEIGHT));
@@ -87,9 +91,6 @@ class SceneManager {
         this.currLevel = "World 2";
 
         const LEVEL_TWO_HEIGHT = 64;
-        //mod game engine
-        this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_TWO_HEIGHT);
-
 
         gameEngine.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH * 2, PARAMS.BLOCKWIDTH * -36)); //essentially (5, )
 
@@ -136,8 +137,8 @@ class SceneManager {
         gameEngine.addEntity(startPortal5);
 
         //exit the portal tunnel
-        var exitPortal6 = new Portal(gameEngine, 5, 9, LEVEL_TWO_HEIGHT, "exit"); //5 9
-        var startPortal6 = new Portal(gameEngine, 1, 26, LEVEL_TWO_HEIGHT, "start", exitPortal6); //1 26
+        var exitPortal6 = new Portal(gameEngine, 1, 26, LEVEL_TWO_HEIGHT, "exit");
+        var startPortal6 = new Portal(gameEngine, 5, 9, LEVEL_TWO_HEIGHT, "start", exitPortal6);
         gameEngine.addEntity(exitPortal6);
         gameEngine.addEntity(startPortal6);
 
@@ -207,8 +208,6 @@ class SceneManager {
 
         this.currLevel = "World 3";
         const LEVEL_THREE_HEIGHT = 64;
-
-        this.game.background = new Background(this.game, "./backgrounds/sunset.png", 1920, 1080, LEVEL_THREE_HEIGHT);
         
         // borders
         this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, LEVEL_THREE_HEIGHT, LEVEL_THREE_HEIGHT));
@@ -310,6 +309,7 @@ class SceneManager {
 
         // Background
         //this.game.addEntity(new Background(this.game, "./backgrounds/sunset.png", 1920, 1080, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_THREE_HEIGHT));
 
     }
 
@@ -318,12 +318,8 @@ class SceneManager {
         this.x = 0;
         this.currLevel = "World 1";
         //this.level = level;
+
         const LEVEL_ONE_HEIGHT = 64;
-        //mod game engine
-        this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_ONE_HEIGHT);
-
-
-
 
         //ASSET_MANAGER.pauseBackgroundMusic();
         ASSET_MANAGER.playAsset("./Audio.mp3");
@@ -410,10 +406,8 @@ class SceneManager {
 
         this.game.addEntity(new ControlsSheet(this.game, 1, 42, 0.5, LEVEL_ONE_HEIGHT, true));
 
-        //this.game.addEntity(new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_ONE_HEIGHT));
 
-        //I'm also contemplating creating a grapple hook ...
-        //I also want to implement basketballs and hoop....
     };
 
     loadBackground() {
@@ -476,6 +470,14 @@ class SceneManager {
         this.updateAudio();
         PARAMS.DEBUG = document.getElementById("debug").checked;
 
+        if (this.game.click && this.game.click.y > 14 * PARAMS.BLOCKWIDTH && this.game.click.y < 14.5 * PARAMS.BLOCKWIDTH) {
+            this.title = false;
+            if (!this.levelLoaded) {
+                this.levelLoaded = true;
+                this.loadLevel(1);
+            }
+        }
+
         // if(this.mario.dead && this.mario.y > PARAMS > BLOCKWIDTH * 16) {
         //     //this.clearEntites();
         //     //this.loadLevelOne();
@@ -492,23 +494,32 @@ class SceneManager {
 
     //The scene manager draw function is basically the HUD.
     draw(ctx){ 
-        var currHealth = this.game.jumpsprite.health
+        var currHealth = this.game.jumpsprite.health;
         //not sure I need ctx.translate(0, -10); hack to move elements up by 10 pixels
         ctx.fillStyle = "Black";
-        ctx.font = "20px Georgia";
+        ctx.font = '20px "Press Start 2P"';
+        //ctx.font = "20px Georgia";
 
         //ctx.lineWidth = ;
-        ctx.fillText("HEALTH", 1.5 * PARAMS.BITWIDTH, 1 * PARAMS.BITWIDTH);
-        ctx.fillText(currHealth.toFixed(1) + " / 100", 5 * PARAMS.BITWIDTH, 1* PARAMS.BITWIDTH);
+        if(this.title) {
+            ctx.font = PARAMS.BLOCKWIDTH + 'px "Press Start 2P"';
+            ctx.drawImage(ASSET_MANAGER.getAsset("./backgrounds/title_screen.png"), 0, 0, 1024, 768);
+            if ((this.game.mouse && this.game.mouse.y > 14 * PARAMS.BLOCKWIDTH && this.game.mouse.y < 14.5 * PARAMS.BLOCKWIDTH)) {
+                ctx.fillStyle = "red";
+                ctx.fillText("START", 14 * PARAMS.BLOCKWIDTH, 14.5*PARAMS.BLOCKWIDTH);
+            }
+            ctx.fillText("START", 14 * PARAMS.BLOCKWIDTH, 14.5*PARAMS.BLOCKWIDTH);
+        } else {
+            ctx.fillText("HEALTH", 1.5 * PARAMS.BITWIDTH, 1 * PARAMS.BITWIDTH);
+            ctx.fillText(currHealth.toFixed(1) + " / 100", 6 * PARAMS.BITWIDTH, 1* PARAMS.BITWIDTH);
 
-        ctx.fillText("LEVEL", 21.5 * PARAMS.BITWIDTH, 1 * PARAMS.BITWIDTH);
-        ctx.fillText(this.currLevel, 25 * PARAMS.BITWIDTH, 1* PARAMS.BITWIDTH);
+            ctx.fillText("LEVEL", 21.5 * PARAMS.BITWIDTH, 1 * PARAMS.BITWIDTH);
+            ctx.fillText(this.currLevel, 25 * PARAMS.BITWIDTH, 1* PARAMS.BITWIDTH);
+        }
 
         if(this.gameOver == true){
             ctx.fillText("GAME OVER", 15*PARAMS.BITWIDTH, 10*PARAMS.BITWIDTH);
         }
-
-
 
     }; //should draw all of the stores, world numbers, text drawing stuff. 
 };
