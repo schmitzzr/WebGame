@@ -13,6 +13,7 @@ class JumpSprite {
         this.blockX = this.x / PARAMS.BLOCKWIDTH; //.x with respect to blocks
         this.blockY = this.y / PARAMS.BLOCKWIDTH; //.y with respect to blocks 
 
+        this.game.levelComplete = false;
 
         this.width = 2 * PARAMS.BLOCKWIDTH;
         this.height = 2 * PARAMS.BLOCKWIDTH;
@@ -41,9 +42,11 @@ class JumpSprite {
 
         this.updateBB();
 
-        //this.animations = [];
+        this.spritesheet = ASSET_MANAGER.getAsset("./image/spritesheet.png");
         this.anims = [];
         this.loadAnimations();
+
+        
 
         this.animator = new Animator(ASSET_MANAGER.getAsset("./image/google.png"), 0, 0, 64, 64, 1, .5, false);
     };
@@ -347,6 +350,7 @@ class JumpSprite {
                     if(that.interact){
                         entity.openDoor = true;
                         that.game.actionTwo = false;
+                        that.game.levelComplete = true;
                     }
                 }
             }
@@ -373,9 +377,7 @@ class JumpSprite {
             if (this.crawl || this.stayCrawling) this.state = 2;
             else if (Math.abs(this.velocity.x) >= MIN_WALK) this.state = 1;
             else this.state = 0;
-        } else {
-
-        }
+        } 
 
         if(this.state !== 3) {
             if(this.game.actionOne){
@@ -404,10 +406,11 @@ class JumpSprite {
 
 
         if(this.health > 100) this.health = 100;
-        if(this.health < 0) this.health = 0;
-        if(this.health == 0){
+        if(this.health <= 0) this.health = 0;
+        if(this.health <= 0){
             this.game.camera.gameOver = true;
-            this.removeFromWorld = true;
+            //this.removeFromWorld = true;
+            this.dead = true;
         }
         
         if (this.velocity.x < 0) this.facing = 1;
