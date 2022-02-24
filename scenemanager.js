@@ -15,14 +15,18 @@ class SceneManager {
         this.lives = 3;
 
         this.timer = 0;
-        this.game.timer = this.timer;
+        this.countingDown = false;
 
         this.level = null;
+        this.levelLabel = null;
+        this.levelTimer = 0;
 
         this.menuSelectIndex = -10;
         this.creditsLineIndex = 0;
         this.menuButtonTimer = 0.15;
         this.menuButtonCooldown = 0.15;
+
+        this.win = false;
 
         //this.cointAnimation = new Animator(ASSET_MANAGER.getAsset("..."), 0, 160, 8, 8, 4, 0.2, 0, false);
 
@@ -31,7 +35,8 @@ class SceneManager {
         this.title = true;
         this.levelLoaded = false;
 
-        //this.loadLevel(3); // level number, 0 for debug
+        this.deathTimer = 0;
+        this.winTimer = 0;
 
         this.loadBackground();
 
@@ -45,21 +50,49 @@ class SceneManager {
         });
     }
     
-    loadLevel(level) {
+    loadLevel(level, transition, title) {
 
-        switch(level) {
+        this.title = title;
+        this.clearEntities();
+
+        this.level = level;
+        switch(this.level) {
             case 1: 
-                this.loadLevelOne();
+                this.timer = 90;
+                this.levelLabel = "LEARNING THE BASICS";
+                if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
+                else {
+                    this.loadLevelOne(); 
+                    this.countingDown = true;
+                };
                 break;
             case 2: 
-                this.loadLevelTwo();
+                this.timer = 120;
+                this.levelLabel = "THINKING WITH PORTALS";
+                if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
+                else {
+                    this.loadLevelTwo(); 
+                    this.countingDown = true;
+                };
                 break;
             case 3: 
-                this.loadLevelThree();
+                this.timer = 120;
+                this.levelLabel = "CHOOSE WISELY";
+                if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
+                else {
+                    this.loadLevelThree(); 
+                    this.countingDown = true;
+                };
                 break;
-            default:
+            // case 4:
+            //     this.levelLabel = "LEVERING THE PLAYING FIELD";
+            //     if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
+            //     else this.loadDebugLevel;
+            //     break;
+            default: 
+                this.levelLabel = "DEBUG LEVEL";
+                if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
                 this.loadDebugLevel();
-
         }
 
     }
@@ -91,8 +124,8 @@ class SceneManager {
         this.currLevel = "World 2";
 
         const LEVEL_TWO_HEIGHT = 64;
-
-        gameEngine.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH * 2, PARAMS.BLOCKWIDTH * -36)); //essentially (5, )
+        
+        this.game.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH * 2, PARAMS.BLOCKWIDTH * -36)); //essentially (5, )
 
         this.game.addEntity(new BasicPlatform(this.game, -2, 64, 36, 1, LEVEL_TWO_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 6, 62, 26, 2, LEVEL_TWO_HEIGHT));
@@ -214,7 +247,7 @@ class SceneManager {
         this.game.addEntity(new BasicPlatform(this.game, -2, 0, 2, 1, LEVEL_THREE_HEIGHT)); // horizontal wrap
         this.game.addEntity(new BasicPlatform(this.game, 32, 0, 2, 1, LEVEL_THREE_HEIGHT)); // horizontal wrap
         this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, LEVEL_THREE_HEIGHT, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 0, LEVEL_THREE_HEIGHT, 32, 1, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 0, LEVEL_THREE_HEIGHT, 32, 14, LEVEL_THREE_HEIGHT));
 
         // Platforms
         this.game.addEntity(new BasicPlatform(this.game, 3, 4, 28, 1, LEVEL_THREE_HEIGHT));
@@ -279,6 +312,7 @@ class SceneManager {
 
         // Sprite
         this.game.addEntity(new JumpSprite(this.game, PARAMS.BLOCKWIDTH * 2, PARAMS.BLOCKWIDTH * -40));
+        //this.game.addEntity(new JumpSprite(this.game, PARAMS.BLOCKWIDTH * 1, PARAMS.BLOCKWIDTH * 16)); // for debugging
 
         // Levers
         this.game.addEntity(new Lever(this.game, 28, 24, LEVEL_THREE_HEIGHT, false, vertPlatform));
@@ -364,11 +398,7 @@ class SceneManager {
         
         this.game.addEntity(new Spblock(this.game, 29, 51, "bomb", LEVEL_ONE_HEIGHT));
         
-        // save the bats for level 2
-
-        // this.game.addEntity(new Bat(this.game, 4, 54, 10, LEVEL_ONE_HEIGHT, 2)); 
-        // this.game.addEntity(new Bat(this.game, 13, 53, 10, LEVEL_ONE_HEIGHT, 3));
-
+        
         this.game.addEntity(new Spikes(this.game, 29, 62, "left", LEVEL_ONE_HEIGHT, true));
         this.game.addEntity(new Spikes(this.game, 29, 60, "left", LEVEL_ONE_HEIGHT, true));
         this.game.addEntity(new Spikes(this.game, 29, 58, "left", LEVEL_ONE_HEIGHT, true));
@@ -383,13 +413,9 @@ class SceneManager {
 
         //gameEngine.addEntity(new CherryBlossom(gameEngine, 8, 40, LEVEL_ONE_HEIGHT));
 
-        // gameEngine.addEntity(new Spblock(gameEngine, 13, 58, "health", LEVEL_ONE_HEIGHT));
-        // gameEngine.addEntity(new Spblock(gameEngine, 15, 58, "flower", LEVEL_ONE_HEIGHT));
         this.game.addEntity(new Spblock(this.game, 14, 55, "bomb", LEVEL_ONE_HEIGHT));
         
-        //used for fully bordered level. Curr testing horizontal wrap
-        //this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, LEVEL_ONE_HEIGHT, LEVEL_ONE_HEIGHT));
-        //this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, LEVEL_ONE_HEIGHT, LEVEL_ONE_HEIGHT));
+
 
         this.game.addEntity(new JumpSprite(this.game, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 5)); // platforms and 
 
@@ -474,14 +500,48 @@ class SceneManager {
             this.title = false;
             if (!this.levelLoaded) {
                 this.levelLoaded = true;
-                this.loadLevel(1);
+                //this.game.jumpsprite = new JumpSprite(this.game, 0, 0);
+                this.loadLevel(1, true, false);
             }
         }
 
-        // if(this.mario.dead && this.mario.y > PARAMS > BLOCKWIDTH * 16) {
-        //     //this.clearEntites();
-        //     //this.loadLevelOne();
-        // };
+        if (this.game.levelComplete) {
+            this.winTimer += this.game.clockTick;
+            this.countingDown = false;
+
+            if (this.winTimer > 1.5) {
+                ASSET_MANAGER.pauseBackgroundMusic();
+                this.game.levelComplete = false;
+                this.winTimer = 0;
+                if (this.level < 3) this.loadLevel(this.level + 2, true, false);
+                else {
+                    this.clearEntities();
+                    this.title = true;
+                    this.win = true;
+                    //this.levelLoaded = false;
+                }
+            }
+        } 
+
+        if(this.countingDown) {
+            this.timer -= this.game.clockTick;
+            if (this.timer <= 0) {
+                this.timer = 0;
+                this.game.jumpsprite.health -= this.game.clockTick * 5;
+            }
+        }
+
+        if(this.game.jumpsprite.dead) {
+            ASSET_MANAGER.pauseBackgroundMusic();
+            this.deathTimer += this.game.clockTick;
+            this.countingDown = false;
+            if (this.deathTimer > 2) {
+                this.deathTimer = 0;
+                this.game.jumpsprite.dead = false;
+                this.gameOver = false;
+                this.loadLevel(this.level, true, false);
+            }
+        };
     };
 
     //in main characters draw method
@@ -498,6 +558,7 @@ class SceneManager {
         //not sure I need ctx.translate(0, -10); hack to move elements up by 10 pixels
         ctx.fillStyle = "Black";
         ctx.font = '20px "Press Start 2P"';
+        ctx.textAlign = "center";
         //ctx.font = "20px Georgia";
 
         //ctx.lineWidth = ;
@@ -506,20 +567,41 @@ class SceneManager {
             ctx.drawImage(ASSET_MANAGER.getAsset("./backgrounds/title_screen.png"), 0, 0, 1024, 768);
             if ((this.game.mouse && this.game.mouse.y > 14 * PARAMS.BLOCKWIDTH && this.game.mouse.y < 14.5 * PARAMS.BLOCKWIDTH)) {
                 ctx.fillStyle = "red";
-                ctx.fillText("START", 14 * PARAMS.BLOCKWIDTH, 14.5*PARAMS.BLOCKWIDTH);
-            }
-            ctx.fillText("START", 14 * PARAMS.BLOCKWIDTH, 14.5*PARAMS.BLOCKWIDTH);
+                ctx.fillText("START", 16 * PARAMS.BLOCKWIDTH, 14.5*PARAMS.BLOCKWIDTH);
+            } else 
+            ctx.fillText("START", 16 * PARAMS.BLOCKWIDTH, 14.5*PARAMS.BLOCKWIDTH);
         } else {
-            ctx.fillText("HEALTH", 1.5 * PARAMS.BITWIDTH, 1 * PARAMS.BITWIDTH);
-            ctx.fillText(currHealth.toFixed(1) + " / 100", 6 * PARAMS.BITWIDTH, 1* PARAMS.BITWIDTH);
+            ctx.font = PARAMS.BLOCKWIDTH / 2 + 'px "Press Start 2P"';
+            ctx.fillText("HEALTH", 2 * PARAMS.BLOCKWIDTH, 1 * PARAMS.BLOCKWIDTH);
+            ctx.fillText(Math.ceil(currHealth) + " / 100", 7 * PARAMS.BLOCKWIDTH, 1* PARAMS.BLOCKWIDTH);
 
-            ctx.fillText("LEVEL", 21.5 * PARAMS.BITWIDTH, 1 * PARAMS.BITWIDTH);
-            ctx.fillText(this.currLevel, 25 * PARAMS.BITWIDTH, 1* PARAMS.BITWIDTH);
+            ctx.fillText("LEVEL", 15.5 * PARAMS.BLOCKWIDTH, 1 * PARAMS.BLOCKWIDTH);
+            ctx.fillText(this.level, 17.5 * PARAMS.BLOCKWIDTH, 1* PARAMS.BLOCKWIDTH);
+
+            if (this.timer < 10) ctx.fillStyle = "red";
+            ctx.fillText("TIME", 28 * PARAMS.BLOCKWIDTH, 1 * PARAMS.BLOCKWIDTH);
+            ctx.fillText(this.timerCalc(this.timer), 30.5 * PARAMS.BLOCKWIDTH, 1* PARAMS.BLOCKWIDTH);
+        }
+
+        if(this.win) {
+            ctx.font = PARAMS.BLOCKWIDTH + 'px "Press Start 2P"';
+            ctx.fillText("YOU WON!", 16*PARAMS.BLOCKWIDTH, 10*PARAMS.BLOCKWIDTH);
         }
 
         if(this.gameOver == true){
-            ctx.fillText("GAME OVER", 15*PARAMS.BITWIDTH, 10*PARAMS.BITWIDTH);
+            ctx.font = PARAMS.BLOCKWIDTH + 'px "Press Start 2P"';
+            ctx.fillText("YOU DIED!", 16*PARAMS.BLOCKWIDTH, 10*PARAMS.BLOCKWIDTH);
         }
 
-    }; //should draw all of the stores, world numbers, text drawing stuff. 
+    }; //should draw all of the stores, world numbers, text drawing stuff.
+    
+    timerCalc(seconds) {
+        let minutes = Math.floor(seconds / 60);
+        seconds = Math.floor(seconds % 60);
+        if (seconds < 10) {
+            seconds = '0' + seconds;
+        }
+        
+        return minutes + ":" + seconds;
+    }
 };

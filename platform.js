@@ -241,7 +241,7 @@ class WeakPlatform {
 
     update() {
         if (this.breaking) {
-            this.countdown -= 1;
+            this.countdown -= this.game.clockTick;
             if (this.countdown <= this.breakpoint) this.state = 2;
             else this.state = 1;
         }
