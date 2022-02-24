@@ -295,7 +295,7 @@ class JumpSprite {
                 }
                 if((entity instanceof Spikes)){ //insta death spikes
                     if(entity.facing === "right"){
-                        if(that.velocity.x < 0 && (Math.abs((entity.lastBB.x+entity.lastBB.width) - that.lastBB.x ) <= 4 && !that.dead) ){ //if jump sprite is falling and the feet are within 4 pixels of bat top
+                        //if(that.velocity.x < 0){// && (Math.abs((entity.lastBB.x+entity.lastBB.width) - that.lastBB.x ) <= 4 && !that.dead) ){ //if jump sprite is falling and the feet are within 4 pixels of bat top
                             //in case spikes shouldn't be deadly? 
                             //that.x += 6;
                             //that.velocity.x += 500;
@@ -307,9 +307,9 @@ class JumpSprite {
                             that.game.addEntity(new SpikesCorpse(entity.game, entity.x, entity.y, "right", LEVELPARAMS.ONE));
                             that.game.addEntity(new Spikes(entity.game, entity.x, entity.y, "right", LEVELPARAMS.ONE), false);
                             //this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (this.levelHeight - y);
-                        }
+                        //}
                     } else if(entity.facing === 'left'){
-                        if(that.velocity.x > 0 && (Math.abs((entity.lastBB.x) - (that.lastBB.x + that.lastBB.width) <= 4)) && !that.dead){
+                        //if(that.velocity.x > 0){// && (Math.abs((entity.lastBB.x) - (that.lastBB.x + that.lastBB.width) <= 4)) && !that.dead){
                             that.dead = true;
                             that.health = 0;
                             that.game.camera.gameOver = true;
@@ -317,9 +317,9 @@ class JumpSprite {
                             that.removeFromWorld = true;
                             that.game.addEntity(new SpikesCorpse(entity.game, entity.x, entity.y, "left", LEVELPARAMS.ONE));
                             that.game.addEntity(new Spikes(entity.game, entity.x, entity.y, "left", LEVELPARAMS.ONE), false);
-                        }
+                        //}
                     } else if(entity.facing === 'up') {
-                        if(that.velocity.y > 0 && (Math.abs((entity.lastBB.y) - (that.lastBB.y + that.lastBB.height) <= 4)) && !that.dead){
+                        //if(that.velocity.y > 0){// && (Math.abs((entity.lastBB.y) - (that.lastBB.y + that.lastBB.height) <= 4)) && !that.dead){
                             that.dead = true;
                             that.health = 0;
                             that.game.camera.gameOver = true;
@@ -327,9 +327,9 @@ class JumpSprite {
                             that.removeFromWorld = true;
                             that.game.addEntity(new SpikesCorpse(entity.game, entity.x, entity.y, "up", LEVELPARAMS.ONE));
                             that.game.addEntity(new Spikes(entity.game, entity.x, entity.y, "up", LEVELPARAMS.ONE), false);
-                        }
+                        //}
                     } else if(entity.facing === 'down'){
-                        if(that.velocity.y < 0 && (Math.abs((entity.lastBB.y + entity.lastBB.height) - (that.lastBB.y) <= 4)) && !that.dead){
+                        //if(that.velocity.y < 0){// && (Math.abs((entity.lastBB.y + entity.lastBB.height) - (that.lastBB.y) <= 4)) && !that.dead){
                             that.dead = true;
                             that.health = 0;
                             that.game.camera.gameOver = true;
@@ -337,7 +337,7 @@ class JumpSprite {
                             that.removeFromWorld = true;
                             that.game.addEntity(new SpikesCorpse(entity.game, entity.x, entity.y, "down", LEVELPARAMS.ONE));
                             that.game.addEntity(new Spikes(entity.game, entity.x, entity.y, "down", LEVELPARAMS.ONE), false);
-                        }
+                        //}
 
                     }
                     

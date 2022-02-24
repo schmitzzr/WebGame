@@ -45,19 +45,19 @@ class GameEngine {
         this.timer = new Timer();
     };
 
-    determineBackground() {
-        if(this.currLevel == 1){
-            return this.oneBackground;
-        } else if(this.currLevel == 2){
-            return this.twoBackground;
-        } else if(this.currLevel == 3){
-            return this.threeBackground;
-        } else {
-            return this.oneBackground;
-        }
+    // determineBackground() {
+    //     if(this.currLevel == 1){
+    //         return this.oneBackground;
+    //     } else if(this.currLevel == 2){
+    //         return this.twoBackground;
+    //     } else if(this.currLevel == 3){
+    //         return this.threeBackground;
+    //     } else {
+    //         return this.oneBackground;
+    //     }
 
 
-    };
+    // };
 
     start() {
         this.running = true;
@@ -171,7 +171,10 @@ class GameEngine {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-        //this.background.draw(this.ctx) //draw background elements first!
+        if(this.isPlaying) { //not sure what title screen / death animations will draw
+            this.background.draw(this.ctx) //draw background elements first!
+        }
+        
         // Draw latest things first
         for (let i = this.entities.length - 1; i >= 0; i--) {
             this.entities[i].draw(this.ctx, this);

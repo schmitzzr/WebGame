@@ -38,7 +38,7 @@ class SceneManager {
         this.deathTimer = 0;
         this.winTimer = 0;
 
-        this.loadBackground();
+        //this.loadBackground();
 
     };
 
@@ -100,6 +100,9 @@ class SceneManager {
     loadDebugLevel() {
         const DEBUG_HEIGHT = 64;
         this.currLevel = "Debug Level";
+
+        this.game.isPlaying = true;
+        this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, DEBUG_HEIGHT);
               
         // platform testing
         this.game.addEntity(new BasicPlatform(this.game, -2, DEBUG_HEIGHT, 36, 1, DEBUG_HEIGHT));
@@ -124,8 +127,12 @@ class SceneManager {
         this.currLevel = "World 2";
 
         const LEVEL_TWO_HEIGHT = 64;
+
+        this.game.isPlaying = true;
+        this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_TWO_HEIGHT);
         
-        this.game.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH * 2, PARAMS.BLOCKWIDTH * -36)); //essentially (5, )
+        
+        this.game.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH * 0, PARAMS.BLOCKWIDTH * 10)); //essentially (5, )
 
         this.game.addEntity(new BasicPlatform(this.game, -2, 64, 36, 1, LEVEL_TWO_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 6, 62, 26, 2, LEVEL_TWO_HEIGHT));
@@ -170,8 +177,8 @@ class SceneManager {
         gameEngine.addEntity(startPortal5);
 
         //exit the portal tunnel
-        var exitPortal6 = new Portal(gameEngine, 1, 26, LEVEL_TWO_HEIGHT, "exit");
-        var startPortal6 = new Portal(gameEngine, 5, 9, LEVEL_TWO_HEIGHT, "start", exitPortal6);
+        var exitPortal6 = new Portal(gameEngine, 5, 9, LEVEL_TWO_HEIGHT, "exit"); // 5 9
+        var startPortal6 = new Portal(gameEngine, 1, 26, LEVEL_TWO_HEIGHT, "start", exitPortal6); //1 26 
         gameEngine.addEntity(exitPortal6);
         gameEngine.addEntity(startPortal6);
 
@@ -230,10 +237,105 @@ class SceneManager {
         this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, 12, LEVEL_TWO_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 14, 0, 1, 12, LEVEL_TWO_HEIGHT));
 
-        var movePlatform = new MovingPlatform(this.game, 17, -10, 1, 10, 3, 1, true, true, LEVEL_TWO_HEIGHT);
+        var movePlatform = new MovingPlatform(this.game, 17, -14, 1, 10, 3, 1, true, true, LEVEL_TWO_HEIGHT);
         this.game.addEntity(movePlatform);
 
         this.game.addEntity(new Lever(this.game, 30, 10, LEVEL_TWO_HEIGHT, false, movePlatform));
+
+        //two parallel platforms and one more platform to the door
+        var moveSecond = new MovingPlatform(this.game, 25, -8, 1, 10, 3, 1, true, true, LEVEL_TWO_HEIGHT);
+        this.game.addEntity(moveSecond);
+
+        this.game.addEntity(new Lever(this.game, 30, 10, LEVEL_TWO_HEIGHT, false, moveSecond));
+
+        var moveThird = new MovingPlatform(this.game, 5, -12, 1, 10, 3, 1, true, true, LEVEL_TWO_HEIGHT);
+        this.game.addEntity(moveThird);
+
+        this.game.addEntity(new Lever(this.game, 30, 10, LEVEL_TWO_HEIGHT, false, moveThird));
+
+        //different lever
+        var moveFourth = new MovingPlatform(this.game, 17, -38, 1, 10, 3, 1, true, true, LEVEL_TWO_HEIGHT);
+        this.game.addEntity(moveFourth);
+
+        this.game.addEntity(new Lever(this.game, 5, -10, LEVEL_TWO_HEIGHT, false, moveFourth));
+
+        var moveFifth= new MovingPlatform(this.game, 25, -31, 1, 10, 3, 1, true, true, LEVEL_TWO_HEIGHT);
+        this.game.addEntity(moveFifth);
+
+        this.game.addEntity(new Lever(this.game, 5, -10, LEVEL_TWO_HEIGHT, false, moveFifth));
+
+        var moveSixth = new MovingPlatform(this.game, 5, -35, 1, 10, 3, 1, true, true, LEVEL_TWO_HEIGHT);
+        this.game.addEntity(moveSixth);
+
+        this.game.addEntity(new Lever(this.game, 5, -10, LEVEL_TWO_HEIGHT, false, moveSixth));
+
+        var moveSeven = new MovingPlatform(this.game, 10, -35, 1, 10, 3, 1, true, true, LEVEL_TWO_HEIGHT);
+        this.game.addEntity(moveSeven);
+
+        this.game.addEntity(new Lever(this.game, 5, -10, LEVEL_TWO_HEIGHT, false, moveSeven));
+
+        //different lever
+        var moveEight = new MovingPlatform(this.game, 17, -51, 1, 10, 3, 1, true, true, LEVEL_TWO_HEIGHT);
+        this.game.addEntity(moveEight);
+
+        this.game.addEntity(new Lever(this.game, 28, -30, LEVEL_TWO_HEIGHT, false, moveEight));
+
+        var moveNine= new MovingPlatform(this.game, 25, -58, 1, 10, 3, 1, true, true, LEVEL_TWO_HEIGHT);
+        this.game.addEntity(moveNine);
+
+        this.game.addEntity(new Lever(this.game, 28, -30, LEVEL_TWO_HEIGHT, false, moveNine));
+
+        var moveTen = new MovingPlatform(this.game, 5, -42, 1, 10, 3, 1, true, true, LEVEL_TWO_HEIGHT);
+        this.game.addEntity(moveTen);
+
+        this.game.addEntity(new Lever(this.game, 28, -30, LEVEL_TWO_HEIGHT, false, moveTen));
+
+        var moveEleven = new MovingPlatform(this.game, 10, -50, 1, 10, 3, 1, true, true, LEVEL_TWO_HEIGHT);
+        this.game.addEntity(moveEleven);
+
+        this.game.addEntity(new Lever(this.game, 28, -30, LEVEL_TWO_HEIGHT, false, moveEleven));
+
+        this.game.addEntity(new BasicPlatform(this.game, 0, -50, 12, 2, LEVEL_TWO_HEIGHT));
+
+        //portals and pigs
+        //exit the portal tunnel
+        var exitPortal7 = new Portal(gameEngine, 0, -48, LEVEL_TWO_HEIGHT, "exit"); 
+        var startPortal7 = new Portal(gameEngine, 0, -2, LEVEL_TWO_HEIGHT, "start", exitPortal7); 
+        gameEngine.addEntity(exitPortal7);
+        gameEngine.addEntity(startPortal7);
+
+        var exitPortal8 = new Portal(gameEngine, 14, -46, LEVEL_TWO_HEIGHT, "exit"); 
+        var startPortal8 = new Portal(gameEngine, 14, -6, LEVEL_TWO_HEIGHT, "start", exitPortal8); 
+        gameEngine.addEntity(exitPortal8);
+        gameEngine.addEntity(startPortal8);
+
+        var exitPortal9 = new Portal(gameEngine, 30, -48, LEVEL_TWO_HEIGHT, "exit"); 
+        var startPortal9 = new Portal(gameEngine, 30, -2, LEVEL_TWO_HEIGHT, "start", exitPortal9); 
+        gameEngine.addEntity(exitPortal9);
+        gameEngine.addEntity(startPortal9);
+
+        this.game.addEntity(new Pig(this.game, 0, -58, "right", "bad"));
+
+        this.game.addEntity(new Pig(this.game, 30, -58, "left", "bad"));
+
+        this.game.addEntity(new Pig(this.game, 14, -52, "left", "bad"));
+
+        this.game.addEntity(new Pig(this.game, 14, -46, "right", "bad"));
+
+        //this.game.addEntity(new Pig(this.game, 0, -58, "right", "bad"));
+
+
+
+
+
+
+
+        // Door
+        this.game.addEntity(new Door(this.game, 1, -51, LEVEL_TWO_HEIGHT));
+
+
+
+        
 
     }
 
@@ -241,6 +343,9 @@ class SceneManager {
 
         this.currLevel = "World 3";
         const LEVEL_THREE_HEIGHT = 64;
+
+        this.game.isPlaying = true;
+        this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_THREE_HEIGHT);
         
         // borders
         this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, LEVEL_THREE_HEIGHT, LEVEL_THREE_HEIGHT));
@@ -343,7 +448,7 @@ class SceneManager {
 
         // Background
         //this.game.addEntity(new Background(this.game, "./backgrounds/sunset.png", 1920, 1080, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_THREE_HEIGHT));
+        //this.game.addEntity(new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_THREE_HEIGHT));
 
     }
 
@@ -357,6 +462,9 @@ class SceneManager {
 
         //ASSET_MANAGER.pauseBackgroundMusic();
         ASSET_MANAGER.playAsset("./Audio.mp3");
+
+        this.game.isPlaying = true;
+        this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_ONE_HEIGHT);
 
 
         //test for a moving platform
@@ -432,13 +540,13 @@ class SceneManager {
 
         this.game.addEntity(new ControlsSheet(this.game, 1, 42, 0.5, LEVEL_ONE_HEIGHT, true));
 
-        this.game.addEntity(new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_ONE_HEIGHT));
+        //this.game.addEntity(new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_ONE_HEIGHT));
 
     };
 
-    loadBackground() {
+    // loadBackground() {
 
-    }
+    // }
 
     updateAudio() {
         var mute = document.getElementById("mute").checked;
@@ -501,7 +609,7 @@ class SceneManager {
             if (!this.levelLoaded) {
                 this.levelLoaded = true;
                 //this.game.jumpsprite = new JumpSprite(this.game, 0, 0);
-                this.loadLevel(1, true, false);
+                this.loadLevel(2, true, false);  //I can manually load different levels after start screen
             }
         }
 

@@ -48,7 +48,7 @@ class Pig{
 
     update() {
 
-        this.velocityY += .01 * this.game.clockTick;
+        //this.velocityY += .01 * this.game.clockTick;
         
         this.updateBB();
 
@@ -116,6 +116,9 @@ class Pig{
         this.game.entities.forEach(function (entity) {
             if(entity.BB && that.BB.collide(entity.BB) && entity instanceof BasicPlatform ){
                 that.velocityY = 0;
+            } else if(entity.BB && that.BB.collide(entity.BB) && entity instanceof Portal && entity.type == "start"){
+                that.y = entity.linkY / PARAMS.BLOCKWIDTH;
+                that.x = entity.linkX / PARAMS.BLOCKWIDTH;
             }
             
         });
@@ -135,20 +138,40 @@ class Pig{
         ctx.strokeRect(this.BB.left, this.BB.top - this.game.camera.y, this.BB.width, this.BB.height); //strokeRect(x, y, width, height);
         if(this.startIdle || this.endIdle){
             if(this.facing === 'left'){
-                this.animations[1].drawFrame(this.game.clockTick, ctx, this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH - this.game.camera.y - 10);
+                if(this.status === "good"){
+                    this.animations[1].drawFrame(this.game.clockTick, ctx, this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH - this.game.camera.y - 10);
+                } else {
+                    this.animations[3].drawFrame(this.game.clockTick, ctx, this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH - this.game.camera.y - 10);
+                }
+                
             } else {
                 ctx.save()
                 ctx.scale(-1, 1);
-                this.animations[1].drawFrame(this.game.clockTick, ctx, (-1) * this.x * PARAMS.BLOCKWIDTH - (PARAMS.BLOCKWIDTH * 2), this.y * PARAMS.BLOCKWIDTH - this.game.camera.y - 10);
+                if(this.status === "good"){
+                    this.animations[1].drawFrame(this.game.clockTick, ctx, (-1) * this.x * PARAMS.BLOCKWIDTH - (PARAMS.BLOCKWIDTH * 2), this.y * PARAMS.BLOCKWIDTH - this.game.camera.y - 10);
+                } else {
+                    this.animations[3].drawFrame(this.game.clockTick, ctx, (-1) * this.x * PARAMS.BLOCKWIDTH - (PARAMS.BLOCKWIDTH * 2), this.y * PARAMS.BLOCKWIDTH - this.game.camera.y - 10);
+                }
+                
                 ctx.restore();
             }
         } else {
              if(this.facing === 'left'){
-                this.animations[0].drawFrame(this.game.clockTick, ctx, this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH - this.game.camera.y - 10);
+                 if(this.status === "good"){
+                     this.animations[0].drawFrame(this.game.clockTick, ctx, this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH - this.game.camera.y - 10);
+                 } else {
+                    this.animations[2].drawFrame(this.game.clockTick, ctx, this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH - this.game.camera.y - 10);
+                 }
+                
             } else {
                 ctx.save()
                 ctx.scale(-1, 1);
-                this.animations[0].drawFrame(this.game.clockTick, ctx, (-1) * this.x * PARAMS.BLOCKWIDTH - (PARAMS.BLOCKWIDTH * 2), this.y * PARAMS.BLOCKWIDTH - this.game.camera.y - 10);
+                if(this.status === "good"){
+                    this.animations[0].drawFrame(this.game.clockTick, ctx, (-1) * this.x * PARAMS.BLOCKWIDTH - (PARAMS.BLOCKWIDTH * 2), this.y * PARAMS.BLOCKWIDTH - this.game.camera.y - 10);
+                } else {
+                    this.animations[2].drawFrame(this.game.clockTick, ctx, (-1) * this.x * PARAMS.BLOCKWIDTH - (PARAMS.BLOCKWIDTH * 2), this.y * PARAMS.BLOCKWIDTH - this.game.camera.y - 10);
+                }
+                
                 ctx.restore();
             }
         }
@@ -158,12 +181,16 @@ class Pig{
 
     loadAnimations() { //might need animations for movement...
 
-        for (var direction = 0; direction <2; direction++) {
+        for (var direction = 0; direction <4; direction++) {
             this.animations.push([]);
         }
 
         this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./image/bazooka-pig.png"), this.sheetX, this.sheetY, this.width, this.height, 6, .3, false); //shooting animation
         this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./image/bazooka-pig.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .3, false); //idle
+
+        
+        this.animations[2] = new Animator(ASSET_MANAGER.getAsset("./image/evil-pig-one.png"), this.sheetX, this.sheetY, this.width, this.height, 6, .3, false);
+        this.animations[3] = new Animator(ASSET_MANAGER.getAsset("./image/evil-pig-one.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .3, false);
     };
 
 };
@@ -206,7 +233,7 @@ constructor(game, x, y, facing) {
 
     this.padding = 15;
 
-    this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.widt, this.height);
+    this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.width, this.height);
 
 
 };
@@ -262,7 +289,7 @@ update() {
             that.rpgSpeed = 0;
             that.game.addEntity(new TextBomb(that.game, that.x, that.y, "WOW!"));
             that.removeFromWorld = true;
-            entity.health -= 2; //the rpg essentially does nothing to the player //might change for bad pigs?
+            entity.health -= 7; //the rpg essentially does nothing to the player //might change for bad pigs?
             if(that.moveRight){
                 entity.velocity.x = 800;
             } else {
@@ -300,6 +327,8 @@ loadAnimations() { //might need animations for movement...
 
     this.animations[0] = new Animator(ASSET_MANAGER.getAsset("./image/bazooka-rpg.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .3, false);
     this.animations[1] = new Animator(ASSET_MANAGER.getAsset("./image/bazooka-rpg.png"), this.sheetX, this.sheetY, this.width, this.height, 1, .3, false);
+
+
 };
 
 };

@@ -13,6 +13,7 @@ ASSET_MANAGER.queueDownload("./image/cherry-blossom-two.png");
 //bazooka
 ASSET_MANAGER.queueDownload("./image/bazooka-pig.png");
 ASSET_MANAGER.queueDownload("./image/bazooka-rpg.png");
+ASSET_MANAGER.queueDownload("./image/evil-pig-one.png");
 
 //door
 ASSET_MANAGER.queueDownload("./image/door.png");
