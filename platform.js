@@ -217,7 +217,7 @@ class MovingPlatform {
 };
 
 class WeakPlatform {
-    constructor(game, x, y, width, height, levelHeight, duration) {
+    constructor(game, x, y, width, height, levelHeight, duration = 1.5) {
         Object.assign(this, { game, x, width, height, levelHeight});
 
         //entity status

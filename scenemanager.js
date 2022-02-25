@@ -374,12 +374,12 @@ class SceneManager {
         var vertPlatform = new MovingPlatform(this.game, 1, 4, 1, 39, 2, 1, false, true, LEVEL_THREE_HEIGHT);
         this.game.addEntity(vertPlatform);
 
-        var horizPlatform = new MovingPlatform(this.game, 25, 19, 17, 19, 2, 1, false, false, LEVEL_THREE_HEIGHT);
+        var horizPlatform = new MovingPlatform(this.game, 25, 19, 17, 19, 3, 1, false, false, LEVEL_THREE_HEIGHT);
         this.game.addEntity(horizPlatform);
 
         // Weak Platforms
-        this.game.addEntity(new WeakPlatform(this.game, 9, 40, 3, 1, LEVEL_THREE_HEIGHT, 250));
-        this.game.addEntity(new WeakPlatform(this.game, 17, 40, 3, 1, LEVEL_THREE_HEIGHT, 250));
+        this.game.addEntity(new WeakPlatform(this.game, 9, 40, 3, 1, LEVEL_THREE_HEIGHT, 1.5));
+        this.game.addEntity(new WeakPlatform(this.game, 17, 40, 3, 1, LEVEL_THREE_HEIGHT, 1.5));
 
         // Bats
         this.game.addEntity(new Bat(this.game, 9, 7, 6, LEVEL_THREE_HEIGHT, 1));
@@ -609,7 +609,7 @@ class SceneManager {
             if (!this.levelLoaded) {
                 this.levelLoaded = true;
                 //this.game.jumpsprite = new JumpSprite(this.game, 0, 0);
-                this.loadLevel(2, true, false);  //I can manually load different levels after start screen
+                this.loadLevel(1, true, false);  //I can manually load different levels after start screen
             }
         }
 
