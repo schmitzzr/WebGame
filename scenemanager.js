@@ -21,6 +21,8 @@ class SceneManager {
         this.levelLabel = null;
         this.levelTimer = 0;
 
+        this.credits = false;
+
         this.menuSelectIndex = -10;
         this.creditsLineIndex = 0;
         this.menuButtonTimer = 0.15;
@@ -604,14 +606,27 @@ class SceneManager {
         this.updateAudio();
         PARAMS.DEBUG = document.getElementById("debug").checked;
 
-        if (this.game.click && this.game.click.y > 14 * PARAMS.BLOCKWIDTH && this.game.click.y < 14.5 * PARAMS.BLOCKWIDTH) {
-            this.title = false;
-            if (!this.levelLoaded) {
-                this.levelLoaded = true;
-                //this.game.jumpsprite = new JumpSprite(this.game, 0, 0);
-                this.loadLevel(1, true, false);  //I can manually load different levels after start screen
+        //start button
+        if (this.title && !this.credits && !this.controls) {
+            if (this.game.click && this.game.click.y > 13.5 * PARAMS.BLOCKWIDTH && this.game.click.y < 14.5 * PARAMS.BLOCKWIDTH) {
+                this.title = false;
+                if (!this.levelLoaded) {
+                    this.levelLoaded = true;
+                    this.loadLevel(1, true, false);  //I can manually load different levels after start screen
+                }
+            // controls button
+            } else if (this.game.click && this.game.click.y > 15 * PARAMS.BLOCKWIDTH && this.game.click.y < 16 * PARAMS.BLOCKWIDTH) {
+                this.controls = true;
+            // credits button
+            } else if (this.game.click && this.game.click.y > 16.5 * PARAMS.BLOCKWIDTH && this.game.click.y < 17.5 * PARAMS.BLOCKWIDTH) {
+                this.credits = true;
             }
-        }
+        } else if (this.title && (this.credits || this.controls)) {
+            if ((this.game.click && this.game.click.y > 21 * PARAMS.BLOCKWIDTH && this.game.click.y < 22 * PARAMS.BLOCKWIDTH)) {
+                this.controls = false;
+                this.credits = false;   
+            }
+        } 
 
         if (this.game.levelComplete) {
             this.winTimer += this.game.clockTick;
@@ -670,14 +685,67 @@ class SceneManager {
         //ctx.font = "20px Georgia";
 
         //ctx.lineWidth = ;
-        if(this.title) {
-            ctx.font = PARAMS.BLOCKWIDTH + 'px "Press Start 2P"';
-            ctx.drawImage(ASSET_MANAGER.getAsset("./backgrounds/title_screen.png"), 0, 0, 1024, 768);
-            if ((this.game.mouse && this.game.mouse.y > 14 * PARAMS.BLOCKWIDTH && this.game.mouse.y < 14.5 * PARAMS.BLOCKWIDTH)) {
+        if (this.title) ctx.drawImage(ASSET_MANAGER.getAsset("./backgrounds/title_screen.png"), 0, 0, 1024, 768);
+        if (this.title && !this.controls && !this.credits) {
+            ctx.font = PARAMS.BLOCKWIDTH * 1.5 + 'px "Press Start 2P"';
+
+            ctx.fillStyle = "black";
+            ctx.fillText("SPEEDFALL", 16 * PARAMS.BLOCKWIDTH, 11 * PARAMS.BLOCKWIDTH);
+
+            ctx.font = PARAMS.BLOCKWIDTH * 0.75 + 'px "Press Start 2P"';
+            //start button
+            if ((this.game.mouse && this.game.mouse.y > 13.5 * PARAMS.BLOCKWIDTH && this.game.mouse.y < 14.5 * PARAMS.BLOCKWIDTH)) {
                 ctx.fillStyle = "red";
                 ctx.fillText("START", 16 * PARAMS.BLOCKWIDTH, 14.5*PARAMS.BLOCKWIDTH);
-            } else 
-            ctx.fillText("START", 16 * PARAMS.BLOCKWIDTH, 14.5*PARAMS.BLOCKWIDTH);
+            } else {
+                ctx.fillStyle = "black";
+                ctx.fillText("START", 16 * PARAMS.BLOCKWIDTH, 14.5*PARAMS.BLOCKWIDTH);
+            }
+            
+            //controls button
+            if ((this.game.mouse && this.game.mouse.y > 15 * PARAMS.BLOCKWIDTH && this.game.mouse.y < 16 * PARAMS.BLOCKWIDTH)) {
+                ctx.fillStyle = "red";
+                ctx.fillText("CONTROLS", 16 * PARAMS.BLOCKWIDTH, 16*PARAMS.BLOCKWIDTH);
+            } else  {
+                ctx.fillStyle = "black";
+                ctx.fillText("CONTROLS", 16 * PARAMS.BLOCKWIDTH, 16*PARAMS.BLOCKWIDTH);
+            }
+
+            //credits button
+            if ((this.game.mouse && this.game.mouse.y > 16.5 * PARAMS.BLOCKWIDTH && this.game.mouse.y < 17.5 * PARAMS.BLOCKWIDTH)) {
+                ctx.fillStyle = "red";
+                ctx.fillText("CREDITS", 16 * PARAMS.BLOCKWIDTH, 17.5*PARAMS.BLOCKWIDTH);
+            } else  {
+                ctx.fillStyle = "black";
+                ctx.fillText("CREDITS", 16 * PARAMS.BLOCKWIDTH, 17.5*PARAMS.BLOCKWIDTH);
+            }
+        } else if (this.title && this.credits) {
+
+            ctx.fillStyle = "black";
+            //ctx.font = PARAMS.BLOCKWIDTH + 'px "Press Start 2P"';
+            ctx.fillText("Developed by:", 16 * PARAMS.BLOCKWIDTH, 10 * PARAMS.BLOCKWIDTH);
+            ctx.fillText("Eyob Fenta", 16 * PARAMS.BLOCKWIDTH, 13 * PARAMS.BLOCKWIDTH);
+            ctx.fillText("Zachary Schmitz", 16 * PARAMS.BLOCKWIDTH, 14.5 * PARAMS.BLOCKWIDTH);
+            ctx.fillText("David Taylor", 16 * PARAMS.BLOCKWIDTH, 16 * PARAMS.BLOCKWIDTH);
+
+            if ((this.game.mouse && this.game.mouse.y > 21 * PARAMS.BLOCKWIDTH && this.game.mouse.y < 22 * PARAMS.BLOCKWIDTH)) {
+                ctx.fillStyle = "red";
+                ctx.fillText("RETURN TO MAIN MENU", 16 * PARAMS.BLOCKWIDTH, 22*PARAMS.BLOCKWIDTH);
+            } else  {
+                ctx.fillStyle = "black";
+                ctx.fillText("RETURN TO MAIN MENU", 16 * PARAMS.BLOCKWIDTH, 22*PARAMS.BLOCKWIDTH);
+            }
+        } else if (this.title && this.controls) {
+            ctx.drawImage(ASSET_MANAGER.getAsset("./image/control-sheet.png"), 
+            4 * PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH, 24 * PARAMS.BLOCKWIDTH, 18 * PARAMS.BLOCKWIDTH);
+            
+            if ((this.game.mouse && this.game.mouse.y > 21 * PARAMS.BLOCKWIDTH && this.game.mouse.y < 22 * PARAMS.BLOCKWIDTH)) {
+                ctx.fillStyle = "red";
+                ctx.fillText("RETURN TO MAIN MENU", 16 * PARAMS.BLOCKWIDTH, 22*PARAMS.BLOCKWIDTH);
+            } else  {
+                ctx.fillStyle = "black";
+                ctx.fillText("RETURN TO MAIN MENU", 16 * PARAMS.BLOCKWIDTH, 22*PARAMS.BLOCKWIDTH);
+            }
         } else {
             ctx.font = PARAMS.BLOCKWIDTH / 2 + 'px "Press Start 2P"';
             ctx.fillText("HEALTH", 2 * PARAMS.BLOCKWIDTH, 1 * PARAMS.BLOCKWIDTH);
