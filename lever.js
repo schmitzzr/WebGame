@@ -13,7 +13,7 @@ class Lever {
         this.timeout = false;
         this.countdown = 0;
 
-        this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.width, this.height);
+        this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH - 5, this.y * PARAMS.BLOCKWIDTH, this.width + 10, this.height);
 
         this.spritesheet = ASSET_MANAGER.getAsset("./image/lever_sheet.png");
     };

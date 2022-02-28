@@ -183,7 +183,7 @@ class Bat{
                 var y2 = futureBB.y;
 
                 if(futureBB.collide(entity.BB) && entity instanceof JumpSprite){
-                    entity.health -= .1;
+                    entity.health -= 10 * that.game.clockTick; // 10 dmg per second
                 }
 
 
