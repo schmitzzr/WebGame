@@ -275,26 +275,3 @@ class WeakPlatform {
 
     };
 };
-
-class coin {
-    constructor(game, x, y, width, height, levelHeight) {
-        Object.assign(this, { game, x, width, height, levelHeight});
-
-        //entity status
-        this.removeFromWorld = false;
-
-        this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (this.levelHeight - y);
-
-        this.spritesheet = ASSET_MANAGER.getAsset("./image/coin.png");
-
-        this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.width * PARAMS.BLOCKWIDTH, this.height * PARAMS.BLOCKWIDTH);
-    };
-
-    update() {
-    };
-
-    draw(ctx) {
-
-    ctx.drawImage(this.spritesheet, (this.x ) * PARAMS.BLOCKWIDTH, (this.y)*PARAMS.BLOCKWIDTH - this.game.camera.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
-    };
-};
