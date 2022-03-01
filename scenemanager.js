@@ -11,28 +11,17 @@ class SceneManager {
 
         //might be better for main character... //main character properties. 
         this.score = 0;
+        this.coins = 0;
         this.lives = 3;
-
-        this.startLevel = 1; // change this to change the starting level for debugging purposes
 
         this.timer = 0;
         this.countingDown = false;
-
-        // For calculating scores
-        this.deathCount = 0;
-        this.coins = 0;
-        this.times = {
-            levelOne: 90,
-            levelTwo: 120,
-            levelThree: 120
-        };
 
         this.level = null;
         this.levelLabel = null;
         this.levelTimer = 0;
 
         this.credits = false;
-        this.controls = false;
 
         this.menuSelectIndex = -10;
         this.creditsLineIndex = 0;
@@ -71,7 +60,7 @@ class SceneManager {
         this.level = level;
         switch(this.level) {
             case 1: 
-                this.timer = this.times.levelOne;
+                this.timer = 90;
                 this.levelLabel = "LEARNING THE BASICS";
                 if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
                 else {
@@ -80,7 +69,7 @@ class SceneManager {
                 };
                 break;
             case 2: 
-                this.timer = this.times.levelTwo;
+                this.timer = 120;
                 this.levelLabel = "THINKING WITH PORTALS";
                 if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
                 else {
@@ -89,7 +78,7 @@ class SceneManager {
                 };
                 break;
             case 3: 
-                this.timer = this.times.levelThree;
+                this.timer = 120;
                 this.levelLabel = "CHOOSE WISELY";
                 if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
                 else {
@@ -104,7 +93,6 @@ class SceneManager {
             //     break;
             default: 
                 this.levelLabel = "DEBUG LEVEL";
-                this.timer = 1;
                 if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
                 this.loadDebugLevel();
         }
@@ -127,7 +115,7 @@ class SceneManager {
         this.game.addEntity(horzPlatform);
         this.game.addEntity(new WeakPlatform(this.game, 7, 62, 3, 1, DEBUG_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 4, 62, 3, 1, DEBUG_HEIGHT));
-
+       
         //lever
 
         this.game.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 5));
@@ -358,10 +346,8 @@ class SceneManager {
         this.currLevel = "World 3";
         const LEVEL_THREE_HEIGHT = 64;
 
-        ASSET_MANAGER.playAsset("./Nightclub.mp3");
-
         this.game.isPlaying = true;
-        this.game.background = new Background(this.game, "./backgrounds/level3background.png", 1024, 2688, LEVEL_THREE_HEIGHT);
+        this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_THREE_HEIGHT);
         
         // borders
         this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, LEVEL_THREE_HEIGHT, LEVEL_THREE_HEIGHT));
@@ -521,7 +507,7 @@ class SceneManager {
         //experimental bomb
         
         this.game.addEntity(new Spblock(this.game, 29, 51, "bomb", LEVEL_ONE_HEIGHT));
-        
+        this.game.addEntity(new coin(this.game,1, 56, 35, 50, LEVEL_ONE_HEIGHT));
         
         this.game.addEntity(new Spikes(this.game, 29, 62, "left", LEVEL_ONE_HEIGHT, true));
         this.game.addEntity(new Spikes(this.game, 29, 60, "left", LEVEL_ONE_HEIGHT, true));
@@ -587,7 +573,7 @@ class SceneManager {
         this.y = this.game.jumpsprite.y - VerticalMid;
 
          // Gamepad control of debug
-        if (this.game.gamepad != null && this.game.gamepad.buttons[8].pressed && this.menuButtonTimer > this.menuButtonCooldown) {
+         if (this.game.gamepad != null && this.game.gamepad.buttons[8].pressed && this.menuButtonTimer > this.menuButtonCooldown) {
             if (document.getElementById("debug").checked) {
                 document.getElementById("debug").checked = false;
             } else {
@@ -626,7 +612,7 @@ class SceneManager {
                 this.title = false;
                 if (!this.levelLoaded) {
                     this.levelLoaded = true;
-                    this.loadLevel(this.startLevel, true, false);  //I can manually load different levels after start screen
+                    this.loadLevel(1, true, false);  //I can manually load different levels after start screen
                 }
             // controls button
             } else if (this.game.click && this.game.click.y > 15 * PARAMS.BLOCKWIDTH && this.game.click.y < 16 * PARAMS.BLOCKWIDTH) {
@@ -640,39 +626,20 @@ class SceneManager {
                 this.controls = false;
                 this.credits = false;   
             }
-        } else if (this.win) {
-            this.clearEntities();
-            this.game.addEntity(new WinningScreen(this.game, this.times, this.coins, this.deathCount));
-            if ((this.game.click && this.game.click.y > 21 * PARAMS.BLOCKWIDTH && this.game.click.y < 22 * PARAMS.BLOCKWIDTH)) {
-                this.win = false;
-                this.title = true;
-                this.levelLoaded = false;
-            }
-        }
+        } 
 
         if (this.game.levelComplete) {
             this.winTimer += this.game.clockTick;
             this.countingDown = false;
 
-            switch(this.level) {
-                case 1: 
-                    this.times.levelOne = this.timer;
-                    break;
-                case 2: 
-                    this.times.levelTwo = this.timer;
-                    break;
-                case 3: 
-                    this.times.levelThree = this.timer;
-                    break;
-            }
-
             if (this.winTimer > 1.5) {
                 ASSET_MANAGER.pauseBackgroundMusic();
                 this.game.levelComplete = false;
                 this.winTimer = 0;
-                if (this.level < 3) this.loadLevel(this.level + 2, true, false);  //set to +1 when level 2 is complete
+                if (this.level < 3) this.loadLevel(this.level + 2, true, false);
                 else {
                     this.clearEntities();
+                    this.title = true;
                     this.win = true;
                     //this.levelLoaded = false;
                 }
@@ -695,7 +662,6 @@ class SceneManager {
                 this.deathTimer = 0;
                 this.game.jumpsprite.dead = false;
                 this.gameOver = false;
-                this.deathCount++;
                 this.loadLevel(this.level, true, false);
             }
         };
@@ -780,18 +746,6 @@ class SceneManager {
                 ctx.fillStyle = "black";
                 ctx.fillText("RETURN TO MAIN MENU", 16 * PARAMS.BLOCKWIDTH, 22*PARAMS.BLOCKWIDTH);
             }
-        } else if (!this.title && this.win) {
-            
-            ctx.font = PARAMS.BLOCKWIDTH * 0.75 + 'px "Press Start 2P"';
-            
-            if ((this.game.mouse && this.game.mouse.y > 21 * PARAMS.BLOCKWIDTH && this.game.mouse.y < 22 * PARAMS.BLOCKWIDTH)) {
-                ctx.fillStyle = "red";
-                ctx.fillText("RETURN TO MAIN MENU", 16 * PARAMS.BLOCKWIDTH, 22*PARAMS.BLOCKWIDTH);
-            } else  {
-                ctx.fillStyle = "white";
-                ctx.fillText("RETURN TO MAIN MENU", 16 * PARAMS.BLOCKWIDTH, 22*PARAMS.BLOCKWIDTH);
-            }
-
         } else {
             ctx.font = PARAMS.BLOCKWIDTH / 2 + 'px "Press Start 2P"';
             ctx.fillText("HEALTH", 2 * PARAMS.BLOCKWIDTH, 1 * PARAMS.BLOCKWIDTH);
@@ -805,9 +759,14 @@ class SceneManager {
             ctx.fillText(this.timerCalc(this.timer), 30.5 * PARAMS.BLOCKWIDTH, 1* PARAMS.BLOCKWIDTH);
         }
 
+        if(this.win) {
+            ctx.font = PARAMS.BLOCKWIDTH + 'px "Press Start 2P"';
+            ctx.fillText("YOU WON!", 16*PARAMS.BLOCKWIDTH, 10*PARAMS.BLOCKWIDTH);
+        }
+
         if(this.gameOver == true){
             ctx.font = PARAMS.BLOCKWIDTH + 'px "Press Start 2P"';
-            ctx.fillText("YOU DIED!", 16 * PARAMS.BLOCKWIDTH, 10*PARAMS.BLOCKWIDTH);
+            ctx.fillText("YOU DIED!", 16*PARAMS.BLOCKWIDTH, 10*PARAMS.BLOCKWIDTH);
         }
 
     }; //should draw all of the stores, world numbers, text drawing stuff.
@@ -820,5 +779,5 @@ class SceneManager {
         }
         
         return minutes + ":" + seconds;
-    };
+    }
 };

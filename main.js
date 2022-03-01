@@ -22,6 +22,9 @@ ASSET_MANAGER.queueDownload("./image/grass-platform.png");
 ASSET_MANAGER.queueDownload("./image/move-platform.png");
 ASSET_MANAGER.queueDownload("./image/weak-platform.png");
 ASSET_MANAGER.queueDownload("./image/big-special.png");
+//coin
+ASSET_MANAGER.queueDownload("./image/coin.png");
+
 
 ASSET_MANAGER.queueDownload("./image/spike-death.png");
 ASSET_MANAGER.queueDownload("./image/spikes.png");
@@ -37,12 +40,9 @@ ASSET_MANAGER.queueDownload("./image/bat.png");
 ASSET_MANAGER.queueDownload("./backgrounds/title_screen.png");
 ASSET_MANAGER.queueDownload("./backgrounds/forest.png");
 ASSET_MANAGER.queueDownload("./backgrounds/level1background.png");
-ASSET_MANAGER.queueDownload("./backgrounds/level3background.png");
-
 
 //music
 ASSET_MANAGER.queueDownload("./Audio.mp3");
-ASSET_MANAGER.queueDownload("./Nightclub.mp3");
 
 ASSET_MANAGER.downloadAll(() => {
 	
@@ -58,6 +58,20 @@ ASSET_MANAGER.downloadAll(() => {
 	PARAMS.CANVAS_HEIGHT = canvas.clientHeight;
 	
 	gameEngine.addEntity(new SceneManager(gameEngine));
+
+	// gameEngine.addEntity(new JumpSprite(gameEngine));
+
+	// gameEngine.addEntity(new Platform(gameEngine, 64, 664, 64));
+	// gameEngine.addEntity(new Platform(gameEngine, 250, 664, 64));
+	// gameEngine.addEntity(new Platform(gameEngine, 350, 624, 64));
+	// gameEngine.addEntity(new Platform(gameEngine, 64, 528, 64));
+	// gameEngine.addEntity(new Platform(gameEngine, 200, 500, 128));
+
+	// gameEngine.addEntity(new Spblock(gameEngine, 350, 560, "spike"));
+	// gameEngine.addEntity(new Spblock(gameEngine, 414, 560, "health"));
+	// gameEngine.addEntity(new Spblock(gameEngine, 478, 560, "flower"));
+	// gameEngine.addEntity(new Spblock(gameEngine, 542, 560, "bomb"));
+
 
 	gameEngine.init(ctx);
 
