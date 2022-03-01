@@ -28,6 +28,7 @@ class JumpSprite {
         this.facing = 0; //0==right 1==left
 
         this.stayCrawling = false;
+        this.onMovingPlatform = false;
 
         this.left = false;
         this.right = false;
@@ -193,6 +194,11 @@ class JumpSprite {
             if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
             if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
 
+            // update velocity for moving platform collision
+            if (this.onMovingPlatform) {
+                this.x += this.onMovingPlatform.velocity.x * PARAMS.BLOCKWIDTH * TICK;
+            }
+
             //update position 
             this.x += this.velocity.x * TICK * PARAMS.SCALE;
             this.y += this.velocity.y * TICK * PARAMS.SCALE;
@@ -201,6 +207,8 @@ class JumpSprite {
             if(this.x <= -PARAMS.BLOCKWIDTH) this.x = PARAMS.CANVAS_WIDTH;
             if(this.x >= PARAMS.CANVAS_WIDTH + PARAMS.BLOCKWIDTH) this.x = -PARAMS.BLOCKWIDTH;
             
+
+            this.onMovingPlatform = false;
             //updateBB then check for a collision
             this.updateBB();
 
@@ -211,8 +219,9 @@ class JumpSprite {
                     if ((entity instanceof MovingPlatform) && (that.lastBB.bottom) <= entity.BB.top + 5) { // +5 because for some reason this works
                         that.y = entity.BB.top - 2*PARAMS.BLOCKWIDTH; // because JumpSprite is 2 blocks tall
                         
+                        that.onMovingPlatform = entity;
+
                         that.velocity.y = entity.velocity.y * PARAMS.BLOCKWIDTH;
-                        //if (!entity.vertical && that.state == 0) that.velocity.x = entity.velocity.x * PARAMS.BLOCKWIDTH;
                         
                         if(that.state === 3) that.state = 0; // set state to idle
                         that.updateBB();

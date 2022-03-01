@@ -13,6 +13,8 @@ class SceneManager {
         this.score = 0;
         this.lives = 3;
 
+        this.startLevel = 1; // change this to change the starting level for debugging purposes
+
         this.timer = 0;
         this.countingDown = false;
 
@@ -624,7 +626,7 @@ class SceneManager {
                 this.title = false;
                 if (!this.levelLoaded) {
                     this.levelLoaded = true;
-                    this.loadLevel(1, true, false);  //I can manually load different levels after start screen
+                    this.loadLevel(this.startLevel, true, false);  //I can manually load different levels after start screen
                 }
             // controls button
             } else if (this.game.click && this.game.click.y > 15 * PARAMS.BLOCKWIDTH && this.game.click.y < 16 * PARAMS.BLOCKWIDTH) {
