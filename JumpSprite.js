@@ -427,7 +427,7 @@ class JumpSprite {
             if(this.health <= 0){
                 this.game.camera.gameOver = true;
                 //this.removeFromWorld = true;
-                this.dead = true;
+                this.dead = true; 
             }
             
             if (this.velocity.x < 0) this.facing = 1;
