@@ -53,7 +53,7 @@ class JumpSprite {
     };
 
     loadAnimations() {
-        for (var i = 0; i < 5; i++) {  // 4 states
+        for (var i = 0; i < 5; i++) {  // 5 states
             this.anims.push([]);
             for (var j = 0; j < 2; j++) {  // two directions
                 this.anims[i].push([]);
@@ -287,6 +287,8 @@ class JumpSprite {
                     }
                     if((entity instanceof Spblock) && (entity.type === 'bomb')){                    
 
+                        ASSET_MANAGER.playAsset("./sounds/explosion.mp3");
+
                         if (that.velocity.y < 0) {
                             that.velocity.y = 1000;
                         } else if (that.velocity.y > 0) {
@@ -308,6 +310,7 @@ class JumpSprite {
                         //launch to corresponding exit portal.
                         that.y = entity.linkY; //will spit me out at exit!
                         that.x = entity.linkX;
+                        ASSET_MANAGER.playAsset("./sounds/portal.mp3");
                         //that.onGround = false;
                     }
                     if((entity instanceof Spikes)){ //insta death spikes
@@ -365,6 +368,7 @@ class JumpSprite {
                     }
                     if(entity instanceof Door){
                         if(that.interact){
+                            ASSET_MANAGER.playAsset("./sounds/door.mp3");
                             entity.openDoor = true;
                             that.game.actionTwo = false;
                             that.game.levelComplete = true;

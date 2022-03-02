@@ -39,14 +39,20 @@ ASSET_MANAGER.queueDownload("./backgrounds/forest.png");
 ASSET_MANAGER.queueDownload("./backgrounds/level1background.png");
 ASSET_MANAGER.queueDownload("./backgrounds/level3background.png");
 
+//sound effects
+ASSET_MANAGER.queueDownload("./sounds/explosion.mp3");
+ASSET_MANAGER.queueDownload("./sounds/portal.mp3");
+ASSET_MANAGER.queueDownload("./sounds/lever.mp3");
+ASSET_MANAGER.queueDownload("./sounds/door.mp3");
 
 //music
-ASSET_MANAGER.queueDownload("./Audio.mp3");
-ASSET_MANAGER.queueDownload("./Nightclub.mp3");
+ASSET_MANAGER.queueDownload("./music/Audio.mp3");
+ASSET_MANAGER.queueDownload("./music2/Audio.mp3");
 
 ASSET_MANAGER.downloadAll(() => {
 	
-	ASSET_MANAGER.autoRepeat("./Audio.mp3");
+	ASSET_MANAGER.autoRepeat("./music/Audio.mp3");
+	ASSET_MANAGER.autoRepeat("./music2/Audio.mp3");
 
 	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
 
