@@ -99,13 +99,13 @@ class Pig{
     badupdate() {
         this.startIdle = false;
 
-        if(Math.floor(this.currTime / this.frameDur) == 5 && !this.rocketSent) {
+        if(Math.floor(this.currTime / this.frameDur) == 10 && !this.rocketSent) {
             this.game.addEntity(new RPG(this.game, this.x, this.y, this.facing));
             this.rocketSent = true;
             this.startIdle = true;
         }
 
-        if(Math.floor(this.currTime / this.frameDur) == 8){
+        if(Math.floor(this.currTime / this.frameDur) == 16){
             this.currTime = 0;
             this.rocketSent = false;
             this.startIdle = false;
