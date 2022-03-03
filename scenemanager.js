@@ -13,7 +13,7 @@ class SceneManager {
         this.score = 0;
         this.lives = 3;
 
-        this.startLevel = 1; // change this to change the starting level for debugging purposes
+        this.startLevel = 0; // change this to change the starting level for debugging purposes
 
         this.timer = 0;
         this.countingDown = false;
@@ -41,7 +41,7 @@ class SceneManager {
 
         this.win = false;
 
-        //this.cointAnimation = new Animator(ASSET_MANAGER.getAsset("..."), 0, 160, 8, 8, 4, 0.2, 0, false);
+        //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("..."), 0, 160, 8, 8, 4, 0.2, 0, false);
 
         this.game.jumpsprite = new JumpSprite(game, 0, 0);
 
@@ -71,7 +71,7 @@ class SceneManager {
         this.level = level;
         switch(this.level) {
             case 1: 
-                this.timer = this.times.levelOne;
+                this.timer = 90;
                 this.levelLabel = "LEARNING THE BASICS";
                 if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
                 else {
@@ -80,7 +80,7 @@ class SceneManager {
                 };
                 break;
             case 2: 
-                this.timer = this.times.levelTwo;
+                this.timer = 120;
                 this.levelLabel = "THINKING WITH PORTALS";
                 if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
                 else {
@@ -89,7 +89,7 @@ class SceneManager {
                 };
                 break;
             case 3: 
-                this.timer = this.times.levelThree;
+                this.timer = 120;
                 this.levelLabel = "CHOOSE WISELY";
                 if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
                 else {
@@ -135,6 +135,98 @@ class SceneManager {
         this.game.addEntity(new Lever(this.game, 2, 62, DEBUG_HEIGHT, false, vertPlatform, horzPlatform));
 
     }
+
+    // Order of priority:  Platforms/Obstacles > Sprite > Pickups/Levers/Portals/Doors
+    loadLevelOne() { //less important is loaded first, then mains. 
+        this.x = 0;
+        this.currLevel = "World 1";
+        //this.level = level;
+
+        const LEVEL_ONE_HEIGHT = 64;
+
+        //ASSET_MANAGER.pauseBackgroundMusic();
+        ASSET_MANAGER.playAsset("./music/Audio.mp3");
+
+        this.game.isPlaying = true;
+        this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_ONE_HEIGHT);
+
+
+        //test for a moving platform
+
+        this.game.addEntity(new MovingPlatform(this.game, 1, 56, 8, 62, 3, 1, true, true, LEVEL_ONE_HEIGHT));
+        
+        var movePlatform = new MovingPlatform(this.game, 1, 3, 1, 17, 3, 1, true, true, LEVEL_ONE_HEIGHT);
+        this.game.addEntity(movePlatform);
+
+        this.game.addEntity(new BasicPlatform(this.game, 12, 57, 6, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 21, 53, 10, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 24, 46, 2, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 41, 20, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 19, 29, 1, 11, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 9, 34, 2, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 19, 28, 12, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 4, 18, 1, 18, LEVEL_ONE_HEIGHT)); //started out 18
+        this.game.addEntity(new BasicPlatform(this.game, 1, 27, 1, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 18, 3, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 34, 1, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 0, 64, 32, 10, LEVEL_ONE_HEIGHT));
+
+        this.game.addEntity(new BasicPlatform(this.game, 28, 22, 1, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 22, 17, 1, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 26, 12, 1, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 12, 9, 9, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 4, 3, 27, 1, LEVEL_ONE_HEIGHT));
+
+        //horizontal warp borders
+        this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, 35, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, 38, LEVEL_ONE_HEIGHT));
+        //offscreen platforms for horizontal wrap
+        this.game.addEntity(new BasicPlatform(this.game, -2, 50, 2, 1, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 32, 50, 2, 1, LEVEL_ONE_HEIGHT));
+        //bottom
+        this.game.addEntity(new BasicPlatform(this.game, 0, 41, 1, 23, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 31, 50, 1, 14, LEVEL_ONE_HEIGHT));
+        //experimental bomb
+        
+        this.game.addEntity(new Spblock(this.game, 29, 51, "bomb", LEVEL_ONE_HEIGHT));
+        
+        
+        this.game.addEntity(new Spikes(this.game, 29, 62, "left", LEVEL_ONE_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 29, 60, "left", LEVEL_ONE_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 29, 58, "left", LEVEL_ONE_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 29, 56, "left", LEVEL_ONE_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 29, 54, "left", LEVEL_ONE_HEIGHT, true));
+
+        this.game.addEntity(new Spikes(this.game, 27, 54, "down", LEVEL_ONE_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 25, 54, "down", LEVEL_ONE_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 23, 54, "down", LEVEL_ONE_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 21, 54, "down", LEVEL_ONE_HEIGHT, true));
+
+
+        //gameEngine.addEntity(new CherryBlossom(gameEngine, 8, 40, LEVEL_ONE_HEIGHT));
+
+        this.game.addEntity(new Spblock(this.game, 14, 55, "bomb", LEVEL_ONE_HEIGHT));
+        
+
+
+        this.game.addEntity(new JumpSprite(this.game, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 5)); // platforms and 
+
+        //Levers, Doors, Portals, and Power-ups should be loaded after the JumpSprite
+
+        var exitPortal1 = new Portal(this.game, 21, 32, LEVEL_ONE_HEIGHT, "exit");
+        var startPortal1 = new Portal(this.game, 26, 58, LEVEL_ONE_HEIGHT, "start", exitPortal1);
+        this.game.addEntity(exitPortal1);
+        this.game.addEntity(startPortal1);
+
+        this.game.addEntity(new Lever(this.game, 2, 21, LEVEL_ONE_HEIGHT, false, movePlatform));
+        this.game.addEntity(new Door(this.game, 25, 2, LEVEL_ONE_HEIGHT));
+
+
+        this.game.addEntity(new ControlsSheet(this.game, 1, 42, 0.5, LEVEL_ONE_HEIGHT, true));
+
+        //this.game.addEntity(new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_ONE_HEIGHT));
+
+    };
 
     loadLevelTwo() {
         this.x = 0;
@@ -363,7 +455,7 @@ class SceneManager {
         this.currLevel = "World 3";
         const LEVEL_THREE_HEIGHT = 64;
 
-        ASSET_MANAGER.playAsset("./Nightclub.mp3");
+        ASSET_MANAGER.playAsset("./music/Audio.mp3"); // for some reason Nightclub.mp3 gets cut off?
 
         this.game.isPlaying = true;
         this.game.background = new Background(this.game, "./backgrounds/level3background.png", 1024, 2688, LEVEL_THREE_HEIGHT);
@@ -472,98 +564,6 @@ class SceneManager {
         //this.game.addEntity(new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_THREE_HEIGHT));
 
     }
-
-    // Order of priority:  Platforms/Obstacles > Sprite > Pickups/Levers/Portals/Doors
-    loadLevelOne() { //less important is loaded first, then mains. 
-        this.x = 0;
-        this.currLevel = "World 1";
-        //this.level = level;
-
-        const LEVEL_ONE_HEIGHT = 64;
-
-        //ASSET_MANAGER.pauseBackgroundMusic();
-        ASSET_MANAGER.playAsset("./Audio.mp3");
-
-        this.game.isPlaying = true;
-        this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_ONE_HEIGHT);
-
-
-        //test for a moving platform
-
-        this.game.addEntity(new MovingPlatform(this.game, 1, 56, 8, 62, 3, 1, true, true, LEVEL_ONE_HEIGHT));
-        
-        var movePlatform = new MovingPlatform(this.game, 1, 3, 1, 17, 3, 1, true, true, LEVEL_ONE_HEIGHT);
-        this.game.addEntity(movePlatform);
-
-        this.game.addEntity(new BasicPlatform(this.game, 12, 57, 6, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 21, 53, 10, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 24, 46, 2, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 1, 41, 20, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 19, 29, 1, 11, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 9, 34, 2, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 19, 28, 12, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 4, 18, 1, 18, LEVEL_ONE_HEIGHT)); //started out 18
-        this.game.addEntity(new BasicPlatform(this.game, 1, 27, 1, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 1, 18, 3, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 1, 34, 1, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 0, 64, 32, 10, LEVEL_ONE_HEIGHT));
-
-        this.game.addEntity(new BasicPlatform(this.game, 28, 22, 1, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 22, 17, 1, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 26, 12, 1, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 12, 9, 9, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 4, 3, 27, 1, LEVEL_ONE_HEIGHT));
-
-        //horizontal warp borders
-        this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, 35, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, 38, LEVEL_ONE_HEIGHT));
-        //offscreen platforms for horizontal wrap
-        this.game.addEntity(new BasicPlatform(this.game, -2, 50, 2, 1, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 32, 50, 2, 1, LEVEL_ONE_HEIGHT));
-        //bottom
-        this.game.addEntity(new BasicPlatform(this.game, 0, 41, 1, 23, LEVEL_ONE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 31, 50, 1, 14, LEVEL_ONE_HEIGHT));
-        //experimental bomb
-        
-        this.game.addEntity(new Spblock(this.game, 29, 51, "bomb", LEVEL_ONE_HEIGHT));
-        
-        
-        this.game.addEntity(new Spikes(this.game, 29, 62, "left", LEVEL_ONE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 29, 60, "left", LEVEL_ONE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 29, 58, "left", LEVEL_ONE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 29, 56, "left", LEVEL_ONE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 29, 54, "left", LEVEL_ONE_HEIGHT, true));
-
-        this.game.addEntity(new Spikes(this.game, 27, 54, "down", LEVEL_ONE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 25, 54, "down", LEVEL_ONE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 23, 54, "down", LEVEL_ONE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 21, 54, "down", LEVEL_ONE_HEIGHT, true));
-
-
-        //gameEngine.addEntity(new CherryBlossom(gameEngine, 8, 40, LEVEL_ONE_HEIGHT));
-
-        this.game.addEntity(new Spblock(this.game, 14, 55, "bomb", LEVEL_ONE_HEIGHT));
-        
-
-
-        this.game.addEntity(new JumpSprite(this.game, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 5)); // platforms and 
-
-        //Levers, Doors, Portals, and Power-ups should be loaded after the JumpSprite
-
-        var exitPortal1 = new Portal(this.game, 21, 32, LEVEL_ONE_HEIGHT, "exit");
-        var startPortal1 = new Portal(this.game, 26, 58, LEVEL_ONE_HEIGHT, "start", exitPortal1);
-        this.game.addEntity(exitPortal1);
-        this.game.addEntity(startPortal1);
-
-        this.game.addEntity(new Lever(this.game, 2, 21, LEVEL_ONE_HEIGHT, false, movePlatform));
-        this.game.addEntity(new Door(this.game, 25, 2, LEVEL_ONE_HEIGHT));
-
-
-        this.game.addEntity(new ControlsSheet(this.game, 1, 42, 0.5, LEVEL_ONE_HEIGHT, true));
-
-        //this.game.addEntity(new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_ONE_HEIGHT));
-
-    };
 
     // loadBackground() {
 
