@@ -13,7 +13,7 @@ class SceneManager {
         this.score = 0;
         this.lives = 3;
 
-        this.startLevel = 1; // change this to change the starting level for debugging purposes
+        this.startLevel = 0; // change this to change the starting level for debugging purposes
 
         this.timer = 0;
         this.countingDown = false;
@@ -41,7 +41,7 @@ class SceneManager {
 
         this.win = false;
 
-        //this.cointAnimation = new Animator(ASSET_MANAGER.getAsset("..."), 0, 160, 8, 8, 4, 0.2, 0, false);
+        //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("..."), 0, 160, 8, 8, 4, 0.2, 0, false);
 
         this.game.jumpsprite = new JumpSprite(game, 0, 0);
 

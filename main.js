@@ -44,6 +44,7 @@ ASSET_MANAGER.queueDownload("./sounds/explosion.mp3");
 ASSET_MANAGER.queueDownload("./sounds/portal.mp3");
 ASSET_MANAGER.queueDownload("./sounds/lever.mp3");
 ASSET_MANAGER.queueDownload("./sounds/door.mp3");
+ASSET_MANAGER.queueDownload("./sounds/glass_break.mp3");
 
 //music
 ASSET_MANAGER.queueDownload("./music/Audio.mp3");

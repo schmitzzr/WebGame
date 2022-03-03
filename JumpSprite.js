@@ -394,6 +394,10 @@ class JumpSprite {
             
 
             // update state
+            if (Math.abs(this.velocity.y) > 200 && !this.onMovingPlatform) {
+                this.state = 3;
+            }
+
             if (this.state !== 3) {
                 if (this.crawl || this.stayCrawling) this.state = 2;
                 else if (Math.abs(this.velocity.x) >= MIN_WALK) this.state = 1;

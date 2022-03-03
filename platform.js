@@ -181,6 +181,8 @@ class WeakPlatform {
 
         if (this.countdown <= 0) {
             this.game.addEntity(new TextBomb(this.game, this.x, this.y, "BREAK!", 10)); // possibly removed
+            this.breaking = false;
+            ASSET_MANAGER.playAsset("./sounds/glass_break.mp3");
             this.removeFromWorld = true;
         }
     };
