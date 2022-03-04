@@ -22,6 +22,7 @@ ASSET_MANAGER.queueDownload("./image/grass-platform.png");
 ASSET_MANAGER.queueDownload("./image/move-platform.png");
 ASSET_MANAGER.queueDownload("./image/weak-platform.png");
 ASSET_MANAGER.queueDownload("./image/big-special.png");
+ASSET_MANAGER.queueDownload("./image/coin.png");
 
 ASSET_MANAGER.queueDownload("./image/spike-death.png");
 ASSET_MANAGER.queueDownload("./image/spikes.png");
@@ -45,6 +46,7 @@ ASSET_MANAGER.queueDownload("./sounds/portal.mp3");
 ASSET_MANAGER.queueDownload("./sounds/lever.mp3");
 ASSET_MANAGER.queueDownload("./sounds/door.mp3");
 ASSET_MANAGER.queueDownload("./sounds/glass_break.mp3");
+ASSET_MANAGER.queueDownload("./sounds/coin.mp3");
 
 //music
 ASSET_MANAGER.queueDownload("./music/Audio.mp3");
