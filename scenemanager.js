@@ -13,17 +13,18 @@ class SceneManager {
         this.score = 0;
         this.lives = 3;
 
-        this.startLevel = 0; // change this to change the starting level for debugging purposes
+        this.startLevel = 1; // change this to change the starting level for debugging purposes
 
         this.timer = 0;
         this.countingDown = false;
 
         // For calculating scores
         this.deathCount = 0;
+        this.tempCoins = 0;
         this.coins = 0;
         this.times = {
             levelOne: 90,
-            levelTwo: 120,
+            levelTwo: 180,
             levelThree: 120
         };
 
@@ -80,8 +81,8 @@ class SceneManager {
                 };
                 break;
             case 2: 
-                this.timer = 120;
-                this.levelLabel = "THINKING WITH PORTALS";
+                this.timer = 180;
+                this.levelLabel = "MOVING ON UP";
                 if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
                 else {
                     this.loadLevelTwo(); 
@@ -207,11 +208,15 @@ class SceneManager {
 
         this.game.addEntity(new Spblock(this.game, 14, 55, "bomb", LEVEL_ONE_HEIGHT));
         
+        // JumpSprite
 
+        this.game.addEntity(new JumpSprite(this.game, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 5));
 
-        this.game.addEntity(new JumpSprite(this.game, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 5)); // platforms and 
+        //Levers, Doors, Portals, Coins, and Power-ups should be loaded after the JumpSprite
 
-        //Levers, Doors, Portals, and Power-ups should be loaded after the JumpSprite
+        this.game.addEntity(new Coin(this.game, 7, 46, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new Coin(this.game, 27, 32, LEVEL_ONE_HEIGHT));
+        this.game.addEntity(new Coin(this.game, 14, 13, LEVEL_ONE_HEIGHT));
 
         var exitPortal1 = new Portal(this.game, 21, 32, LEVEL_ONE_HEIGHT, "exit");
         var startPortal1 = new Portal(this.game, 26, 58, LEVEL_ONE_HEIGHT, "start", exitPortal1);
@@ -234,6 +239,7 @@ class SceneManager {
 
         const LEVEL_TWO_HEIGHT = 64;
 
+        ASSET_MANAGER.playAsset("./music/Audio.mp3");
         this.game.isPlaying = true;
         this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_TWO_HEIGHT);
         
@@ -532,6 +538,12 @@ class SceneManager {
         this.game.addEntity(new JumpSprite(this.game, PARAMS.BLOCKWIDTH * 2, PARAMS.BLOCKWIDTH * -40));
         //this.game.addEntity(new JumpSprite(this.game, PARAMS.BLOCKWIDTH * 1, PARAMS.BLOCKWIDTH * 16)); // for debugging
 
+        // Coins
+        this.game.addEntity(new Coin(this.game, 16, 7, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new Coin(this.game, 21, 14, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new Coin(this.game, 14, 38, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new Coin(this.game, 26, 47, LEVEL_THREE_HEIGHT));
+
         // Levers
         this.game.addEntity(new Lever(this.game, 28, 24, LEVEL_THREE_HEIGHT, false, vertPlatform));
         this.game.addEntity(new Lever(this.game, 10, 15, LEVEL_THREE_HEIGHT, false, horizPlatform));
@@ -658,6 +670,8 @@ class SceneManager {
         if (this.game.levelComplete) {
             this.winTimer += this.game.clockTick;
             this.countingDown = false;
+            this.coins += this.tempCoins;
+            this.tempCoins = 0;
 
             switch(this.level) {
                 case 1: 
@@ -694,6 +708,7 @@ class SceneManager {
 
         if(this.game.jumpsprite.dead) {
             ASSET_MANAGER.pauseBackgroundMusic();
+            this.tempCoins = 0;
             this.deathTimer += this.game.clockTick;
             this.countingDown = false;
             if (this.deathTimer > 2) {
@@ -804,6 +819,9 @@ class SceneManager {
 
             ctx.fillText("LEVEL", 15.5 * PARAMS.BLOCKWIDTH, 1 * PARAMS.BLOCKWIDTH);
             ctx.fillText(this.level, 17.5 * PARAMS.BLOCKWIDTH, 1* PARAMS.BLOCKWIDTH);
+
+            ctx.fillText("COINS", 1.7 * PARAMS.BLOCKWIDTH, 2 * PARAMS.BLOCKWIDTH);
+            ctx.fillText(this.coins + this.tempCoins, 4 * PARAMS.BLOCKWIDTH, 2 * PARAMS.BLOCKWIDTH);
 
             if (this.timer < 10) ctx.fillStyle = "red";
             ctx.fillText("TIME", 28 * PARAMS.BLOCKWIDTH, 1 * PARAMS.BLOCKWIDTH);

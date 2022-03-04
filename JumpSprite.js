@@ -374,6 +374,11 @@ class JumpSprite {
                             that.game.levelComplete = true;
                         }
                     }
+                    if (entity instanceof Coin) {
+                        that.game.camera.tempCoins += 1;
+                        entity.removeFromWorld = true;
+                        ASSET_MANAGER.playAsset("./sounds/coin.mp3");
+                    }
                 }
             });
 
