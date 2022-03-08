@@ -13,7 +13,7 @@ class SceneManager {
         this.score = 0;
         this.lives = 3;
 
-        this.startLevel = 1; // change this to change the starting level for debugging purposes
+        this.startLevel = 4; // change this to change the starting level for debugging purposes
 
         this.timer = 0;
         this.countingDown = false;
@@ -25,7 +25,8 @@ class SceneManager {
         this.times = {
             levelOne: 90,
             levelTwo: 180,
-            levelThree: 120
+            levelThree: 120,
+            levelFour: 120
         };
 
         this.level = null;
@@ -78,7 +79,7 @@ class SceneManager {
                 else {
                     this.loadLevelOne(); 
                     this.countingDown = true;
-                };
+                }
                 break;
             case 2: 
                 this.timer = 180;
@@ -87,7 +88,7 @@ class SceneManager {
                 else {
                     this.loadLevelTwo(); 
                     this.countingDown = true;
-                };
+                }
                 break;
             case 3: 
                 this.timer = 120;
@@ -96,13 +97,17 @@ class SceneManager {
                 else {
                     this.loadLevelThree(); 
                     this.countingDown = true;
-                };
+                }
                 break;
-            // case 4:
-            //     this.levelLabel = "LEVERING THE PLAYING FIELD";
-            //     if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
-            //     else this.loadDebugLevel;
-            //     break;
+            case 4:
+                this.timer = 120;
+                this.levelLabel = "BACK AND FORTH";
+                if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
+                else {
+                    this.loadLevelFour();
+                    this.countingDown = true;
+                }
+                break;
             default: 
                 this.levelLabel = "DEBUG LEVEL";
                 this.timer = 1;
@@ -115,12 +120,15 @@ class SceneManager {
     loadDebugLevel() {
         const DEBUG_HEIGHT = 64;
         this.currLevel = "Debug Level";
+        //ASSET_MANAGER.playAsset("./music/Audio.mp3");
 
         this.game.isPlaying = true;
         this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, DEBUG_HEIGHT);
               
         // platform testing
         this.game.addEntity(new BasicPlatform(this.game, -2, DEBUG_HEIGHT, 36, 1, DEBUG_HEIGHT));
+
+        this.game.addEntity(new Bat(this.game, 16, 50, 10, DEBUG_HEIGHT, 1));
 
         var vertPlatform = new MovingPlatform(this.game, 16, 62, 16, 56, 3, 1, true, true, DEBUG_HEIGHT);
         var horzPlatform = new MovingPlatform(this.game, 21, 60, 26, 50, 3, 1, true, false, DEBUG_HEIGHT);
@@ -241,7 +249,7 @@ class SceneManager {
 
         ASSET_MANAGER.playAsset("./music/Audio.mp3");
         this.game.isPlaying = true;
-        this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_TWO_HEIGHT);
+        this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_TWO_HEIGHT + 40);
         
         this.game.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH * 4, PARAMS.BLOCKWIDTH * -58)); //essentially (5, )
         //this.game.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH * 0, PARAMS.BLOCKWIDTH * 10)); //essentially (5, )
@@ -577,6 +585,104 @@ class SceneManager {
 
     }
 
+    loadLevelFour() {
+
+        this.currLevel = "World 4";
+        const LEVEL_FOUR_HEIGHT = 64;
+
+        ASSET_MANAGER.playAsset("./music/Audio.mp3"); // for some reason Nightclub.mp3 gets cut off?
+
+        this.game.isPlaying = true;
+        this.game.background = new Background(this.game, "./backgrounds/level3background.png", 1024, 2688, LEVEL_FOUR_HEIGHT);
+        
+        // borders
+        this.game.addEntity(new BasicPlatform(this.game, -1, LEVEL_FOUR_HEIGHT, 35, 14, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, -1, 10, 2, 23, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 31, 10, 2, 17, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, -1, 0, 18, 1, LEVEL_FOUR_HEIGHT));
+
+        // Platforms
+        this.game.addEntity(new BasicPlatform(this.game, 14, 32, 1, 32, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 17, 32, 1, 32, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 14, 5, 1, 22, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 17, 0, 1, 26, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 17, 32, 3, 1, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 17, 26, 14, 1, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, -1, 5, 15, 1, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 17, 5, 18, 1, LEVEL_FOUR_HEIGHT));
+        
+        this.game.addEntity(new BasicPlatform(this.game, 3, 57, 3, 1, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 3, 45, 3, 1, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 26, 51, 3, 1, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 26, 39, 3, 1, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 10, 1, 1, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 30, 10, 4, 1, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 26, 14, 1, 1, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 22, 19, 1, 1, LEVEL_FOUR_HEIGHT));
+
+        // Moving Platforms
+
+        var lowerPlatform = new MovingPlatform(this.game, 15, 33, 15, 63, 2, 1, false, true, LEVEL_FOUR_HEIGHT);
+        var upperPlatform = new MovingPlatform(this.game, 15, 5, 15, 32, 2, 1, false, true, LEVEL_FOUR_HEIGHT);
+
+        this.game.addEntity(lowerPlatform);
+        this.game.addEntity(upperPlatform);
+
+        // Weak Platforms
+        this.game.addEntity(new WeakPlatform(this.game, 1, 32, 3, 1, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new WeakPlatform(this.game, 6, 32, 3, 1, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new WeakPlatform(this.game, 11, 32, 3, 1, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new WeakPlatform(this.game, 9, 27, 2, 1, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new WeakPlatform(this.game, 3, 22, 3, 1, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new WeakPlatform(this.game, 9, 16, 2, 1, LEVEL_FOUR_HEIGHT));
+
+        // Bats
+        this.game.addEntity(new Bat(this.game, 22, 9, 6, LEVEL_FOUR_HEIGHT, 1));
+        this.game.addEntity(new Bat(this.game, 19, 16, 6, LEVEL_FOUR_HEIGHT, 2));
+        this.game.addEntity(new Bat(this.game, 27, 18, 6, LEVEL_FOUR_HEIGHT, 3));
+        this.game.addEntity(new Bat(this.game, 22, 23, 6, LEVEL_FOUR_HEIGHT, 4));
+        this.game.addEntity(new Bat(this.game, 29, 14, 6, LEVEL_FOUR_HEIGHT, 5));
+
+        // Bombs
+        this.game.addEntity(new Spblock(this.game, 23, 19, "bomb", LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new Spblock(this.game, 2, 14, "bomb", LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new Spblock(this.game, 9, 2, "bomb", LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new Spblock(this.game, 3, 2, "bomb", LEVEL_FOUR_HEIGHT));
+
+        // Spikes
+        this.game.addEntity(new Spikes(this.game, 12, 56, "left", LEVEL_FOUR_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 12, 58, "left", LEVEL_FOUR_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 12, 60, "left", LEVEL_FOUR_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 12, 62, "left", LEVEL_FOUR_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 18, 56, "right", LEVEL_FOUR_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 18, 58, "right", LEVEL_FOUR_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 18, 60, "right", LEVEL_FOUR_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 18, 62, "right", LEVEL_FOUR_HEIGHT, true));
+
+
+        // Sprite
+        this.game.addEntity(new JumpSprite(this.game, PARAMS.BLOCKWIDTH * 7, PARAMS.BLOCKWIDTH * 16));
+        //this.game.addEntity(new JumpSprite(this.game, PARAMS.BLOCKWIDTH * 25, PARAMS.BLOCKWIDTH * -48));
+
+        // Coins
+        this.game.addEntity(new Coin(this.game, 20, 51, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new Coin(this.game, 11, 40, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new Coin(this.game, 1, 24, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new Coin(this.game, 3, 2, LEVEL_FOUR_HEIGHT));
+
+        // Levers
+        this.game.addEntity(new Lever(this.game, 30, 23, LEVEL_FOUR_HEIGHT, false, lowerPlatform));
+        this.game.addEntity(new Lever(this.game, 16, 58, LEVEL_FOUR_HEIGHT, false, upperPlatform));
+
+        // Portals
+
+
+        // Door
+        this.game.addEntity(new Door(this.game, 19, 3.5, LEVEL_FOUR_HEIGHT));
+
+
+    }
+
     // loadBackground() {
 
     // }
@@ -683,13 +789,16 @@ class SceneManager {
                 case 3: 
                     this.times.levelThree = this.timer;
                     break;
+                case 4: 
+                    this.times.levelFour = this.timer;
+                    break;
             }
 
             if (this.winTimer > 1.5) {
                 ASSET_MANAGER.pauseBackgroundMusic();
                 this.game.levelComplete = false;
                 this.winTimer = 0;
-                if (this.level < 3) this.loadLevel(this.level + 1, true, false);  //set to +1 when level 2 is complete
+                if (this.level < 4) this.loadLevel(this.level + 1, true, false);  //set to +1 when level 2 is complete
                 else {
                     this.clearEntities();
                     this.win = true;

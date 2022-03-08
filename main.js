@@ -47,15 +47,17 @@ ASSET_MANAGER.queueDownload("./sounds/lever.mp3");
 ASSET_MANAGER.queueDownload("./sounds/door.mp3");
 ASSET_MANAGER.queueDownload("./sounds/glass_break.mp3");
 ASSET_MANAGER.queueDownload("./sounds/coin.mp3");
+ASSET_MANAGER.queueDownload("./sounds/bats.mp3");
+ASSET_MANAGER.queueDownload("./sounds/squish.mp3");
 
 //music
 ASSET_MANAGER.queueDownload("./music/Audio.mp3");
-ASSET_MANAGER.queueDownload("./music2/Audio.mp3");
+ASSET_MANAGER.queueDownload("./music/Dmitri.mp3");
 
 ASSET_MANAGER.downloadAll(() => {
 	
 	ASSET_MANAGER.autoRepeat("./music/Audio.mp3");
-	ASSET_MANAGER.autoRepeat("./music2/Audio.mp3");
+	//ASSET_MANAGER.autoRepeat("./music/Dmitri.mp3");
 
 	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
 
