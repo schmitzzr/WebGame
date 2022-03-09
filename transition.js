@@ -33,7 +33,7 @@ class WinningScreen {
     constructor(game, times, coins, deaths) {
         Object.assign(this, { game, times, coins, deaths });
 
-        this.totalTime = this.times.levelOne + this.times.levelTwo + this.times.levelThree;
+        this.totalTime = this.times.levelOne + this.times.levelTwo + this.times.levelThree + this.times.levelFour;
 
         this.score = Math.floor(this.totalTime * 100 + this.coins * 2500 - this.deaths * 2000);
 
@@ -59,7 +59,8 @@ class WinningScreen {
         ctx.fillText("LEVEL 1 - " + this.timerCalc(this.times.levelOne), 16* PARAMS.BLOCKWIDTH, 11 * PARAMS.BLOCKWIDTH);
         ctx.fillText("LEVEL 2 - " + this.timerCalc(this.times.levelTwo), 16* PARAMS.BLOCKWIDTH, 12 * PARAMS.BLOCKWIDTH);
         ctx.fillText("LEVEL 3 - " + this.timerCalc(this.times.levelThree), 16* PARAMS.BLOCKWIDTH, 13 * PARAMS.BLOCKWIDTH);
-        ctx.fillText("TOTAL - " + this.timerCalc(this.totalTime), 16* PARAMS.BLOCKWIDTH, 14 * PARAMS.BLOCKWIDTH);
+        ctx.fillText("LEVEL 4 - " + this.timerCalc(this.times.levelFour), 16* PARAMS.BLOCKWIDTH, 14 * PARAMS.BLOCKWIDTH);
+        ctx.fillText("TOTAL - " + this.timerCalc(this.totalTime), 16* PARAMS.BLOCKWIDTH, 15 * PARAMS.BLOCKWIDTH);
 
         ctx.fillText("COINS - " + this.coins, 16* PARAMS.BLOCKWIDTH, 16 * PARAMS.BLOCKWIDTH);
 

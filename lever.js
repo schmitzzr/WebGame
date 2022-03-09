@@ -41,6 +41,7 @@ class Lever {
             if(entity.BB && that.BB.collide(entity.BB)) {
                 if(entity.interact && !that.timeout) {
                     that.up = !that.up;
+                    ASSET_MANAGER.playAsset("./sounds/lever.mp3");
                     that.countdown = 50;
                 }
             }

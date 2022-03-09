@@ -22,6 +22,7 @@ ASSET_MANAGER.queueDownload("./image/grass-platform.png");
 ASSET_MANAGER.queueDownload("./image/move-platform.png");
 ASSET_MANAGER.queueDownload("./image/weak-platform.png");
 ASSET_MANAGER.queueDownload("./image/big-special.png");
+ASSET_MANAGER.queueDownload("./image/coin.png");
 
 ASSET_MANAGER.queueDownload("./image/spike-death.png");
 ASSET_MANAGER.queueDownload("./image/spikes.png");
@@ -39,14 +40,24 @@ ASSET_MANAGER.queueDownload("./backgrounds/forest.png");
 ASSET_MANAGER.queueDownload("./backgrounds/level1background.png");
 ASSET_MANAGER.queueDownload("./backgrounds/level3background.png");
 
+//sound effects
+ASSET_MANAGER.queueDownload("./sounds/explosion.mp3");
+ASSET_MANAGER.queueDownload("./sounds/portal.mp3");
+ASSET_MANAGER.queueDownload("./sounds/lever.mp3");
+ASSET_MANAGER.queueDownload("./sounds/door.mp3");
+ASSET_MANAGER.queueDownload("./sounds/glass_break.mp3");
+ASSET_MANAGER.queueDownload("./sounds/coin.mp3");
+ASSET_MANAGER.queueDownload("./sounds/bats.mp3");
+ASSET_MANAGER.queueDownload("./sounds/squish.mp3");
 
 //music
-ASSET_MANAGER.queueDownload("./Audio.mp3");
-ASSET_MANAGER.queueDownload("./Nightclub.mp3");
+ASSET_MANAGER.queueDownload("./music/Audio.mp3");
+ASSET_MANAGER.queueDownload("./music/Dmitri.mp3");
 
 ASSET_MANAGER.downloadAll(() => {
 	
-	ASSET_MANAGER.autoRepeat("./Audio.mp3");
+	ASSET_MANAGER.autoRepeat("./music/Audio.mp3");
+	//ASSET_MANAGER.autoRepeat("./music/Dmitri.mp3");
 
 	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
 

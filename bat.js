@@ -141,6 +141,7 @@ class Bat{
                         entity.velocity.y = -400;
                         entity.y -= 4;
 
+                        ASSET_MANAGER.playAsset("./sounds/squish.mp3");
                         that.removeFromWorld = true; //jumping on the head of a bat will trigger a small jump and kill the bat
 
                         that.game.addEntity(new Texteffect(that.game, that.x, that.y, "POP!"));
