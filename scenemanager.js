@@ -13,7 +13,7 @@ class SceneManager {
         this.score = 0;
         this.lives = 3;
 
-        this.startLevel = 4; // change this to change the starting level for debugging purposes
+        this.startLevel = 1; // change this to change the starting level for debugging purposes
 
         this.timer = 0;
         this.countingDown = false;
