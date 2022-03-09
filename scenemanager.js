@@ -145,7 +145,8 @@ class SceneManager {
         this.game.isPlaying = true;
         this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_TWO_HEIGHT);
         
-        this.game.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH * 4, PARAMS.BLOCKWIDTH * -58)); //essentially (5, )
+        this.game.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH * 1, PARAMS.BLOCKWIDTH * 10)); //essentially (5, )
+        //this.game.addEntity(new Coin)
         //this.game.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH * 0, PARAMS.BLOCKWIDTH * 10)); //essentially (5, )
 
         this.game.addEntity(new BasicPlatform(this.game, -2, 64, 36, 1, LEVEL_TWO_HEIGHT));
