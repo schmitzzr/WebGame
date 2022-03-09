@@ -17,6 +17,7 @@ class SceneManager {
 
         this.timer = 0;
         this.countingDown = false;
+        this.timerStatus = true; // true if timer should exist, false if not;  used with cheat code "time" at main menu
 
         // For calculating scores
         this.deathCount = 0;
@@ -72,7 +73,7 @@ class SceneManager {
                 if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
                 else {
                     this.loadLevelOne(); 
-                    this.countingDown = true;
+                    this.countingDown = this.timerStatus;
                 }
                 break;
             case 2: 
@@ -81,7 +82,7 @@ class SceneManager {
                 if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
                 else {
                     this.loadLevelTwo(); 
-                    this.countingDown = true;
+                    this.countingDown = this.timerStatus;
                 }
                 break;
             case 3: 
@@ -90,7 +91,7 @@ class SceneManager {
                 if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
                 else {
                     this.loadLevelThree(); 
-                    this.countingDown = true;
+                    this.countingDown = this.timerStatus;
                 }
                 break;
             case 4:
@@ -99,7 +100,7 @@ class SceneManager {
                 if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
                 else {
                     this.loadLevelFour();
-                    this.countingDown = true;
+                    this.countingDown = this.timerStatus;
                 }
                 break;
             default: 
@@ -480,41 +481,6 @@ class SceneManager {
         this.game.addEntity(new Spikes(this.game, 13, 56, "left", LEVEL_FOUR_HEIGHT, true));
         this.game.addEntity(new Spikes(this.game, 16, 54, "left", LEVEL_FOUR_HEIGHT, true));
 
-        var exitPortal1 = new Portal(gameEngine, 18, 36, LEVEL_FOUR_HEIGHT, "exit");
-        var startPortal1 = new Portal(gameEngine, 3, 46, LEVEL_FOUR_HEIGHT, "start", exitPortal1);
-        gameEngine.addEntity(exitPortal1);
-        gameEngine.addEntity(startPortal1);
-
-        this.game.addEntity(new BasicPlatform(this.game, 18, 40, 14, 2, LEVEL_FOUR_HEIGHT));
-
-        var exitPortal2 = new Portal(gameEngine, 25, 20, LEVEL_FOUR_HEIGHT, "exit");
-        var startPortal2 = new Portal(gameEngine, 25, 32, LEVEL_FOUR_HEIGHT, "start", exitPortal2);
-        gameEngine.addEntity(exitPortal2);
-        gameEngine.addEntity(startPortal2);
-
-        this.game.addEntity(new BasicPlatform(this.game, 0, 30, 32, 2, LEVEL_FOUR_HEIGHT));
-
-        var exitPortal3 = new Portal(gameEngine, 15, 20, LEVEL_FOUR_HEIGHT, "exit");
-        var startPortal3 = new Portal(gameEngine, 17, 26, LEVEL_FOUR_HEIGHT, "start", exitPortal3);
-        gameEngine.addEntity(exitPortal3);
-        gameEngine.addEntity(startPortal3);
-
-        var exitPortal4 = new Portal(gameEngine, 10, 20, LEVEL_FOUR_HEIGHT, "exit");
-        var startPortal4 = new Portal(gameEngine, 13, 26, LEVEL_FOUR_HEIGHT, "start", exitPortal4);
-        gameEngine.addEntity(exitPortal4);
-        gameEngine.addEntity(startPortal4);
-
-        var exitPortal5 = new Portal(gameEngine, 4, 20, LEVEL_FOUR_HEIGHT, "exit");
-        var startPortal5 = new Portal(gameEngine, 7, 26, LEVEL_FOUR_HEIGHT, "start", exitPortal5);
-        gameEngine.addEntity(exitPortal5);
-        gameEngine.addEntity(startPortal5);
-
-        //exit the portal tunnel
-        var exitPortal6 = new Portal(gameEngine, 5, 9, LEVEL_FOUR_HEIGHT, "exit"); // 5 9
-        var startPortal6 = new Portal(gameEngine, 1, 26, LEVEL_FOUR_HEIGHT, "start", exitPortal6); //1 26 
-        gameEngine.addEntity(exitPortal6);
-        gameEngine.addEntity(startPortal6);
-
         //spikes for tunnel
         gameEngine.addEntity(new Spikes(gameEngine, 0, 28, "up", LEVEL_FOUR_HEIGHT, true));
         gameEngine.addEntity(new Spikes(gameEngine, 2, 28, "up", LEVEL_FOUR_HEIGHT, true));
@@ -639,6 +605,44 @@ class SceneManager {
         this.game.addEntity(new BasicPlatform(this.game, 0, -50, 12, 2, LEVEL_FOUR_HEIGHT));
 
         //portals and pigs
+
+        //portals above
+        var exitPortal1 = new Portal(gameEngine, 18, 36, LEVEL_FOUR_HEIGHT, "exit");
+        var startPortal1 = new Portal(gameEngine, 3, 46, LEVEL_FOUR_HEIGHT, "start", exitPortal1);
+        gameEngine.addEntity(exitPortal1);
+        gameEngine.addEntity(startPortal1);
+
+        this.game.addEntity(new BasicPlatform(this.game, 18, 40, 14, 2, LEVEL_FOUR_HEIGHT));
+
+        var exitPortal2 = new Portal(gameEngine, 25, 20, LEVEL_FOUR_HEIGHT, "exit");
+        var startPortal2 = new Portal(gameEngine, 25, 32, LEVEL_FOUR_HEIGHT, "start", exitPortal2);
+        gameEngine.addEntity(exitPortal2);
+        gameEngine.addEntity(startPortal2);
+
+        this.game.addEntity(new BasicPlatform(this.game, 0, 30, 32, 2, LEVEL_FOUR_HEIGHT));
+
+        var exitPortal3 = new Portal(gameEngine, 15, 20, LEVEL_FOUR_HEIGHT, "exit");
+        var startPortal3 = new Portal(gameEngine, 17, 26, LEVEL_FOUR_HEIGHT, "start", exitPortal3);
+        gameEngine.addEntity(exitPortal3);
+        gameEngine.addEntity(startPortal3);
+
+        var exitPortal4 = new Portal(gameEngine, 10, 20, LEVEL_FOUR_HEIGHT, "exit");
+        var startPortal4 = new Portal(gameEngine, 13, 26, LEVEL_FOUR_HEIGHT, "start", exitPortal4);
+        gameEngine.addEntity(exitPortal4);
+        gameEngine.addEntity(startPortal4);
+
+        var exitPortal5 = new Portal(gameEngine, 4, 20, LEVEL_FOUR_HEIGHT, "exit");
+        var startPortal5 = new Portal(gameEngine, 7, 26, LEVEL_FOUR_HEIGHT, "start", exitPortal5);
+        gameEngine.addEntity(exitPortal5);
+        gameEngine.addEntity(startPortal5);
+
+        //exit the portal tunnel
+        var exitPortal6 = new Portal(gameEngine, 5, 9, LEVEL_FOUR_HEIGHT, "exit"); // 5 9
+        var startPortal6 = new Portal(gameEngine, 1, 26, LEVEL_FOUR_HEIGHT, "start", exitPortal6); //1 26 
+        gameEngine.addEntity(exitPortal6);
+        gameEngine.addEntity(startPortal6);
+
+
         //exit the portal tunnel
         var exitPortal7 = new Portal(gameEngine, 0, -48, LEVEL_FOUR_HEIGHT, "exit"); 
         var startPortal7 = new Portal(gameEngine, 0, -2, LEVEL_FOUR_HEIGHT, "start", exitPortal7); 
@@ -734,6 +738,10 @@ class SceneManager {
                     this.levelLoaded = true;
                     this.loadLevel(4, true, false);  //I can manually load different levels after start screen
                 }
+            } else if (this.game.keys["t"] && this.game.keys["i"] && this.game.keys["m"] && this.game.keys["e"]) { // "time" to disable timer
+                this.timerStatus = false;
+            } else if (this.game.keys["T"] && this.game.keys["I"] && this.game.keys["M"] && this.game.keys["E"]) { // "TIME" to enable timer
+                this.timerStatus = true;
             }
 
             if (this.game.click && this.game.click.y > 13.5 * PARAMS.BLOCKWIDTH && this.game.click.y < 14.5 * PARAMS.BLOCKWIDTH) {
@@ -758,6 +766,8 @@ class SceneManager {
             this.clearEntities();
             this.game.addEntity(new WinningScreen(this.game, this.times, this.coins, this.deathCount));
             if ((this.game.click && this.game.click.y > 21 * PARAMS.BLOCKWIDTH && this.game.click.y < 22 * PARAMS.BLOCKWIDTH)) {
+                this.coins = 0;
+                this.tempCoins = 0;
                 this.win = false;
                 this.title = true;
                 this.levelLoaded = false;
