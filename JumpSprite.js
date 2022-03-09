@@ -222,7 +222,7 @@ class JumpSprite {
                         
                         that.onMovingPlatform = entity;
 
-                        that.velocity.y = 0;
+                        that.velocity.y = entity.velocity.y;
                         
                         if(that.state === 3) that.state = 0; // set state to idle
                         that.updateBB();
