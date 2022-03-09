@@ -24,9 +24,9 @@ class SceneManager {
         this.coins = 0;
         this.times = {
             levelOne: 90,
-            levelTwo: 180,
+            levelTwo: 120,
             levelThree: 120,
-            levelFour: 120
+            levelFour: 180
         };
 
         this.level = null;
@@ -43,8 +43,6 @@ class SceneManager {
 
         this.win = false;
 
-        //this.coinAnimation = new Animator(ASSET_MANAGER.getAsset("..."), 0, 160, 8, 8, 4, 0.2, 0, false);
-
         this.game.jumpsprite = new JumpSprite(game, 0, 0);
 
         this.title = true;
@@ -53,12 +51,8 @@ class SceneManager {
         this.deathTimer = 0;
         this.winTimer = 0;
 
-        //this.loadBackground();
-
     };
 
-
-    //addCoin() {}
     clearEntities() {
         this.game.entities.forEach(function (entity) {
             entity.removeFromWorld = true;
@@ -82,8 +76,8 @@ class SceneManager {
                 }
                 break;
             case 2: 
-                this.timer = 180;
-                this.levelLabel = "MOVING ON UP";
+                this.timer = 120;
+                this.levelLabel = "CHOOSE WISELY";
                 if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
                 else {
                     this.loadLevelTwo(); 
@@ -92,7 +86,7 @@ class SceneManager {
                 break;
             case 3: 
                 this.timer = 120;
-                this.levelLabel = "CHOOSE WISELY";
+                this.levelLabel = "BACK AND FORTH";
                 if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
                 else {
                     this.loadLevelThree(); 
@@ -100,8 +94,8 @@ class SceneManager {
                 }
                 break;
             case 4:
-                this.timer = 120;
-                this.levelLabel = "BACK AND FORTH";
+                this.timer = 180;
+                this.levelLabel = "MOVING ON UP";
                 if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
                 else {
                     this.loadLevelFour();
@@ -110,7 +104,7 @@ class SceneManager {
                 break;
             default: 
                 this.levelLabel = "DEBUG LEVEL";
-                this.timer = 1;
+                this.timer = 69;
                 if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
                 this.loadDebugLevel();
         }
@@ -131,7 +125,7 @@ class SceneManager {
         this.game.addEntity(new Bat(this.game, 16, 50, 10, DEBUG_HEIGHT, 1));
 
         var vertPlatform = new MovingPlatform(this.game, 16, 62, 16, 56, 3, 1, true, true, DEBUG_HEIGHT);
-        var horzPlatform = new MovingPlatform(this.game, 21, 60, 26, 50, 3, 1, true, false, DEBUG_HEIGHT);
+        var horzPlatform = new MovingPlatform(this.game, 21, 60, 26, 50, 3, 1, true, false, DEBUG_HEIGHT, 5);
         this.game.addEntity(vertPlatform);
         this.game.addEntity(horzPlatform);
         this.game.addEntity(new WeakPlatform(this.game, 7, 62, 3, 1, DEBUG_HEIGHT));
@@ -242,228 +236,123 @@ class SceneManager {
     };
 
     loadLevelTwo() {
-        this.x = 0;
-        this.currLevel = "World 2";
 
+        this.currLevel = "World 2";
         const LEVEL_TWO_HEIGHT = 64;
 
-        ASSET_MANAGER.playAsset("./music/Audio.mp3");
+        ASSET_MANAGER.playAsset("./music/Audio.mp3"); // for some reason Nightclub.mp3 gets cut off?
+
         this.game.isPlaying = true;
-        this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_TWO_HEIGHT); //image just isn't large enough
+        this.game.background = new Background(this.game, "./backgrounds/level3background.png", 1024, 2688, LEVEL_TWO_HEIGHT);
         
-        this.game.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH * 1, PARAMS.BLOCKWIDTH * 10)); //essentially (5, )
+        // borders
+        this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, LEVEL_TWO_HEIGHT, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, -2, 0, 2, 1, LEVEL_TWO_HEIGHT)); // horizontal wrap
+        this.game.addEntity(new BasicPlatform(this.game, 32, 0, 2, 1, LEVEL_TWO_HEIGHT)); // horizontal wrap
+        this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, LEVEL_TWO_HEIGHT, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 0, LEVEL_TWO_HEIGHT, 32, 14, LEVEL_TWO_HEIGHT));
 
-        this.game.addEntity(new BasicPlatform(this.game, -2, 64, 36, 1, LEVEL_TWO_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 6, 62, 26, 2, LEVEL_TWO_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 9, 60, 23, 2, LEVEL_TWO_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 12, 58, 20, 2, LEVEL_TWO_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 15, 56, 17, 2, LEVEL_TWO_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 18, 54, 14, 2, LEVEL_TWO_HEIGHT));
-        this.game.addEntity(new Coin(this.game, 20, 52, LEVEL_TWO_HEIGHT));
+        // Platforms
+        this.game.addEntity(new BasicPlatform(this.game, 3, 4, 28, 1, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 3, 13, 28, 1, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 3, 22, 28, 1, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 3, 31, 28, 1, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 3, 4, 1, 27, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 40, 4, 3, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 25, 40, 4, 3, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 43, 28, 1, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 8, 14, 1, 5, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 9, 18, 4, 1, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 50, 4, 1, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 9, 53, 1, 1, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 18, 56, 1, 1, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 26, 60, 1, 1, LEVEL_TWO_HEIGHT));
 
-        this.game.addEntity(new Spikes(this.game, 4, 62, "left", LEVEL_TWO_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 7, 60, "left", LEVEL_TWO_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 10, 58, "left", LEVEL_TWO_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 13, 56, "left", LEVEL_TWO_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 16, 54, "left", LEVEL_TWO_HEIGHT, true));
+        // Moving Platforms
+        var vertPlatform = new MovingPlatform(this.game, 1, 4, 1, 39, 2, 1, false, true, LEVEL_TWO_HEIGHT);
+        this.game.addEntity(vertPlatform);
 
-        var exitPortal1 = new Portal(gameEngine, 18, 36, LEVEL_TWO_HEIGHT, "exit");
-        var startPortal1 = new Portal(gameEngine, 3, 46, LEVEL_TWO_HEIGHT, "start", exitPortal1);
-        gameEngine.addEntity(exitPortal1);
-        gameEngine.addEntity(startPortal1);
+        var horizPlatform = new MovingPlatform(this.game, 25, 19, 17, 19, 3, 1, false, false, LEVEL_TWO_HEIGHT);
+        this.game.addEntity(horizPlatform);
 
-        this.game.addEntity(new BasicPlatform(this.game, 18, 40, 14, 2, LEVEL_TWO_HEIGHT));
+        // Weak Platforms
+        this.game.addEntity(new WeakPlatform(this.game, 9, 40, 3, 1, LEVEL_TWO_HEIGHT, 1.5));
+        this.game.addEntity(new WeakPlatform(this.game, 17, 40, 3, 1, LEVEL_TWO_HEIGHT, 1.5));
 
-        var exitPortal2 = new Portal(gameEngine, 25, 20, LEVEL_TWO_HEIGHT, "exit");
-        var startPortal2 = new Portal(gameEngine, 25, 32, LEVEL_TWO_HEIGHT, "start", exitPortal2);
-        gameEngine.addEntity(exitPortal2);
-        gameEngine.addEntity(startPortal2);
+        // Bats
+        this.game.addEntity(new Bat(this.game, 9, 7, 6, LEVEL_TWO_HEIGHT, 1));
+        this.game.addEntity(new Bat(this.game, 15, 6, 6, LEVEL_TWO_HEIGHT, 2));
+        this.game.addEntity(new Bat(this.game, 23, 8, 6, LEVEL_TWO_HEIGHT, 3));
+        this.game.addEntity(new Bat(this.game, 19, 10, 6, LEVEL_TWO_HEIGHT, 4));
 
-        this.game.addEntity(new BasicPlatform(this.game, 0, 30, 32, 2, LEVEL_TWO_HEIGHT));
-
-        var exitPortal3 = new Portal(gameEngine, 15, 20, LEVEL_TWO_HEIGHT, "exit");
-        var startPortal3 = new Portal(gameEngine, 17, 26, LEVEL_TWO_HEIGHT, "start", exitPortal3);
-        gameEngine.addEntity(exitPortal3);
-        gameEngine.addEntity(startPortal3);
-
-        var exitPortal4 = new Portal(gameEngine, 10, 20, LEVEL_TWO_HEIGHT, "exit");
-        var startPortal4 = new Portal(gameEngine, 13, 26, LEVEL_TWO_HEIGHT, "start", exitPortal4);
-        gameEngine.addEntity(exitPortal4);
-        gameEngine.addEntity(startPortal4);
-
-        var exitPortal5 = new Portal(gameEngine, 4, 20, LEVEL_TWO_HEIGHT, "exit");
-        var startPortal5 = new Portal(gameEngine, 7, 26, LEVEL_TWO_HEIGHT, "start", exitPortal5);
-        gameEngine.addEntity(exitPortal5);
-        gameEngine.addEntity(startPortal5);
-
-        //exit the portal tunnel
-        var exitPortal6 = new Portal(gameEngine, 5, 9, LEVEL_TWO_HEIGHT, "exit"); // 5 9
-        var startPortal6 = new Portal(gameEngine, 1, 26, LEVEL_TWO_HEIGHT, "start", exitPortal6); //1 26 
-        gameEngine.addEntity(exitPortal6);
-        gameEngine.addEntity(startPortal6);
-
-        //spikes for tunnel
-        gameEngine.addEntity(new Spikes(gameEngine, 0, 28, "up", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 2, 28, "up", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 4, 28, "up", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 6, 28, "up", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 8, 28, "up", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 10, 28, "up", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 12, 28, "up", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 14, 28, "up", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 16, 28, "up", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 18, 28, "up", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 20, 28, "up", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 22, 28, "up", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 24, 28, "up", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 26, 28, "up", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 28, 28, "up", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 30, 28, "up", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 32, 28, "up", LEVEL_TWO_HEIGHT, true));
-
-        gameEngine.addEntity(new Spikes(gameEngine, 0, 14, "down", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 2, 14, "down", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 4, 14, "down", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 6, 14, "down", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 8, 14, "down", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 10, 14, "down", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 12, 14, "down", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 14, 14, "down", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 16, 14, "down", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 18, 14, "down", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 20, 14, "down", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 22, 14, "down", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 24, 14, "down", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 26, 14, "down", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 28, 14, "down", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 30, 14, "down", LEVEL_TWO_HEIGHT, true));
-        gameEngine.addEntity(new Spikes(gameEngine, 32, 14, "down", LEVEL_TWO_HEIGHT, true));
+        // Bombs
+        this.game.addEntity(new Spblock(this.game, 15, 24, "bomb", LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new Spblock(this.game, 10, 28, "bomb", LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new Spblock(this.game, 21, 23, "bomb", LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new Spblock(this.game, 24, 29, "bomb", LEVEL_TWO_HEIGHT));
 
 
-        //spikes for tunnel
+        // Spikes
+        this.game.addEntity(new Spikes(this.game, 9, 19, "down", LEVEL_TWO_HEIGHT, true)); 
+        this.game.addEntity(new Spikes(this.game, 11, 19, "down", LEVEL_TWO_HEIGHT, true));
 
-        this.game.addEntity(new BasicPlatform(this.game, 0, 12, 32, 2, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new Spikes(this.game, 17, 20, "up", LEVEL_TWO_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 19, 20, "up", LEVEL_TWO_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 21, 20, "up", LEVEL_TWO_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 23, 20, "up", LEVEL_TWO_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 25, 20, "up", LEVEL_TWO_HEIGHT, true));
 
-        this.game.addEntity(new Bat(this.game, 4, 4, 9, LEVEL_TWO_HEIGHT, 2)); 
-        this.game.addEntity(new Bat(this.game, 26, 8, 8, LEVEL_TWO_HEIGHT, 3));
-        this.game.addEntity(new Bat(this.game, 8, 4, 7, LEVEL_TWO_HEIGHT, 4)); 
-        this.game.addEntity(new Bat(this.game, 16, 8, 6, LEVEL_TWO_HEIGHT, 5));
-        this.game.addEntity(new Bat(this.game,21, 4, 12, LEVEL_TWO_HEIGHT, 6)); 
-        this.game.addEntity(new Bat(this.game, 23, 8, 12, LEVEL_TWO_HEIGHT, 7));
-        this.game.addEntity(new Bat(this.game, 19, 4, 12, LEVEL_TWO_HEIGHT, 8)); 
-        this.game.addEntity(new Bat(this.game, 6, 8, 7, LEVEL_TWO_HEIGHT, 9));
+        this.game.addEntity(new Spikes(this.game, 5, 41, "up", LEVEL_TWO_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 7, 41, "up", LEVEL_TWO_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 9, 41, "up", LEVEL_TWO_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 11, 41, "up", LEVEL_TWO_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 13, 41, "up", LEVEL_TWO_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 15, 41, "up", LEVEL_TWO_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 17, 41, "up", LEVEL_TWO_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 19, 41, "up", LEVEL_TWO_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 21, 41, "up", LEVEL_TWO_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 23, 41, "up", LEVEL_TWO_HEIGHT, true));
 
-        this.game.addEntity(new Coin(this.game, 14, -2, LEVEL_TWO_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, 12, LEVEL_TWO_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, 12, LEVEL_TWO_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 14, 0, 2, 9, LEVEL_TWO_HEIGHT));
+        // Sprite
+        this.game.addEntity(new JumpSprite(this.game, PARAMS.BLOCKWIDTH * 2, PARAMS.BLOCKWIDTH * -40));
+        //this.game.addEntity(new JumpSprite(this.game, PARAMS.BLOCKWIDTH * 1, PARAMS.BLOCKWIDTH * 16)); // for debugging
 
-       // this.game.addEntity(new Spblock(this.game, 11, 10, "bomb", LEVEL_TWO_HEIGHT));
-        this.game.addEntity(new Spikes(gameEngine, 14, 9, "down", LEVEL_TWO_HEIGHT, true));
+        // Coins
+        this.game.addEntity(new Coin(this.game, 16, 7, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new Coin(this.game, 21, 14, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new Coin(this.game, 14, 38, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new Coin(this.game, 26, 47, LEVEL_TWO_HEIGHT));
 
-        var movePlatform = new MovingPlatform(this.game, 17, -18, 1, 10, 3, 1, true, true, LEVEL_TWO_HEIGHT);
-        this.game.addEntity(movePlatform);
+        // Levers
+        this.game.addEntity(new Lever(this.game, 28, 24, LEVEL_TWO_HEIGHT, false, vertPlatform));
+        this.game.addEntity(new Lever(this.game, 10, 15, LEVEL_TWO_HEIGHT, false, horizPlatform));
 
-        this.game.addEntity(new Lever(this.game, 30, 10, LEVEL_TWO_HEIGHT, false, movePlatform));
+        // Portals
+        var mainExitPortal = new Portal(this.game, 3, 1, LEVEL_TWO_HEIGHT, "exit");
+        this.game.addEntity(mainExitPortal);
 
-        //two parallel platforms and one more platform to the door
-        var moveSecond = new MovingPlatform(this.game, 25, -8, 1, 0, 3, 1, true, true, LEVEL_TWO_HEIGHT);
-        this.game.addEntity(moveSecond);
-
-        this.game.addEntity(new Lever(this.game, 30, 10, LEVEL_TWO_HEIGHT, false, moveSecond));
-
-        var moveThird = new MovingPlatform(this.game, 5, -12, 1, 5, 3, 1, true, true, LEVEL_TWO_HEIGHT);
-        this.game.addEntity(moveThird);
-
-        this.game.addEntity(new Lever(this.game, 30, 10, LEVEL_TWO_HEIGHT, false, moveThird));
-
-        //different lever
-        var moveFourth = new MovingPlatform(this.game, 15, -38, 1, -16, 3, 1, true, true, LEVEL_TWO_HEIGHT);
-        this.game.addEntity(moveFourth);
-
-        this.game.addEntity(new Lever(this.game, 5, -10, LEVEL_TWO_HEIGHT, false, moveFourth));
-
-        var moveFifth= new MovingPlatform(this.game, 28, -31, 1, -10, 3, 1, true, true, LEVEL_TWO_HEIGHT);
-        this.game.addEntity(moveFifth);
-
-        this.game.addEntity(new Lever(this.game, 5, -10, LEVEL_TWO_HEIGHT, false, moveFifth));
-
-        var moveSixth = new MovingPlatform(this.game, 5, -35, 1, -10, 3, 1, true, true, LEVEL_TWO_HEIGHT);
-        this.game.addEntity(moveSixth);
-
-        this.game.addEntity(new Lever(this.game, 5, -10, LEVEL_TWO_HEIGHT, false, moveSixth));
-
-        var moveSeven = new MovingPlatform(this.game, 10, -35, 1, -22, 3, 1, true, true, LEVEL_TWO_HEIGHT);
-        this.game.addEntity(moveSeven);
-
-        this.game.addEntity(new Lever(this.game, 5, -10, LEVEL_TWO_HEIGHT, false, moveSeven));
-
-
-        this.game.addEntity(new Coin(this.game, 6, -28, LEVEL_TWO_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 5, -26, 6, 2, LEVEL_TWO_HEIGHT)); ///////////////////////////
-
-        //different lever
-        var moveEight = new MovingPlatform(this.game, 17, -38, 1, -22, 3, 1, true, true, LEVEL_TWO_HEIGHT);
-        this.game.addEntity(moveEight);
-
-        this.game.addEntity(new Lever(this.game, 28, -30, LEVEL_TWO_HEIGHT, false, moveEight));
-
-        var moveNine= new MovingPlatform(this.game, 25, -58, 1, -32, 3, 1, true, true, LEVEL_TWO_HEIGHT);
-        this.game.addEntity(moveNine);
-
-        this.game.addEntity(new Lever(this.game, 28, -30, LEVEL_TWO_HEIGHT, false, moveNine));
-
-        var moveTen = new MovingPlatform(this.game, 5, -42, 1, -43, 3, 1, true, true, LEVEL_TWO_HEIGHT);
-        this.game.addEntity(moveTen);
-
-        this.game.addEntity(new Lever(this.game, 28, -30, LEVEL_TWO_HEIGHT, false, moveTen));
-
-        var moveEleven = new MovingPlatform(this.game, 10, -50, 1, -39, 3, 1, true, true, LEVEL_TWO_HEIGHT);
-        this.game.addEntity(moveEleven);
-
-        this.game.addEntity(new Lever(this.game, 28, -30, LEVEL_TWO_HEIGHT, false, moveEleven));
-
-        this.game.addEntity(new BasicPlatform(this.game, 0, -50, 12, 2, LEVEL_TWO_HEIGHT));
-
-        //portals and pigs
-        //exit the portal tunnel
-        var exitPortal7 = new Portal(gameEngine, 0, -48, LEVEL_TWO_HEIGHT, "exit"); 
-        var startPortal7 = new Portal(gameEngine, 0, -2, LEVEL_TWO_HEIGHT, "start", exitPortal7); 
-        gameEngine.addEntity(exitPortal7);
-        gameEngine.addEntity(startPortal7);
-
-        var exitPortal8 = new Portal(gameEngine, 14, -46, LEVEL_TWO_HEIGHT, "exit"); 
-        var startPortal8 = new Portal(gameEngine, 14, -10, LEVEL_TWO_HEIGHT, "start", exitPortal8); 
-        gameEngine.addEntity(exitPortal8);
-        gameEngine.addEntity(startPortal8);
-
-        var exitPortal9 = new Portal(gameEngine, 30, -48, LEVEL_TWO_HEIGHT, "exit"); 
-        var startPortal9 = new Portal(gameEngine, 30, -2, LEVEL_TWO_HEIGHT, "start", exitPortal9); 
-        gameEngine.addEntity(exitPortal9);
-        gameEngine.addEntity(startPortal9);
-
-        this.game.addEntity(new Pig(this.game, 0, -58, "right", "bad"));
-
-        this.game.addEntity(new Pig(this.game, 30, -58, "left", "bad"));
-
-        this.game.addEntity(new Pig(this.game, 14, -74, "left", "bad"));
-
-        this.game.addEntity(new Pig(this.game, 14, -53, "right", "bad"));
-
-        //this.game.addEntity(new Pig(this.game, 0, -58, "right", "bad"));
-
-
-
-
-
-
+        this.game.addEntity(new Portal(this.game, 5, 6, LEVEL_TWO_HEIGHT, "start", mainExitPortal));
+        this.game.addEntity(new Portal(this.game, 28, 19, LEVEL_TWO_HEIGHT, "start", mainExitPortal));
+        this.game.addEntity(new Portal(this.game, 5, 24, LEVEL_TWO_HEIGHT, "start", mainExitPortal));
+        
+        var exitPortal1 = new Portal(this.game, 28, 6, LEVEL_TWO_HEIGHT, "exit");
+        this.game.addEntity(exitPortal1);
+        this.game.addEntity(new Portal(this.game, 19, 1, LEVEL_TWO_HEIGHT, "start", exitPortal1));
+        
+        var exitPortal2 = new Portal(this.game, 5, 15, LEVEL_TWO_HEIGHT, "exit");
+        this.game.addEntity(exitPortal2);
+        this.game.addEntity(new Portal(this.game, 11, 1, LEVEL_TWO_HEIGHT, "start", exitPortal2));
+        
+        var exitPortal3 = new Portal(this.game, 5, 28, LEVEL_TWO_HEIGHT, "exit");
+        this.game.addEntity(exitPortal3);
+        this.game.addEntity(new Portal(this.game, 27, 1, LEVEL_TWO_HEIGHT, "start", exitPortal3));
 
         // Door
-        this.game.addEntity(new Door(this.game, 1, -51, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new Door(this.game, 1, 49, LEVEL_TWO_HEIGHT));
 
-
-
-        
+        // Background
+        //this.game.addEntity(new Background(this.game, "./backgrounds/sunset.png", 1920, 1080, LEVEL_THREE_HEIGHT));
+        //this.game.addEntity(new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_THREE_HEIGHT));
 
     }
 
@@ -478,189 +367,68 @@ class SceneManager {
         this.game.background = new Background(this.game, "./backgrounds/level3background.png", 1024, 2688, LEVEL_THREE_HEIGHT);
         
         // borders
-        this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, LEVEL_THREE_HEIGHT, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, -2, 0, 2, 1, LEVEL_THREE_HEIGHT)); // horizontal wrap
-        this.game.addEntity(new BasicPlatform(this.game, 32, 0, 2, 1, LEVEL_THREE_HEIGHT)); // horizontal wrap
-        this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, LEVEL_THREE_HEIGHT, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 0, LEVEL_THREE_HEIGHT, 32, 14, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, -1, LEVEL_THREE_HEIGHT, 35, 14, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, -1, 10, 2, 23, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 31, 10, 2, 17, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, -1, 0, 18, 1, LEVEL_THREE_HEIGHT));
 
         // Platforms
-        this.game.addEntity(new BasicPlatform(this.game, 3, 4, 28, 1, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 3, 13, 28, 1, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 3, 22, 28, 1, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 3, 31, 28, 1, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 3, 4, 1, 27, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 1, 40, 4, 3, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 25, 40, 4, 3, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 1, 43, 28, 1, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 8, 14, 1, 5, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 9, 18, 4, 1, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 1, 50, 4, 1, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 9, 53, 1, 1, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 18, 56, 1, 1, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 26, 60, 1, 1, LEVEL_THREE_HEIGHT));
-
-        // Moving Platforms
-        var vertPlatform = new MovingPlatform(this.game, 1, 4, 1, 39, 2, 1, false, true, LEVEL_THREE_HEIGHT);
-        this.game.addEntity(vertPlatform);
-
-        var horizPlatform = new MovingPlatform(this.game, 25, 19, 17, 19, 3, 1, false, false, LEVEL_THREE_HEIGHT);
-        this.game.addEntity(horizPlatform);
-
-        // Weak Platforms
-        this.game.addEntity(new WeakPlatform(this.game, 9, 40, 3, 1, LEVEL_THREE_HEIGHT, 1.5));
-        this.game.addEntity(new WeakPlatform(this.game, 17, 40, 3, 1, LEVEL_THREE_HEIGHT, 1.5));
-
-        // Bats
-        this.game.addEntity(new Bat(this.game, 9, 7, 6, LEVEL_THREE_HEIGHT, 1));
-        this.game.addEntity(new Bat(this.game, 15, 6, 6, LEVEL_THREE_HEIGHT, 2));
-        this.game.addEntity(new Bat(this.game, 23, 8, 6, LEVEL_THREE_HEIGHT, 3));
-        this.game.addEntity(new Bat(this.game, 19, 10, 6, LEVEL_THREE_HEIGHT, 4));
-
-        // Bombs
-        this.game.addEntity(new Spblock(this.game, 15, 24, "bomb", LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new Spblock(this.game, 10, 28, "bomb", LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new Spblock(this.game, 21, 23, "bomb", LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new Spblock(this.game, 24, 29, "bomb", LEVEL_THREE_HEIGHT));
-
-
-        // Spikes
-        this.game.addEntity(new Spikes(this.game, 9, 19, "down", LEVEL_THREE_HEIGHT, true)); 
-        this.game.addEntity(new Spikes(this.game, 11, 19, "down", LEVEL_THREE_HEIGHT, true));
-
-        this.game.addEntity(new Spikes(this.game, 17, 20, "up", LEVEL_THREE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 19, 20, "up", LEVEL_THREE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 21, 20, "up", LEVEL_THREE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 23, 20, "up", LEVEL_THREE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 25, 20, "up", LEVEL_THREE_HEIGHT, true));
-
-        this.game.addEntity(new Spikes(this.game, 5, 41, "up", LEVEL_THREE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 7, 41, "up", LEVEL_THREE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 9, 41, "up", LEVEL_THREE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 11, 41, "up", LEVEL_THREE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 13, 41, "up", LEVEL_THREE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 15, 41, "up", LEVEL_THREE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 17, 41, "up", LEVEL_THREE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 19, 41, "up", LEVEL_THREE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 21, 41, "up", LEVEL_THREE_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 23, 41, "up", LEVEL_THREE_HEIGHT, true));
-
-        // Sprite
-        this.game.addEntity(new JumpSprite(this.game, PARAMS.BLOCKWIDTH * 2, PARAMS.BLOCKWIDTH * -40));
-        //this.game.addEntity(new JumpSprite(this.game, PARAMS.BLOCKWIDTH * 1, PARAMS.BLOCKWIDTH * 16)); // for debugging
-
-        // Coins
-        this.game.addEntity(new Coin(this.game, 16, 7, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new Coin(this.game, 21, 14, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new Coin(this.game, 14, 38, LEVEL_THREE_HEIGHT));
-        this.game.addEntity(new Coin(this.game, 26, 47, LEVEL_THREE_HEIGHT));
-
-        // Levers
-        this.game.addEntity(new Lever(this.game, 28, 24, LEVEL_THREE_HEIGHT, false, vertPlatform));
-        this.game.addEntity(new Lever(this.game, 10, 15, LEVEL_THREE_HEIGHT, false, horizPlatform));
-
-        // Portals
-        var mainExitPortal = new Portal(this.game, 3, 1, LEVEL_THREE_HEIGHT, "exit");
-        this.game.addEntity(mainExitPortal);
-
-        this.game.addEntity(new Portal(this.game, 5, 6, LEVEL_THREE_HEIGHT, "start", mainExitPortal));
-        this.game.addEntity(new Portal(this.game, 28, 19, LEVEL_THREE_HEIGHT, "start", mainExitPortal));
-        this.game.addEntity(new Portal(this.game, 5, 24, LEVEL_THREE_HEIGHT, "start", mainExitPortal));
+        this.game.addEntity(new BasicPlatform(this.game, 14, 32, 1, 32, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 17, 32, 1, 32, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 14, 5, 1, 22, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 17, 0, 1, 26, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 17, 32, 3, 1, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 17, 26, 14, 1, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, -1, 5, 15, 1, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 17, 5, 18, 1, LEVEL_THREE_HEIGHT));
         
-        var exitPortal1 = new Portal(this.game, 28, 6, LEVEL_THREE_HEIGHT, "exit");
-        this.game.addEntity(exitPortal1);
-        this.game.addEntity(new Portal(this.game, 19, 1, LEVEL_THREE_HEIGHT, "start", exitPortal1));
-        
-        var exitPortal2 = new Portal(this.game, 5, 15, LEVEL_THREE_HEIGHT, "exit");
-        this.game.addEntity(exitPortal2);
-        this.game.addEntity(new Portal(this.game, 11, 1, LEVEL_THREE_HEIGHT, "start", exitPortal2));
-        
-        var exitPortal3 = new Portal(this.game, 5, 28, LEVEL_THREE_HEIGHT, "exit");
-        this.game.addEntity(exitPortal3);
-        this.game.addEntity(new Portal(this.game, 27, 1, LEVEL_THREE_HEIGHT, "start", exitPortal3));
-
-        // Door
-        this.game.addEntity(new Door(this.game, 1, 49, LEVEL_THREE_HEIGHT));
-
-        // Background
-        //this.game.addEntity(new Background(this.game, "./backgrounds/sunset.png", 1920, 1080, LEVEL_THREE_HEIGHT));
-        //this.game.addEntity(new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_THREE_HEIGHT));
-
-    }
-
-    loadLevelFour() {
-
-        this.currLevel = "World 4";
-        const LEVEL_FOUR_HEIGHT = 64;
-
-        ASSET_MANAGER.playAsset("./music/Audio.mp3"); // for some reason Nightclub.mp3 gets cut off?
-
-        this.game.isPlaying = true;
-        this.game.background = new Background(this.game, "./backgrounds/level3background.png", 1024, 2688, LEVEL_FOUR_HEIGHT);
-        
-        // borders
-        this.game.addEntity(new BasicPlatform(this.game, -1, LEVEL_FOUR_HEIGHT, 35, 14, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, -1, 10, 2, 23, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 31, 10, 2, 17, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, -1, 0, 18, 1, LEVEL_FOUR_HEIGHT));
-
-        // Platforms
-        this.game.addEntity(new BasicPlatform(this.game, 14, 32, 1, 32, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 17, 32, 1, 32, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 14, 5, 1, 22, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 17, 0, 1, 26, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 17, 32, 3, 1, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 17, 26, 14, 1, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, -1, 5, 15, 1, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 17, 5, 18, 1, LEVEL_FOUR_HEIGHT));
-        
-        this.game.addEntity(new BasicPlatform(this.game, 3, 57, 3, 1, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 3, 45, 3, 1, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 26, 51, 3, 1, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 26, 39, 3, 1, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 1, 10, 1, 1, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 30, 10, 4, 1, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 26, 14, 1, 1, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new BasicPlatform(this.game, 22, 19, 1, 1, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 3, 57, 3, 1, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 3, 45, 3, 1, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 26, 51, 3, 1, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 26, 39, 3, 1, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 1, 10, 1, 1, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 30, 10, 4, 1, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 26, 14, 1, 1, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 22, 19, 1, 1, LEVEL_THREE_HEIGHT));
 
         // Moving Platforms
 
-        var lowerPlatform = new MovingPlatform(this.game, 15, 33, 15, 63, 2, 1, false, true, LEVEL_FOUR_HEIGHT);
-        var upperPlatform = new MovingPlatform(this.game, 15, 5, 15, 32, 2, 1, false, true, LEVEL_FOUR_HEIGHT);
+        var lowerPlatform = new MovingPlatform(this.game, 15, 33, 15, 63, 2, 1, false, true, LEVEL_THREE_HEIGHT, 5);
+        var upperPlatform = new MovingPlatform(this.game, 15, 5, 15, 32, 2, 1, false, true, LEVEL_THREE_HEIGHT);
 
         this.game.addEntity(lowerPlatform);
         this.game.addEntity(upperPlatform);
 
         // Weak Platforms
-        this.game.addEntity(new WeakPlatform(this.game, 1, 32, 3, 1, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new WeakPlatform(this.game, 6, 32, 3, 1, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new WeakPlatform(this.game, 11, 32, 3, 1, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new WeakPlatform(this.game, 9, 27, 2, 1, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new WeakPlatform(this.game, 3, 22, 3, 1, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new WeakPlatform(this.game, 9, 16, 2, 1, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new WeakPlatform(this.game, 1, 32, 3, 1, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new WeakPlatform(this.game, 6, 32, 3, 1, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new WeakPlatform(this.game, 11, 32, 3, 1, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new WeakPlatform(this.game, 9, 27, 2, 1, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new WeakPlatform(this.game, 3, 22, 3, 1, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new WeakPlatform(this.game, 9, 16, 2, 1, LEVEL_THREE_HEIGHT));
 
         // Bats
-        this.game.addEntity(new Bat(this.game, 22, 9, 6, LEVEL_FOUR_HEIGHT, 1));
-        this.game.addEntity(new Bat(this.game, 19, 16, 6, LEVEL_FOUR_HEIGHT, 2));
-        this.game.addEntity(new Bat(this.game, 27, 18, 6, LEVEL_FOUR_HEIGHT, 3));
-        this.game.addEntity(new Bat(this.game, 22, 23, 6, LEVEL_FOUR_HEIGHT, 4));
-        this.game.addEntity(new Bat(this.game, 29, 14, 6, LEVEL_FOUR_HEIGHT, 5));
+        this.game.addEntity(new Bat(this.game, 22, 9, 6, LEVEL_THREE_HEIGHT, 1));
+        this.game.addEntity(new Bat(this.game, 19, 16, 6, LEVEL_THREE_HEIGHT, 2));
+        this.game.addEntity(new Bat(this.game, 27, 18, 6, LEVEL_THREE_HEIGHT, 3));
+        this.game.addEntity(new Bat(this.game, 22, 23, 6, LEVEL_THREE_HEIGHT, 4));
+        this.game.addEntity(new Bat(this.game, 29, 14, 6, LEVEL_THREE_HEIGHT, 5));
 
         // Bombs
-        this.game.addEntity(new Spblock(this.game, 23, 19, "bomb", LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new Spblock(this.game, 2, 14, "bomb", LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new Spblock(this.game, 9, 2, "bomb", LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new Spblock(this.game, 3, 2, "bomb", LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new Spblock(this.game, 23, 19, "bomb", LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new Spblock(this.game, 2, 14, "bomb", LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new Spblock(this.game, 9, 2, "bomb", LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new Spblock(this.game, 3, 2, "bomb", LEVEL_THREE_HEIGHT));
 
         // Spikes
-        this.game.addEntity(new Spikes(this.game, 12, 56, "left", LEVEL_FOUR_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 12, 58, "left", LEVEL_FOUR_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 12, 60, "left", LEVEL_FOUR_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 12, 62, "left", LEVEL_FOUR_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 18, 56, "right", LEVEL_FOUR_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 18, 58, "right", LEVEL_FOUR_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 18, 60, "right", LEVEL_FOUR_HEIGHT, true));
-        this.game.addEntity(new Spikes(this.game, 18, 62, "right", LEVEL_FOUR_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 12, 56, "left", LEVEL_THREE_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 12, 58, "left", LEVEL_THREE_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 12, 60, "left", LEVEL_THREE_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 12, 62, "left", LEVEL_THREE_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 18, 56, "right", LEVEL_THREE_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 18, 58, "right", LEVEL_THREE_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 18, 60, "right", LEVEL_THREE_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 18, 62, "right", LEVEL_THREE_HEIGHT, true));
 
 
         // Sprite
@@ -668,27 +436,237 @@ class SceneManager {
         //this.game.addEntity(new JumpSprite(this.game, PARAMS.BLOCKWIDTH * 25, PARAMS.BLOCKWIDTH * -48));
 
         // Coins
-        this.game.addEntity(new Coin(this.game, 20, 51, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new Coin(this.game, 11, 40, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new Coin(this.game, 1, 24, LEVEL_FOUR_HEIGHT));
-        this.game.addEntity(new Coin(this.game, 3, 2, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new Coin(this.game, 20, 51, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new Coin(this.game, 11, 40, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new Coin(this.game, 1, 24, LEVEL_THREE_HEIGHT));
+        this.game.addEntity(new Coin(this.game, 3, 2, LEVEL_THREE_HEIGHT));
 
         // Levers
-        this.game.addEntity(new Lever(this.game, 30, 23, LEVEL_FOUR_HEIGHT, false, lowerPlatform));
-        this.game.addEntity(new Lever(this.game, 16, 58, LEVEL_FOUR_HEIGHT, false, upperPlatform));
+        this.game.addEntity(new Lever(this.game, 30, 23, LEVEL_THREE_HEIGHT, false, lowerPlatform));
+        this.game.addEntity(new Lever(this.game, 16, 58, LEVEL_THREE_HEIGHT, false, upperPlatform));
 
         // Portals
 
 
         // Door
-        this.game.addEntity(new Door(this.game, 19, 3.5, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new Door(this.game, 19, 3.5, LEVEL_THREE_HEIGHT));
 
 
     }
 
-    // loadBackground() {
+    loadLevelFour() {
+        this.x = 0;
+        this.currLevel = "World 4";
 
-    // }
+        const LEVEL_FOUR_HEIGHT = 64;
+
+        ASSET_MANAGER.playAsset("./music/Audio.mp3");
+        this.game.isPlaying = true;
+        this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_FOUR_HEIGHT); //image just isn't large enough
+        
+        this.game.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH * 1, PARAMS.BLOCKWIDTH * 10)); //essentially (5, )
+
+        this.game.addEntity(new BasicPlatform(this.game, -2, 64, 36, 14, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 6, 62, 26, 2, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 9, 60, 23, 2, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 12, 58, 20, 2, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 15, 56, 17, 2, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 18, 54, 14, 2, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new Coin(this.game, 20, 52, LEVEL_FOUR_HEIGHT));
+
+        this.game.addEntity(new Spikes(this.game, 4, 62, "left", LEVEL_FOUR_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 7, 60, "left", LEVEL_FOUR_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 10, 58, "left", LEVEL_FOUR_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 13, 56, "left", LEVEL_FOUR_HEIGHT, true));
+        this.game.addEntity(new Spikes(this.game, 16, 54, "left", LEVEL_FOUR_HEIGHT, true));
+
+        var exitPortal1 = new Portal(gameEngine, 18, 36, LEVEL_FOUR_HEIGHT, "exit");
+        var startPortal1 = new Portal(gameEngine, 3, 46, LEVEL_FOUR_HEIGHT, "start", exitPortal1);
+        gameEngine.addEntity(exitPortal1);
+        gameEngine.addEntity(startPortal1);
+
+        this.game.addEntity(new BasicPlatform(this.game, 18, 40, 14, 2, LEVEL_FOUR_HEIGHT));
+
+        var exitPortal2 = new Portal(gameEngine, 25, 20, LEVEL_FOUR_HEIGHT, "exit");
+        var startPortal2 = new Portal(gameEngine, 25, 32, LEVEL_FOUR_HEIGHT, "start", exitPortal2);
+        gameEngine.addEntity(exitPortal2);
+        gameEngine.addEntity(startPortal2);
+
+        this.game.addEntity(new BasicPlatform(this.game, 0, 30, 32, 2, LEVEL_FOUR_HEIGHT));
+
+        var exitPortal3 = new Portal(gameEngine, 15, 20, LEVEL_FOUR_HEIGHT, "exit");
+        var startPortal3 = new Portal(gameEngine, 17, 26, LEVEL_FOUR_HEIGHT, "start", exitPortal3);
+        gameEngine.addEntity(exitPortal3);
+        gameEngine.addEntity(startPortal3);
+
+        var exitPortal4 = new Portal(gameEngine, 10, 20, LEVEL_FOUR_HEIGHT, "exit");
+        var startPortal4 = new Portal(gameEngine, 13, 26, LEVEL_FOUR_HEIGHT, "start", exitPortal4);
+        gameEngine.addEntity(exitPortal4);
+        gameEngine.addEntity(startPortal4);
+
+        var exitPortal5 = new Portal(gameEngine, 4, 20, LEVEL_FOUR_HEIGHT, "exit");
+        var startPortal5 = new Portal(gameEngine, 7, 26, LEVEL_FOUR_HEIGHT, "start", exitPortal5);
+        gameEngine.addEntity(exitPortal5);
+        gameEngine.addEntity(startPortal5);
+
+        //exit the portal tunnel
+        var exitPortal6 = new Portal(gameEngine, 5, 9, LEVEL_FOUR_HEIGHT, "exit"); // 5 9
+        var startPortal6 = new Portal(gameEngine, 1, 26, LEVEL_FOUR_HEIGHT, "start", exitPortal6); //1 26 
+        gameEngine.addEntity(exitPortal6);
+        gameEngine.addEntity(startPortal6);
+
+        //spikes for tunnel
+        gameEngine.addEntity(new Spikes(gameEngine, 0, 28, "up", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 2, 28, "up", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 4, 28, "up", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 6, 28, "up", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 8, 28, "up", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 10, 28, "up", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 12, 28, "up", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 14, 28, "up", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 16, 28, "up", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 18, 28, "up", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 20, 28, "up", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 22, 28, "up", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 24, 28, "up", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 26, 28, "up", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 28, 28, "up", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 30, 28, "up", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 32, 28, "up", LEVEL_FOUR_HEIGHT, true));
+
+        gameEngine.addEntity(new Spikes(gameEngine, 0, 14, "down", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 2, 14, "down", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 4, 14, "down", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 6, 14, "down", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 8, 14, "down", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 10, 14, "down", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 12, 14, "down", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 14, 14, "down", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 16, 14, "down", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 18, 14, "down", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 20, 14, "down", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 22, 14, "down", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 24, 14, "down", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 26, 14, "down", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 28, 14, "down", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 30, 14, "down", LEVEL_FOUR_HEIGHT, true));
+        gameEngine.addEntity(new Spikes(gameEngine, 32, 14, "down", LEVEL_FOUR_HEIGHT, true));
+
+
+        //spikes for tunnel
+
+        this.game.addEntity(new BasicPlatform(this.game, 0, 12, 32, 2, LEVEL_FOUR_HEIGHT));
+
+        this.game.addEntity(new Bat(this.game, 4, 4, 9, LEVEL_FOUR_HEIGHT, 2)); 
+        this.game.addEntity(new Bat(this.game, 26, 8, 8, LEVEL_FOUR_HEIGHT, 3));
+        this.game.addEntity(new Bat(this.game, 8, 4, 7, LEVEL_FOUR_HEIGHT, 4)); 
+        this.game.addEntity(new Bat(this.game, 16, 8, 6, LEVEL_FOUR_HEIGHT, 5));
+        this.game.addEntity(new Bat(this.game,21, 4, 12, LEVEL_FOUR_HEIGHT, 6)); 
+        this.game.addEntity(new Bat(this.game, 23, 8, 12, LEVEL_FOUR_HEIGHT, 7));
+        this.game.addEntity(new Bat(this.game, 19, 4, 12, LEVEL_FOUR_HEIGHT, 8)); 
+        this.game.addEntity(new Bat(this.game, 6, 8, 7, LEVEL_FOUR_HEIGHT, 9));
+
+        this.game.addEntity(new Coin(this.game, 14, -2, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, 12, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, 12, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 14, 0, 2, 9, LEVEL_FOUR_HEIGHT));
+
+       // this.game.addEntity(new Spblock(this.game, 11, 10, "bomb", LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new Spikes(gameEngine, 14, 9, "down", LEVEL_FOUR_HEIGHT, true));
+
+        var movePlatform = new MovingPlatform(this.game, 17, -18, 1, 10, 3, 1, true, true, LEVEL_FOUR_HEIGHT);
+        this.game.addEntity(movePlatform);
+
+        this.game.addEntity(new Lever(this.game, 30, 10, LEVEL_FOUR_HEIGHT, false, movePlatform));
+
+        //two parallel platforms and one more platform to the door
+        var moveSecond = new MovingPlatform(this.game, 25, -8, 1, 0, 3, 1, true, true, LEVEL_FOUR_HEIGHT);
+        this.game.addEntity(moveSecond);
+
+        this.game.addEntity(new Lever(this.game, 30, 10, LEVEL_FOUR_HEIGHT, false, moveSecond));
+
+        var moveThird = new MovingPlatform(this.game, 5, -12, 1, 5, 3, 1, true, true, LEVEL_FOUR_HEIGHT);
+        this.game.addEntity(moveThird);
+
+        this.game.addEntity(new Lever(this.game, 30, 10, LEVEL_FOUR_HEIGHT, false, moveThird));
+
+        //different lever
+        var moveFourth = new MovingPlatform(this.game, 15, -38, 1, -16, 3, 1, true, true, LEVEL_FOUR_HEIGHT);
+        this.game.addEntity(moveFourth);
+
+        this.game.addEntity(new Lever(this.game, 5, -10, LEVEL_FOUR_HEIGHT, false, moveFourth));
+
+        var moveFifth= new MovingPlatform(this.game, 28, -31, 1, -10, 3, 1, true, true, LEVEL_FOUR_HEIGHT);
+        this.game.addEntity(moveFifth);
+
+        this.game.addEntity(new Lever(this.game, 5, -10, LEVEL_FOUR_HEIGHT, false, moveFifth));
+
+        var moveSixth = new MovingPlatform(this.game, 5, -35, 1, -10, 3, 1, true, true, LEVEL_FOUR_HEIGHT);
+        this.game.addEntity(moveSixth);
+
+        this.game.addEntity(new Lever(this.game, 5, -10, LEVEL_FOUR_HEIGHT, false, moveSixth));
+
+        var moveSeven = new MovingPlatform(this.game, 10, -35, 1, -22, 3, 1, true, true, LEVEL_FOUR_HEIGHT);
+        this.game.addEntity(moveSeven);
+
+        this.game.addEntity(new Lever(this.game, 5, -10, LEVEL_FOUR_HEIGHT, false, moveSeven));
+
+
+        this.game.addEntity(new Coin(this.game, 6, -28, LEVEL_FOUR_HEIGHT));
+        this.game.addEntity(new BasicPlatform(this.game, 5, -26, 6, 2, LEVEL_FOUR_HEIGHT)); ///////////////////////////
+
+        //different lever
+        var moveEight = new MovingPlatform(this.game, 17, -38, 1, -22, 3, 1, true, true, LEVEL_FOUR_HEIGHT);
+        this.game.addEntity(moveEight);
+
+        this.game.addEntity(new Lever(this.game, 28, -30, LEVEL_FOUR_HEIGHT, false, moveEight));
+
+        var moveNine= new MovingPlatform(this.game, 25, -58, 1, -32, 3, 1, true, true, LEVEL_FOUR_HEIGHT);
+        this.game.addEntity(moveNine);
+
+        this.game.addEntity(new Lever(this.game, 28, -30, LEVEL_FOUR_HEIGHT, false, moveNine));
+
+        var moveTen = new MovingPlatform(this.game, 5, -42, 1, -43, 3, 1, true, true, LEVEL_FOUR_HEIGHT);
+        this.game.addEntity(moveTen);
+
+        this.game.addEntity(new Lever(this.game, 28, -30, LEVEL_FOUR_HEIGHT, false, moveTen));
+
+        var moveEleven = new MovingPlatform(this.game, 10, -50, 1, -39, 3, 1, true, true, LEVEL_FOUR_HEIGHT);
+        this.game.addEntity(moveEleven);
+
+        this.game.addEntity(new Lever(this.game, 28, -30, LEVEL_FOUR_HEIGHT, false, moveEleven));
+
+        this.game.addEntity(new BasicPlatform(this.game, 0, -50, 12, 2, LEVEL_FOUR_HEIGHT));
+
+        //portals and pigs
+        //exit the portal tunnel
+        var exitPortal7 = new Portal(gameEngine, 0, -48, LEVEL_FOUR_HEIGHT, "exit"); 
+        var startPortal7 = new Portal(gameEngine, 0, -2, LEVEL_FOUR_HEIGHT, "start", exitPortal7); 
+        gameEngine.addEntity(exitPortal7);
+        gameEngine.addEntity(startPortal7);
+
+        var exitPortal8 = new Portal(gameEngine, 14, -46, LEVEL_FOUR_HEIGHT, "exit"); 
+        var startPortal8 = new Portal(gameEngine, 14, -10, LEVEL_FOUR_HEIGHT, "start", exitPortal8); 
+        gameEngine.addEntity(exitPortal8);
+        gameEngine.addEntity(startPortal8);
+
+        var exitPortal9 = new Portal(gameEngine, 30, -48, LEVEL_FOUR_HEIGHT, "exit"); 
+        var startPortal9 = new Portal(gameEngine, 30, -2, LEVEL_FOUR_HEIGHT, "start", exitPortal9); 
+        gameEngine.addEntity(exitPortal9);
+        gameEngine.addEntity(startPortal9);
+
+        this.game.addEntity(new Pig(this.game, 0, -58, "right", "bad"));
+
+        this.game.addEntity(new Pig(this.game, 30, -58, "left", "bad"));
+
+        this.game.addEntity(new Pig(this.game, 14, -74, "left", "bad"));
+
+        this.game.addEntity(new Pig(this.game, 14, -53, "right", "bad"));
+
+        //this.game.addEntity(new Pig(this.game, 0, -58, "right", "bad"));
+        // Door
+        this.game.addEntity(new Door(this.game, 1, -51, LEVEL_FOUR_HEIGHT));
+    }
 
     updateAudio() {
         var mute = document.getElementById("mute").checked;
@@ -748,6 +726,16 @@ class SceneManager {
 
         //start button
         if (this.title && !this.credits && !this.controls) {
+            
+            // cheat codes to start at specific levels            
+            if (this.game.keys["h"] && this.game.keys["e"] && this.game.keys["l"] && this.game.keys["p"]) { //"help" for starting at level 4
+                this.title = false;
+                if (!this.levelLoaded) {
+                    this.levelLoaded = true;
+                    this.loadLevel(4, true, false);  //I can manually load different levels after start screen
+                }
+            }
+
             if (this.game.click && this.game.click.y > 13.5 * PARAMS.BLOCKWIDTH && this.game.click.y < 14.5 * PARAMS.BLOCKWIDTH) {
                 this.title = false;
                 if (!this.levelLoaded) {
@@ -941,6 +929,7 @@ class SceneManager {
         }
 
         if(this.gameOver == true){
+            ctx.fillStyle = "red";
             ctx.font = PARAMS.BLOCKWIDTH + 'px "Press Start 2P"';
             ctx.fillText("YOU DIED!", 16 * PARAMS.BLOCKWIDTH, 10*PARAMS.BLOCKWIDTH);
         }

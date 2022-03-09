@@ -33,8 +33,8 @@ class BasicPlatform {
 };
 
 class MovingPlatform {
-    constructor(game, x, y, endX, endY, width, height, inMotion, vertical, levelHeight) {
-        Object.assign(this, { game, x, endX, width, height, inMotion, vertical});
+    constructor(game, x, y, endX, endY, width, height, inMotion, vertical, levelHeight, speed = 3) {
+        Object.assign(this, { game, x, endX, width, height, inMotion, vertical, speed});
 
         //entity status
         this.removeFromWorld = false;
@@ -60,9 +60,9 @@ class MovingPlatform {
         this.velocity = {x: 0, y: 0};
 
         if (this.vertical) {
-            this.velocity.y = 3;  // 3 blocks per second
+            this.velocity.y = this.speed;  // 3 blocks per second by default
         } else {
-            this.velocity.x = 3;  // 3 blocks per second
+            this.velocity.x = this.speed;  // 3 blocks per second
         }
 
         this.spritesheet = ASSET_MANAGER.getAsset("./image/move-platform.png");
@@ -80,15 +80,15 @@ class MovingPlatform {
         if (this.inMotion) {  
             if (this.vertical) {
                 if (this.y > this.endY) {
-                    this.velocity.y = -3;
+                    this.velocity.y = -this.speed;
                 } else if (this.y < this.startY) {
-                    this.velocity.y = 3;
+                    this.velocity.y = this.speed;
                 } 
             } else {
                 if (this.x > this.endX) {
-                    this.velocity.x = -3;
+                    this.velocity.x = -this.speed;
                 } else if (this.x < this.startX) {
-                    this.velocity.x = 3;
+                    this.velocity.x = this.speed;
                 } 
             }
             this.x += this.game.clockTick * this.velocity.x * PARAMS.SCALE;
@@ -119,10 +119,10 @@ class MovingPlatform {
                 if (!that.vertical && that.inMotion) {               
                     if (entity instanceof JumpSprite && (that.lastBB.left) <= entity.BB.right) { // hits left side
                         that.x += 2 / PARAMS.BLOCKWIDTH; 
-                        that.velocity.x = 3;
+                        that.velocity.x = -that.velocity.x;
                     } else if (entity instanceof JumpSprite && (that.lastBB.right) >= entity.BB.left) { // player hits right side
                         that.x -= 2 / PARAMS.BLOCKWIDTH;
-                        that.velocity.x = -3;
+                        that.velocity.x = -that.velocity.x;
                     }
                     that.updateBB();
                 }
@@ -151,26 +151,32 @@ class MovingPlatform {
 
 class WeakPlatform {
     constructor(game, x, y, width, height, levelHeight, duration = 1.5) {
-        Object.assign(this, { game, x, width, height, levelHeight});
+        Object.assign(this, { game, x, width, height, levelHeight, duration});
 
         //entity status
         this.removeFromWorld = false;
 
         this.y = PARAMS.CANVAS_HEIGHT/PARAMS.BLOCKWIDTH - (levelHeight - y);
 
-        this.state = 0; //0 for intact, 1 for cracking, 2 for breaking
+        this.state = 0; //0 for intact, 1 for cracking, 2 for breaking, 3 for donezo
 
         this.breaking = false;
 
         this.countdown = duration;
         this.breakpoint = duration / 2;
+        this.restoreCooldown = 10;
 
         // initialize lower and upper bounds of movement -- startX should always be lower than endX, etc.
 
         this.spritesheet = ASSET_MANAGER.getAsset("./image/weak-platform.png");
-        this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.width * PARAMS.BLOCKWIDTH, this.height * PARAMS.BLOCKWIDTH);
+        this.updateBB();
         
     };
+
+    updateBB() {
+        if (this.state === 3) this.BB = null;
+        else this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.width * PARAMS.BLOCKWIDTH, this.height * PARAMS.BLOCKWIDTH);
+    }
 
     update() {
         if (this.breaking) {
@@ -180,10 +186,21 @@ class WeakPlatform {
         }
 
         if (this.countdown <= 0) {
+            this.countdown = this.duration;
             this.game.addEntity(new TextBomb(this.game, this.x, this.y, "BREAK!", 10)); // possibly removed
             this.breaking = false;
             ASSET_MANAGER.playAsset("./sounds/glass_break.mp3");
-            this.removeFromWorld = true;
+            this.state = 3;
+            this.updateBB();
+        }
+
+        if (this.state === 3) {
+            this.restoreCooldown -= this.game.clockTick;
+            if (this.restoreCooldown <= 0) {
+                this.restoreCooldown = 10;
+                this.state = 0;
+                this.updateBB();
+            }
         }
     };
 
@@ -203,7 +220,7 @@ class WeakPlatform {
             }
         }
 
-        if (PARAMS.DEBUG) {
+        if (PARAMS.DEBUG && this.BB !== null) {
             ctx.strokeStyle = 'Red';
             ctx.strokeRect(this.BB.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
         }

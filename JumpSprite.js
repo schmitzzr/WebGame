@@ -195,8 +195,9 @@ class JumpSprite {
             if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
 
             // update velocity for moving platform collision
-            if (this.onMovingPlatform) {
+            if (this.onMovingPlatform && this.onMovingPlatform.inMotion) {
                 this.x += this.onMovingPlatform.velocity.x * PARAMS.BLOCKWIDTH * TICK;
+                this.y += this.onMovingPlatform.velocity.y * PARAMS.BLOCKWIDTH * TICK;
             }
 
             //update position 
@@ -221,7 +222,7 @@ class JumpSprite {
                         
                         that.onMovingPlatform = entity;
 
-                        that.velocity.y = entity.velocity.y * PARAMS.BLOCKWIDTH;
+                        that.velocity.y = 0;
                         
                         if(that.state === 3) that.state = 0; // set state to idle
                         that.updateBB();

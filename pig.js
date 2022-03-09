@@ -24,7 +24,7 @@ class Pig{
         this.velocityY = .05;
 
         //these BB are in respect to pixels
-        this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.widt, this.height);
+        this.BB = new BoundingBox(this.x * PARAMS.BLOCKWIDTH, this.y * PARAMS.BLOCKWIDTH, this.width, this.height);
         this.updateBB();
 
         this.animations = [];
@@ -281,7 +281,7 @@ update() {
     //collisions for rpg //not yet implemented.
     var that = this;
     this.game.entities.forEach(function (entity) {
-        if(entity.BB && that.BB.collide(entity.BB) && entity instanceof BasicPlatform ){
+        if(entity.BB && that.BB.collide(entity.BB) && (entity instanceof BasicPlatform || entity instanceof MovingPlatform)){
             that.rpgSpeed = 0;
             that.game.addEntity(new TextBomb(that.game, that.x, that.y, "WOW!"));
             that.removeFromWorld = true;
