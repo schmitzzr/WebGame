@@ -252,7 +252,6 @@ class SceneManager {
         this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_TWO_HEIGHT); //image just isn't large enough
         
         this.game.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH * 1, PARAMS.BLOCKWIDTH * 10)); //essentially (5, )
-        //this.game.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH * 0, PARAMS.BLOCKWIDTH * 10)); //essentially (5, )
 
         this.game.addEntity(new BasicPlatform(this.game, -2, 64, 36, 1, LEVEL_TWO_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 6, 62, 26, 2, LEVEL_TWO_HEIGHT));
