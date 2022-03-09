@@ -249,9 +249,9 @@ class SceneManager {
 
         ASSET_MANAGER.playAsset("./music/Audio.mp3");
         this.game.isPlaying = true;
-        this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_TWO_HEIGHT + 40);
+        this.game.background = new Background(this.game, "./backgrounds/level1background.png", 1024, 2688, LEVEL_TWO_HEIGHT); //image just isn't large enough
         
-        this.game.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH * 4, PARAMS.BLOCKWIDTH * -58)); //essentially (5, )
+        this.game.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH * 1, PARAMS.BLOCKWIDTH * 10)); //essentially (5, )
         //this.game.addEntity(new JumpSprite(gameEngine, PARAMS.BLOCKWIDTH * 0, PARAMS.BLOCKWIDTH * 10)); //essentially (5, )
 
         this.game.addEntity(new BasicPlatform(this.game, -2, 64, 36, 1, LEVEL_TWO_HEIGHT));
@@ -260,6 +260,7 @@ class SceneManager {
         this.game.addEntity(new BasicPlatform(this.game, 12, 58, 20, 2, LEVEL_TWO_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 15, 56, 17, 2, LEVEL_TWO_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 18, 54, 14, 2, LEVEL_TWO_HEIGHT));
+        this.game.addEntity(new Coin(this.game, 20, 52, LEVEL_TWO_HEIGHT));
 
         this.game.addEntity(new Spikes(this.game, 4, 62, "left", LEVEL_TWO_HEIGHT, true));
         this.game.addEntity(new Spikes(this.game, 7, 60, "left", LEVEL_TWO_HEIGHT, true));
@@ -353,6 +354,7 @@ class SceneManager {
         this.game.addEntity(new Bat(this.game, 19, 4, 12, LEVEL_TWO_HEIGHT, 8)); 
         this.game.addEntity(new Bat(this.game, 6, 8, 7, LEVEL_TWO_HEIGHT, 9));
 
+        this.game.addEntity(new Coin(this.game, 14, -2, LEVEL_TWO_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 0, 0, 1, 12, LEVEL_TWO_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 31, 0, 1, 12, LEVEL_TWO_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 14, 0, 2, 9, LEVEL_TWO_HEIGHT));
@@ -397,6 +399,8 @@ class SceneManager {
 
         this.game.addEntity(new Lever(this.game, 5, -10, LEVEL_TWO_HEIGHT, false, moveSeven));
 
+
+        this.game.addEntity(new Coin(this.game, 6, -28, LEVEL_TWO_HEIGHT));
         this.game.addEntity(new BasicPlatform(this.game, 5, -26, 6, 2, LEVEL_TWO_HEIGHT)); ///////////////////////////
 
         //different lever
