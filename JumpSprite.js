@@ -36,6 +36,8 @@ class JumpSprite {
         this.crawl = false;
         this.interact = false;
 
+        this.godMode = this.game.camera.godMode;
+
         this.hitBomb = false;
 
         this.vOffset = 0;
@@ -314,7 +316,7 @@ class JumpSprite {
                         ASSET_MANAGER.playAsset("./sounds/portal.mp3");
                         //that.onGround = false;
                     }
-                    if((entity instanceof Spikes)){ //insta death spikes
+                    if((entity instanceof Spikes) && !that.godMode){ //insta death spikes
                         if(entity.facing === "right"){
                             //if(that.velocity.x < 0){// && (Math.abs((entity.lastBB.x+entity.lastBB.width) - that.lastBB.x ) <= 4 && !that.dead) ){ //if jump sprite is falling and the feet are within 4 pixels of bat top
                                 //in case spikes shouldn't be deadly? 
@@ -435,10 +437,9 @@ class JumpSprite {
                 }
             }
 
-
-            if(this.health > 100) this.health = 100;
-            if(this.health <= 0) this.health = 0;
-            if(this.health <= 0){
+            if(this.health > 100 || this.godMode) this.health = 100;
+            if(this.health <= 0) {
+                this.health = 0;
                 this.game.camera.gameOver = true;
                 //this.removeFromWorld = true;
                 this.dead = true; 
