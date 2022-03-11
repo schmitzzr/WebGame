@@ -30,6 +30,8 @@ class SceneManager {
             levelFour: 180
         };
 
+        this.godMode = false;
+
         this.level = null;
         this.levelLabel = null;
         this.levelTimer = 0;
@@ -740,8 +742,11 @@ class SceneManager {
                 }
             } else if (this.game.keys["t"] && this.game.keys["i"] && this.game.keys["m"] && this.game.keys["e"]) { // "time" to disable timer
                 this.timerStatus = false;
-            } else if (this.game.keys["T"] && this.game.keys["I"] && this.game.keys["M"] && this.game.keys["E"]) { // "TIME" to enable timer
+            } else if (this.game.keys["g"] && this.game.keys["o"] && this.game.keys["d"] && this.game.keys["m"] && this.game.keys["e"]) { 
+                this.godMode = true;
+            } else if (this.game.keys["r"] && this.game.keys["e"] && this.game.keys["s"] && this.game.keys["t"]) {
                 this.timerStatus = true;
+                this.godMode = false;
             }
 
             if (this.game.click && this.game.click.y > 13.5 * PARAMS.BLOCKWIDTH && this.game.click.y < 14.5 * PARAMS.BLOCKWIDTH) {
@@ -857,6 +862,15 @@ class SceneManager {
             ctx.fillText("SPEEDFALL", 16 * PARAMS.BLOCKWIDTH, 11 * PARAMS.BLOCKWIDTH);
 
             ctx.font = PARAMS.BLOCKWIDTH * 0.75 + 'px "Press Start 2P"';
+            
+            if (this.game.keys["t"] && this.game.keys["i"] && this.game.keys["m"] && this.game.keys["e"]) { 
+                ctx.fillText("timer disabled", 16*PARAMS.BLOCKWIDTH, 2 * PARAMS.BLOCKWIDTH);
+            } else if (this.game.keys["g"] && this.game.keys["o"] && this.game.keys["d"] && this.game.keys["m"] && this.game.keys["e"]) { 
+                ctx.fillText("god mode enabled", 16*PARAMS.BLOCKWIDTH, 2 * PARAMS.BLOCKWIDTH);
+            } else if (this.game.keys["r"] && this.game.keys["e"] && this.game.keys["s"] && this.game.keys["t"]) {
+                ctx.fillText("all cheats disabled", 16*PARAMS.BLOCKWIDTH, 2 * PARAMS.BLOCKWIDTH);
+            }
+            
             //start button
             if ((this.game.mouse && this.game.mouse.y > 13.5 * PARAMS.BLOCKWIDTH && this.game.mouse.y < 14.5 * PARAMS.BLOCKWIDTH)) {
                 ctx.fillStyle = "red";
